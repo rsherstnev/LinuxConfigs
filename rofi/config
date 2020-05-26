@@ -1,0 +1,5 @@
+rofi.width: 46
+rofi.lines: 12
+rofi.columns: 2
+rofi.color-enabled: true
+rofi.theme: android_notification

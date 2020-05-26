@@ -1,0 +1,143 @@
+#compdef ffuf
+
+_ffuf_arglist=(
+	'-u[Target URL]:()'
+	'-w[Wordlist and (optional) keyword in format wordlist:keyword]:select file:->file'
+	'-mode[Multi-wordlist operation mode (default: clusterbomb)]:select mode:->mode'
+	'-H[HTTP header in format "Name: Value". Multiple -H flags are accepted.]:()'
+	'-X[HTTP method to use (default: GET)]:select method:->http_method'
+	'-b[Cookie data in format "name1=value1; name2=value2"]:()'
+	'-d[POST data]:()'
+	'-r[Follow redirects (default: false)]'
+	'-x[HTTP Proxy URL]:()'
+	'-timeout[HTTP request timeout in seconds (default: 10)]:()'
+	'-p[Seconds of delay between requests, or a range for random delay. For example 0.1 or 0.1-2.0.]:()'
+	'-t[Number of concurrent threads (default: 40)]:()'
+	'-v[Verbose output, printing full URL and redirect location (if any) with the results (default: false)]'
+	'-recursion[Scan recursively. Only FUZZ keyword is supported, and URL (-u) has to end in it. (default: false)]'
+	'-recursion-depth[Maximum recursion depth (default: 0)]:()'
+	'-ac[Automatically calibrate filtering options (default: false)]'
+	'-maxtime[Maximum running time in seconds (default: 0)]:()'
+	'-s[Do not print additional information (default: false)]'
+	'-mc[Match HTTP status codes, or "all" for everything (default: 200,204,301,302,307,401,403)]:select codes:->http_code'
+	'-ml[Match amount of lines in response]:()'
+	'-mr[Match regexp]:()'
+	'-ms[Match HTTP response size]:()'
+	'-mw[Match amount of words in response]:()'
+	'-fc[Filter by HTTP status codes in response. Comma separated list of codes and ranges.]:select codes:->http_code'
+	'-fl[Filter by amount of lines in response. Comma separated list of line counts and ranges.]:()'
+	'-fr[Filter by regexp in response]:()'
+	'-fs[Filter by HTTP response size. Comma separated list of sizes and ranges.]:()'
+	'-fw[Filter by amount of words in response. Comma separated list of word counts and ranges.]:()'
+	'-e[Comma separated list of extensions. Extends FUZZ keyword.]:()'
+	'-ic[Ignore wordlist comments (default: false)]'
+	'-request[File containing the raw http request]:select file:->file'
+	'-o[Write output to file]:select file:->file'
+	'-of[Output file format (default: json)]:select format:->format'
+)
+
+_multiwordlist_modes=('pitchfork' 'clusterbomb')
+_output_formats=('json' 'ejson' 'html' 'md' 'csv' 'ecsv')
+_http_methods=('OPTIONS' 'GET' 'HEAD' 'POST' 'PUT' 'PATCH' 'DELETE' 'TRACE' 'CONNECT')
+
+_http_codes=(
+	'100[Continue]'
+	'101[Switching Protocols]'
+	'102[Processing]'
+	'200[OK]'
+	'201[Created]'
+	'202[Accepted]'
+	'203[Non-Authoritative Information]'
+	'204[No Content]'
+	'205[Reset Content]'
+	'206[Partial Content]'
+	'207[Multi-Status]'
+	'208[Already Reported]'
+	'226[IM Used]'
+	'300[Multiple Choices]'
+	'301[Moved Permanently]'
+	'302[Moved Temporarily]'
+	'302[Found]'
+	'303[See Other]'
+	'304[Not Modified]'
+	'305[Use Proxy]'
+	'307[Temporary Redirect]'
+	'308[Permanent Redirect]'
+	'400[Bad Request]'
+	'401[Unauthorized]'
+	'402[Payment Required]'
+	'403[Forbidden]'
+	'404[Not Found]'
+	'405[Method Not Allowed]'
+	'406[Not Acceptable]'
+	'407[Proxy Authentication Required]'
+	'408[Request Timeout]'
+	'409[Conflict]'
+	'410[Gone]'
+	'411[Length Required]'
+	'412[Precondition Failed]'
+	'413[Payload Too Large]'
+	'414[URI Too Long]'
+	'415[Unsupported Media Type]'
+	'416[Range Not Satisfiable]'
+	'417[Expectation Failed ]'
+	'418[I’m a teapot]'
+	'419[Authentication Timeout]'
+	'421[Misdirected Request]'
+	'422[Unprocessable Entity]'
+	'423[Locked]'
+	'424[Failed Dependency]'
+	'426[Upgrade Required]'
+	'428[Precondition Required]'
+	'429[Too Many Requests]'
+	'431[Request Header Fields Too Large]'
+	'449[Retry With]'
+	'451[Unavailable For Legal Reasons]'
+	'499[Client Closed Request]'
+	'500[Internal Server Error]'
+	'501[Not Implemented]'
+	'502[Bad Gateway]'
+	'503[Service Unavailable]'
+	'504[Gateway Timeout]'
+	'505[HTTP Version Not Supported]'
+	'506[Variant Also Negotiates]'
+	'507[Insufficient Storage]'
+	'508[Loop Detected]'
+	'509[Bandwidth Limit Exceeded ]'
+	'510[Not Extended]'
+	'511[Network Authentication Required]'
+	'520[Unknown Error]'
+	'521[Web Server Is Down]'
+	'522[Connection Timed Out]'
+	'523[Origin Is Unreachable]'
+	'524[A Timeout Occurred]'
+	'525[SSL Handshake Failed]'
+	'526[Invalid SSL Certificate]'
+)
+
+_ffuf() {
+	_arguments $_ffuf_arglist
+	case "$state" in
+		file)
+			_files
+			;;
+		mode)
+			_values 'mode' $_multiwordlist_modes
+			;;
+		http_method)
+			_values 'http_method' $_http_methods
+			;;
+		http_code)
+			_values -s ',' 'http_code' $_http_codes
+			;;
+		format)
+			_values 'format' $_output_formats
+			;;
+	esac
+}
+
+case "$service" in
+	ffuf)
+		_ffuf "$@" && return 0
+		;;
+esac

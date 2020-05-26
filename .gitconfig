@@ -1,0 +1,15 @@
+[user]
+	email = guesswhat:)
+	name = NordeN
+[core]
+	longpaths = true
+	quotepath = off
+	autocrlf = true	# "input" for Linux
+	safecrlf = warn
+	editor = vim
+[merge]
+	tool = meld
+[diff]
+	tool = meld
+[alias]
+	lore = log --all --pretty=format:'%C(174)%h%C(auto)%d %C(114)[%s]'
