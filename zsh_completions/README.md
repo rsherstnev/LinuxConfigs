@@ -13,6 +13,9 @@ sudo wget https://github.com/rsherstnev/configs/raw/master/zsh_completions/_gobu
 ### Gobuster
 [![asciicast](https://asciinema.org/a/335775.svg)](https://asciinema.org/a/335775)
 
+### Wfuzz
+[![asciicast](https://asciinema.org/a/338885.svg)](https://asciinema.org/a/338885)
+
 ### Hashcat
 [![asciicast](https://asciinema.org/a/336061.svg)](https://asciinema.org/a/336061)
 
