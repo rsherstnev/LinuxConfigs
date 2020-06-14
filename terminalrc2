@@ -1,6 +1,5 @@
 [Configuration]
-BackgroundMode=TERMINAL_BACKGROUND_TRANSPARENT
-BackgroundDarkness=0.920000
+BackgroundDarkness=1.000000
 MiscAlwaysShowTabs=FALSE
 MiscBell=FALSE
 MiscBellUrgent=FALSE
@@ -35,8 +34,8 @@ ScrollingUnlimited=TRUE
 ShortcutsNoMnemonics=TRUE
 ShortcutsNoHelpkey=TRUE
 ShortcutsNoMenukey=TRUE
-ColorPalette=rgb(0,0,0);rgb(170,0,0);rgb(35,216,35);rgb(170,85,0);rgb(0,0,170);rgb(170,0,170);rgb(0,170,170);rgb(170,170,170);rgb(85,85,85);rgb(230,40,40);rgb(255,89,89);rgb(251,255,85);rgb(51,154,167);rgb(255,85,255);rgb(255,196,67);rgb(255,255,255)
-ColorForeground=#ffffffffffff
+ColorPalette=rgb(0,0,0);rgb(170,0,0);rgb(35,216,35);rgb(170,85,0);rgb(0,0,170);rgb(170,0,170);rgb(0,170,170);rgb(170,170,170);rgb(85,85,85);rgb(230,40,40);rgb(255,89,89);rgb(251,255,85);rgb(135,255,95);rgb(255,85,255);rgb(255,196,67);rgb(255,255,255)
+ColorForeground=#9e9ea9a9bcbc
 DropdownWidth=95
 DropdownHeight=82
 DropdownAlwaysShowTabs=FALSE
@@ -45,5 +44,5 @@ DropdownStatusIcon=FALSE
 FontAllowBold=FALSE
 DropdownKeepOpenDefault=TRUE
 DropdownKeepAbove=FALSE
-ColorBackground=#000000000000
+ColorBackground=#13131d1d2b2b
 
