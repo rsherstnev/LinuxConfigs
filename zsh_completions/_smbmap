@@ -11,7 +11,7 @@ _smbmap_arglist=(
 	'-v[Return the OS version of the remote host]'
 	'--admin[Just report if the user is an admin]'
 	'-x[Execute a command, for example, ipconfig /all]:()'
-	'--mode[Set the execution method, wmi or psexec (default: wmi)]:()'
+	'--mode[Set the execution method, wmi or psexec (default: wmi)]:select execution method:_values method wmi psexec'
 	'-L[List all drives on the specified host]'
 	'-R[Recursively list dirs, and files (no share\path lists == ALL shares)]:()'
 	'-r[List contents of directory (default: root of all shares)]:()'
@@ -26,7 +26,7 @@ _smbmap_arglist=(
 	'--search-path[Specify drive/path to search, used with -F (default: C:\Users)]:()'
 	'--search-timeout[Specifcy a timeout (in seconds) before the file search job gets killed (default: 300)]:()'
 	'--download[Download a file from the remote system]:()'
-	'--upload[Upload a file to the remote system]:()'
+	'--upload[Upload a file to the remote system]:select file:_files'
 	'--delete[Delete a remote file]:()'
 	'--skip[Skip delete file confirmation prompt]'
 )
