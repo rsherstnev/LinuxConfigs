@@ -7,7 +7,7 @@ _arguments -C \
 	'*:: :->args' \
 && ret=0
 
-local http_codes=(
+http_codes=(
 	'100[Continue]'
 	'101[Switching Protocols]'
 	'102[Processing]'

@@ -34,7 +34,7 @@ _dirsearch_arglist=(
 	'--json-report[Dump results to file in JSON format]:select file:_files'
 )
 
-local http_codes=(
+http_codes=(
 	'100[Continue]'
 	'101[Switching Protocols]'
 	'102[Processing]'
@@ -109,4 +109,3 @@ local http_codes=(
 )
 
 _arguments $_dirsearch_arglist && return 0
-
