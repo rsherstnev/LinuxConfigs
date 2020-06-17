@@ -1,5 +1,6 @@
 #compdef gobuster
 
+local http_codes args ret=1
 typeset -A opt_args
 
 _arguments -C \
@@ -83,11 +84,10 @@ http_codes=(
 
 case "$state" in
 	(mode)
-		local gobuster_modes=(dir vhost dns)
-		_describe mode gobuster_modes && ret=0
+		_values gobuster_mode dir vhost dns && ret=0
 	;;
 	(args)
-		local args=(
+		args=(
 			'(-z --noprogress)'{-z,--noprogress}'[Do not display progress]'
 			'(-o --output)'{-o,--output}'[Output file to write results to (default: to stdout)]:select file:_files'
 			'(-q --quiet)'{-q,--quiet}'[Do not print the banner and other noise]'
@@ -149,4 +149,4 @@ case "$state" in
 	;;
 esac
 
-return 1
+return ret
