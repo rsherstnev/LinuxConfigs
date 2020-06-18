@@ -1,6 +1,8 @@
 #compdef dirsearch
 
-_dirsearch_arglist=(
+local http_codes args
+
+args=(
 	'(-u --url)'{-u,--url}'[Target URL]:enter URL:()'
 	'(-L --url-list)'{-L,--url-list}'[Targets URL list]:select URL list:_files'
 	'(-e --extensions)'{-e,--extensions}'[List of comma separated extensions (e.g. php,asp)]:enter comma separated extensions:()'
@@ -108,4 +110,4 @@ http_codes=(
 	'526[Invalid SSL Certificate]'
 )
 
-_arguments $_dirsearch_arglist && return 0
+_arguments $args && return 0

@@ -1,6 +1,6 @@
 #compdef patator
 
-local -a modes=(
+local modes=(
 	'ftp_login[Brute-force FTP]'
 	'ssh_login[Brute-force SSH]'
 	'telnet_login[Brute-force Telnet]'
@@ -40,4 +40,4 @@ local -a modes=(
 _arguments -C \
 	'1:select mode:_values $modes' \
 	'*:: :_files' \
-&& ret=0
+&& return 0
