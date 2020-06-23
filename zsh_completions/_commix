@@ -1,9 +1,11 @@
 #compdef commix
 
-_commix_arglist=(
+local args error_codes
+
+args=(
 	'-v[Verbosity level (0-4, default: 0)]:()'
 	'--version[Show version number and exit]'
-	'--output-dir[Set custom output directory path]:select file:_files'
+	'--output-dir[Set custom output directory path]:select file:_files -/'
 	'-s[Load session from a stored (.sqlite) file]:select file:_files'
 	'--flush-session[Flush session files for current target]'
 	'--ignore-session[Ignore results stored in session file]'
@@ -35,9 +37,9 @@ _commix_arglist=(
 	'--tor-check[Check to see if Tor is used properly]'
 	'--auth-url[Login panel URL]:()'
 	'--auth-data[Login parameters and data]:()'
-	'--auth-type[HTTP authentication type]:select auth type:->auth_type'
+	'--auth-type[HTTP authentication type]:select auth type:_values auth_type Basic Digest'
 	'--auth-cred[HTTP authentication credentials (e.g. 'admin:admin')]:()'
-	'--ignore-code[Ignore (problematic) HTTP error code (e.g. 401)]:select error code:->error_code'
+	'--ignore-code[Ignore (problematic) HTTP error code (e.g. 401)]:select error code:_values error_code $error_codes'
 	'--force-ssl[Force usage of SSL/HTTPS]'
 	'--ignore-redirects[Ignore redirection attempts]'
 	'--retries[Retries when the connection timeouts (default: 3)]:()'
@@ -61,7 +63,7 @@ _commix_arglist=(
 	'-p[Comma separated testable parameter(s)]:()'
 	'--skip[Skip testing for comma separated given parameter(s)]:()'
 	'--suffix[Injection payload suffix string]:()'
-	'--prefix=[Injection payload prefix string]:()'
+	'--prefix[Injection payload prefix string]:()'
 	'--technique[Specify injection technique(s) to use]:()'
 	'--skip-technique[Specify injection technique(s) to skip]:()'
 	'--maxlen[Set the max length of output for time-related injection techniques (default: 10000 chars)]:()'
@@ -73,7 +75,7 @@ _commix_arglist=(
 	'--os-cmd[Execute a single operating system command]:()'
 	'--os[Force back-end operating system (e.g. "Windows" or "Unix")]:()'
 	'--tamper[Use given script(s) for tampering injection data]:()'
-	'--msf-path[Set a local path where metasploit is installed]:select file:_files'
+	'--msf-path[Set a local path where metasploit is installed]:select file:_files -/'
 	'--backticks[Use backticks instead of "$()", for commands substitution]'
 	'--level[Level of tests to perform (1-3, default: 1)]:()'
 	'--skip-calc[Skip the mathematic calculation during the detection phase]'
@@ -89,9 +91,7 @@ _commix_arglist=(
 	'--disable-coloring[Disable console output coloring]'
 )
 
-_auth_types=('Basic' 'Digest')
-
-_error_codes=(
+error_codes=(
 	'400[Bad Request]'
 	'401[Unauthorized]'
 	'402[Payment Required]'
@@ -125,20 +125,4 @@ _error_codes=(
 	'499[Client Closed Request]'
 )
 
-_commix() {
-	_arguments $_commix_arglist
-	case "$state" in
-		error_code)
-			_values 'error code' $_error_codes
-			;;
-		auth_type)
-			_values 'auth type' $_auth_types
-			;;
-	esac
-}
-
-case "$service" in
-	commix)
-		_commix "$@" && return 0
-		;;
-esac
+_arguments $args && return 0

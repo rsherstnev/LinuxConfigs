@@ -1,18 +1,20 @@
 #compdef msfvenom
 
-_msfvenom_arglist=(
-	{'(--list)-l','(-l)--list'}'[List all modules for "type"]:select type:->type'
-	{'(--payload)-p','(-p)--payload'}'[Payload to use. Specify "-" or STDIN for custom]:select payload:->payload'
+local args types payloads formats encoders encrypts archs platforms 
+
+args=(
+	{'(--list)-l','(-l)--list'}'[List all modules for "type"]:select type:_values type $types'
+	{'(--payload)-p','(-p)--payload'}'[Payload to use. Specify "-" or STDIN for custom]:select payload:_values payload $payloads'
 	'--list-options[List --payload <value> standard, advanced and evasion options]'
-	{'(--format)-f','(-f)--format'}'[Output format]:select format:->format'
-	{'(--encoder)-e','(-e)--encoder'}'[The encoder to use]:select encoder:->encoder'
+	{'(--format)-f','(-f)--format'}'[Output format]:select format:_values format $formats'
+	{'(--encoder)-e','(-e)--encoder'}'[The encoder to use]:select encoder:_values encoder $encoders'
 	'--sec-name[The new section name to use when generating large Windows binaries (default: random 4-character alpha string)]:()'
 	'--smallest[Generate the smallest possible payload using all available encoders]'
-	'--encrypt[The type of encryption or encoding to apply to the shellcode]:select encrypt:->encrypt'
+	'--encrypt[The type of encryption or encoding to apply to the shellcode]:select encrypt:_values encrypt $encrypts'
 	'--encrypt-key[A key to be used for --encrypt]:()'
 	'--encrypt-iv[An initialization vector for --encrypt]:()'
-	{'(--arch )-a','(-a)--arch'}'[The architecture to use for --payload and --encoders]:select arch:->arch'
-	'--platform[The platform for --payload]:select platform:->platform'
+	{'(--arch )-a','(-a)--arch'}'[The architecture to use for --payload and --encoders]:select arch:_values arch $archs'
+	'--platform[The platform for --payload]:select platform:_values platform $platforms'
 	{'(--out)-o','(-o)--out'}'[Save the payload to a file]:select file:_files'
 	{'(--bad-chars)-b','(-b)--bad-chars'}'[Characters to avoid example: "\x00\xff"]:()'
 	{'(--nopsled )-n','(-n)--nopsled'}'[Prepend a nopsled of "length" size on to the payload]:()'
@@ -27,9 +29,9 @@ _msfvenom_arglist=(
 	{'(--timeout)-t','(-t)--timeout'}'[The number of seconds to wait when reading the payload from STDIN (default: 30, 0 to disable)]:()'
 )
 
-_types=('payloads' 'formats' 'encoders' 'encrypts' 'archs' 'platforms' 'nops' 'all')
+types=('payloads' 'formats' 'encoders' 'encrypts' 'archs' 'platforms' 'nops' 'all')
 
-_payloads=(
+payloads=(
 	'aix/ppc/shell_bind_tcp'
 	'aix/ppc/shell_find_port'
 	'aix/ppc/shell_interact'
@@ -598,7 +600,7 @@ _payloads=(
 	'windows/x64/vncinject/reverse_winhttps'
 )
 
-_formats=(
+formats=(
 	'base32'
 	'base64'
 	'bash'
@@ -625,7 +627,7 @@ _formats=(
 	'vbscript'
 )
 
-_encoders=(
+encoders=(
 	'cmd/brace[Bash Brace Expansion Command Encoder]'
 	'cmd/echo[Echo Command Encoder]'
 	'cmd/generic_sh[Generic Shell Variable Substitution Command Encoder]'
@@ -673,9 +675,9 @@ _encoders=(
 	'x86/xor_dynamic[Dynamic key XOR Encoder]'
 )
 
-_encrypts=('aes256' 'base64' 'rc4' 'xor')
+encrypts=('aes256' 'base64' 'rc4' 'xor')
 
-_archs=(
+archs=(
 	'aarch64'
 	'armbe'
 	'armle'
@@ -708,7 +710,7 @@ _archs=(
 	'zarch'
 )
 
-_platforms=(
+platforms=(
 	'aix'
 	'android'
 	'apple_ios'
@@ -743,35 +745,4 @@ _platforms=(
 	'windows'
 )
 
-_msfvenom() {
-	_arguments $_msfvenom_arglist
-	case "$state" in
-		type)
-			_values 'type' $_types
-			;;
-		payload)		
-			_values 'payload' $_payloads
-			;;
-		format)
-			_values 'format' $_formats
-			;;
-		encoder)
-			_values 'encoder' $_encoders
-			;;
-		encrypt)
-			_values 'encrypt' $_encrypts
-			;;
-		arch)
-			_values 'arch' $_archs
-			;;
-		platform)
-			_values 'platform' $_platforms
-			;;		
-	esac
-}
-
-case "$service" in
-	msfvenom)
-		_msfvenom "$@" && return 0
-		;;
-esac
+_arguments $args && return 0

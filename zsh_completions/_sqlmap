@@ -1,13 +1,15 @@
 #compdef sqlmap
 
-_sqlmap_arglist=(
-	'-v[Verbosity level: 0-6 (default: 1)]:select verbosity:->verbosity'
+local args verbosity http_methods error_codes http_codes techniques
+
+args=(
+	'-v[Verbosity level: 0-6 (default: 1)]:select verbosity:_values verbosity $verbosity'
 	{'(--url)-u','(-u)--url'}'[Target URL]:()'
 	'-r[Load HTTP request from a file]:select file:_files'
 	{'(--user-agent)-A','(-A)--user-agent'}'[HTTP User-Agent header value]:()'
 	{'(--header)-H','(-H)--header'}'[Extra header in format "Header: Value"]:()'
-	'--method[Force usage of given HTTP method]:select method:->http_method'
-	'--data[Data string to be sent through POST]:()'
+	'--method[Force usage of given HTTP method]:select method:_values http_method $http_methods'
+	'--data[Data to be sent through POST]:()'
 	'--param-del[Character used for splitting parameter values]:()'
 	'--cookie[HTTP Cookie header value]:()'
 	'--cookie-del[Character used for splitting cookie values]:()'
@@ -17,19 +19,19 @@ _sqlmap_arglist=(
 	'--host[HTTP Host header value]:()'
 	'--referer[HTTP Referer header value]:()'
 	'--headers[Extra headers in format "Header1: Value1\nHeader2: Value2..."]:()'
-	'--auth-type[HTTP authentication type]:select type:->auth_type'
+	'--auth-type[HTTP authentication type]:select auth type:_values auth_type Basic Digest NTLM PKI'
 	'--auth-cred[HTTP authentication credentials in format name:password]:()'
 	'--auth-file[HTTP authentication PEM cert/private key file]:select file:_files'
-	'--ignore-code[Ignore (problematic) HTTP error code]:select error code:->error_code'
+	'--ignore-code[Ignore (problematic) HTTP error code]:select error code:_values error_code $error_codes'
 	'--ignore-proxy[Ignore system default proxy settings]'
 	'--ignore-redirects[Ignore redirection attempts]'
 	'--ignore-timeouts[Ignore connection timeouts]'
 	'--proxy[Proxy URL to connect to the target URL]:()'
-	'--proxy-cred[Proxy authentication credentials in format name:password]'
+	'--proxy-cred[Proxy authentication credentials in format name:password]:()'
 	'--proxy-file[Load proxy list from a file]:select file:_files'
 	'--tor[Use Tor anonymity network]'
 	'--tor-port[Set Tor proxy port other than default]:()'
-	'--tor-type[Set Tor proxy type (default: SOCKS5)]:select tor proxy type:->tor_proxy_type'
+	'--tor-type[Set Tor proxy type (default: SOCKS5)]:select tor proxy type:_values tor_proxy_type HTTP SOCKS4 SOCKS5'
 	'--check-tor[Check to see if Tor is used properly]'
 	'--delay[Delay in seconds between each HTTP request]:()'
 	'--timeout[Seconds to wait before timeout connection (default: 30)]:()'
@@ -42,7 +44,7 @@ _sqlmap_arglist=(
 	'--skip-urlencode[Skip URL encoding of payload data]'
 	'--csrf-token[Parameter used to hold anti-CSRF token]:()'
 	'--csrf-url[URL address to visit for extraction of anti-CSRF token]:()'
-	'--csrf-method[HTTP method to use during anti-CSRF token page visit]:select method:->http_method'
+	'--csrf-method[HTTP method to use during anti-CSRF token page visit]:select method:_values http_method $http_methods'
 	'--force-ssl[Force usage of SSL/HTTPS]'
 	'--chunked[Use HTTP chunked transfer encoded (POST) requests]'
 	'--hpp[Use HTTP parameter pollution method]'
@@ -68,23 +70,23 @@ _sqlmap_arglist=(
 	'--prefix[Injection payload prefix string]:()'
 	'--suffix[Injection payload suffix string]:()'
 	'--tamper[Use given script(s) for tampering injection data]:()'
-	'--level[Level of tests to perform (default: 1)]:select level:->level'
-	'--risk[Risk of tests to perform (default: 1)]:select risk:->risk'
+	'--level[Level of tests to perform (default: 1)]:select level:_values level 1 2 3 4 5'
+	'--risk[Risk of tests to perform (default: 1)]:select risk:_values risk 1 2 3'
 	'--string[String to match when query is evaluated to True]:()'
 	'--not-string[String to match when query is evaluated to False]:()'
 	'--regexp[Regexp to match when query is evaluated to True]:()'
-	'--code[HTTP code to match when query is evaluated to True]:select code:->http_code'
+	'--code[HTTP code to match when query is evaluated to True]:select code:_values http_code $http_codes'
 	'--smart[Perform thorough tests only if positive heuristic(s)]'
 	'--text-only[Compare pages based only on the textual content]'
 	'--titles[Compare pages based only on their titles]'
-	'--technique=[SQL injection techniques to use (default "BEUSTQ")]:select techniques:->technique'
+	'--technique=[SQL injection techniques to use (default: BEUSTQ)]:select techniques:_values -s "" techniques $techniques'
 	'--time-sec[Seconds to delay the DBMS response (default: 5)]:()'
 	'--union-cols[Range of columns to test for UNION query SQL injection]:()'
 	'--union-char[Character to use for bruteforcing number of columns]:()'
 	'--union-from[Table to use in FROM part of UNION query SQL injection]:()'
 	'--dns-domain[Domain name used for DNS exfiltration attack]:()'
 	'--second-url[Resulting page URL searched for second-order response]:()'
-	'--second-req[Load second-order HTTP request from file]:()'
+	'--second-req[Load second-order HTTP request from file]:select file:_files'
 	{'(--fingerprint)-f','(-f)--fingerprint'}'[Perform an extensive DBMS version fingerprint]'
 	{'(--all)-a','(-a)--all'}'[Retrieve everything]'
 	{'(-banner)-b','(-b)--banner'}'[Retrieve DBMS banner]'
@@ -135,7 +137,7 @@ _sqlmap_arglist=(
 	'--os-smbrelay[One click prompt for an OOB shell, Meterpreter or VNC]'
 	'--os-bof[Stored procedure buffer overflow exploitation]'
 	'--priv-esc[Database process user privilege escalation]'
-	'--msf-path[Local path where Metasploit Framework is installed]:select file:_files'
+	'--msf-path[Local path where Metasploit Framework is installed]:select file:_files -/'
 	'--tmp-path[Remote absolute path of temporary files directory]:()'
 	'--reg-read[Read a Windows registry key value]'
 	'--reg-add[Write a Windows registry key value data]'
@@ -152,11 +154,11 @@ _sqlmap_arglist=(
 	'--binary-fields[Result fields having binary values (e.g. "digest")]:()'
 	'--check-internet[Check Internet connection before assessing the target]'
 	'--cleanup[Clean up the DBMS from sqlmap specific UDF and tables]'
-	'--crawl[Crawl the website starting from the target URL]:()'
+	'--crawl[Enter depth of crawling the website starting from the target URL]:()'
 	'--crawl-exclude[Regexp to exclude pages from crawling (e.g. "logout")]:()'
 	'--csv-del[Delimiting character used in CSV output (default: ",")]:()'
 	'--charset[Blind SQL injection charset (e.g. "0123456789abcdef")]:()'
-	'--dump-format[Format of dumped data (default: CSV)]:select dump format:->dump_format'
+	'--dump-format[Format of dumped data (default: CSV)]:select dump format:_values dump_format CSV HTML SQLITE'
 	'--encoding[Character encoding used for data retrieval (e.g. GBK)]:()'
 	'--eta[Display for each output the estimated time of arrival]'
 	'--flush-session[Flush session files for current target]'
@@ -165,9 +167,9 @@ _sqlmap_arglist=(
 	'--gpage[Use Google dork results from specified page number]:()'
 	'--har[Log all HTTP traffic into a HAR file]:select file:_files'
 	'--hex[Use hex conversion during data retrieval]'
-	'--output-dir[Custom output directory path]:select file:_files'
+	'--output-dir[Custom output directory path]:select file:_files -/'
 	'--parse-errors[Parse and display DBMS error messages from responses]'
-	'--preprocess[Use given script(s) for preprocessing of response data]:()'
+	'--preprocess[Use given script(s) for preprocessing of response data]:select file:_files'
 	'--repair[Redump entries having unknown character marker (?)]'
 	'--save[Save options to a configuration INI file]:select file:_files'
 	'--scope[Regexp for filtering targets]:()'
@@ -186,13 +188,13 @@ _sqlmap_arglist=(
 	'--purge[Safely remove all content from sqlmap data directory]'
 	'--results-file[Location of CSV results file in multiple targets mode]:select file:_files'
 	'--sqlmap-shell[Prompt for an interactive sqlmap shell]'
-	'--tmp-dir[Local directory for storing temporary files]:select file:_files'
+	'--tmp-dir[Local directory for storing temporary files]:select file:_files -/'
 	'--unstable[Adjust options for unstable connections]'
 	'--update[Update sqlmap]'
 	'--wizard[Simple wizard interface for beginner users]'
 )
 
-_sqlmap_verbosity=(
+verbosity=(
 	'0[Show only Python tracebacks, error and critical messages]'
 	'1[Show also information and warning messages]'
 	'2[Show also debug messages]'
@@ -202,11 +204,9 @@ _sqlmap_verbosity=(
 	'6[Show also HTTP responses page content]'
 )
 
-_http_methods=('OPTIONS' 'GET' 'HEAD' 'POST' 'PUT' 'PATCH' 'DELETE' 'TRACE' 'CONNECT')
+http_methods=('OPTIONS' 'GET' 'HEAD' 'POST' 'PUT' 'PATCH' 'DELETE' 'TRACE' 'CONNECT')
 
-_auth_types=('Basic' 'Digest' 'NTLM' 'PKI')
-
-_error_codes=(
+error_codes=(
 	'400[Bad Request]'
 	'401[Unauthorized]'
 	'402[Payment Required]'
@@ -240,7 +240,7 @@ _error_codes=(
 	'499[Client Closed Request]'
 )
 
-_http_codes=(
+http_codes=(
 	'100[Continue]'
 	'101[Switching Protocols]'
 	'102[Processing]'
@@ -314,13 +314,7 @@ _http_codes=(
 	'526[Invalid SSL Certificate]'
 )
 
-_tor_proxy_types=('HTTP' 'SOCKS4' 'SOCKS5')
-
-_levels=('1' '2' '3' '4' '5')
-
-_risks=('1' '2' '3')
-
-_techniques=(
+techniques=(
 	'B[Boolean-based blind]'
 	'E[Error-based]'
 	'U[Union query-based]'
@@ -329,46 +323,4 @@ _techniques=(
 	'Q[Inline queries]'
 )
 
-_dump_formats=('CSV' 'HTML' 'SQLITE')
-
-_sqlmap() {
-	_arguments $_sqlmap_arglist
-	case "$state" in
-		verbosity)
-			_values 'verbosity' $_sqlmap_verbosity
-			;;
-		http_method)
-			_values 'http method' $_http_methods
-			;;
-		auth_type)
-			_values 'auth type' $_auth_types
-			;;
-		error_code)
-			_values 'error code' $_error_codes
-			;;
-		tor_proxy_type)
-			_values 'tor proxy type' $_tor_proxy_types
-			;;
-		level)
-			_values 'level' $_levels
-			;;
-		risk)
-			_values 'risk' $_risks
-			;;
-		http_code)
-			_values 'http code' $_http_codes
-			;;
-		technique)
-			_values -s '' 'technique' $_techniques
-			;;
-		dump_format)
-			_values 'dump format' $_dump_formats
-			;;
-	esac
-}
-
-case "$service" in
-	sqlmap)
-		_sqlmap "$@" && return 0
-		;;
-esac
+_arguments $args && return 0
