@@ -1,3 +1,5 @@
+typeset -A ZSH_HIGHLIGHT_STYLES
+
 export ZSH_THEME="norden"
 export ZSH="/home/elliot/.oh-my-zsh"
 export VISUAL="/usr/bin/nvim"
@@ -9,6 +11,16 @@ export MANPAGER='less -s -M +Gg'
 export TERM=xterm-256color
 export FZF_DEFAULT_OPTS='--bind alt-q:abort'
 export FZF_CTRL_R_OPTS='-e --cycle --prompt "Command: " --no-info --layout reverse --height 100% --color=fg:15,hl:9,hl+:9'
+export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+export ZSH_HIGHLIGHT_STYLES[builtin]='fg=114'
+export ZSH_HIGHLIGHT_STYLES[command]='fg=114'
+export ZSH_HIGHLIGHT_STYLES[alias]='fg=114'
+export ZSH_HIGHLIGHT_STYLES[global-alias]='fg=114'
+export ZSH_HIGHLIGHT_STYLES[function]='fg=114'
+export ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=208'
+export ZSH_HIGHLIGHT_STYLES[globbing]='fg=39'
+export ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=227'
+export ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=227'
 
 setopt SHARE_HISTORY
 setopt EXTENDED_HISTORY
