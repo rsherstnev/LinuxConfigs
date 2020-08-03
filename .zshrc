@@ -1,12 +1,12 @@
 typeset -A ZSH_HIGHLIGHT_STYLES
 
 export ZSH_THEME="norden"
-export ZSH="/home/elliot/.oh-my-zsh"
-export VISUAL="/usr/bin/nvim"
-export EDITOR="/usr/bin/nvim"
+export ZSH=$HOME/.oh-my-zsh
 export HISTFILE=$HOME/.zsh_history
 export SAVEHIST=5000
 export HISTSIZE=5000
+export VISUAL=/usr/bin/nvim
+export EDITOR=/usr/bin/nvim
 export MANPAGER='less -s -M +Gg'
 export TERM=xterm-256color
 export FZF_DEFAULT_OPTS='--bind alt-q:abort'
@@ -35,7 +35,7 @@ setopt NOTIFY
 setopt AUTOCD
 
 HISTORY_IGNORE="(history|ls|la|ll|lla|cd|clear|cls)"
-plugins=(git sudo tmux systemd nmap httpie dirhistory fzf fzf-tab zsh-autosuggestions pip pipenv docker rsync zsh-syntax-highlighting)
+plugins=(git sudo tmux systemd nmap httpie dirhistory fzf fzf-tab zsh-autosuggestions zsh-syntax-highlighting pip pipenv docker rsync)
 
 alias l='ls -A --color=auto'
 alias ls='ls -A --color=auto'
@@ -55,21 +55,17 @@ alias http='http --style fruity'
 alias less='less -s -M +Gg'
 alias rowsandcolumns='stty -a | head -n1 | cut -d ";" -f 2-3 | cut -b2- | sed "s/; /\n/"'
 alias listservices='systemctl list-units --type=service'
-alias nmapscripts="locate -r '\.nse$' | xargs grep categories"
 alias prp='pipenv run python'
 alias tmuxbell="echo -e '\a'"
 # alias ffuf='ffuf -c'
 # alias wfuzz='wfuzz -c'
-# alias -g mpad='mousepad'
-# alias -g medusa='medusa -b'
-# alias -g vim='nvim'
 alias -g md='mkdir -p'
 alias -g sc='systemctl'
 alias -g ipt='iptables'
 alias -g iptlist='iptables -L -n --line-numbers'
 alias -g ip6t='ip6tables'
 alias -g ip6tlist='ip6tables -L -n --line-numbers'
-alias -g msfconsole='msfconsole --quiet'
+# alias -g msfconsole='msfconsole --quiet'
 alias -g gdb='gdb --silent'
 alias -g xcopy='xclip -selection clipboard'
 alias -g xpaste='xclip -selection clipboard -o'
