@@ -12,9 +12,10 @@ export FZF_DEFAULT_OPTS='--bind alt-q:abort'
 export FZF_CTRL_R_OPTS='-e --cycle --prompt "Command: " --no-info --layout reverse --height 100% --color=fg:15,hl:9,hl+:9'
 export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 export ZSH_HIGHLIGHT_STYLES[builtin]='fg=114'
+export ZSH_HIGHLIGHT_STYLES[precommand]='fg=114,underline'
 export ZSH_HIGHLIGHT_STYLES[command]='fg=114'
-export ZSH_HIGHLIGHT_STYLES[alias]='fg=114'
 export ZSH_HIGHLIGHT_STYLES[global-alias]='fg=114'
+export ZSH_HIGHLIGHT_STYLES[alias]='fg=114'
 export ZSH_HIGHLIGHT_STYLES[function]='fg=114'
 export ZSH_HIGHLIGHT_STYLES[autodirectory]='fg=114'
 export ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=208'
@@ -22,6 +23,7 @@ export ZSH_HIGHLIGHT_STYLES[globbing]='fg=174'
 export ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=227'
 export ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=227'
 export ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter]='fg=125'
+export ZSH_HIGHLIGHT_STYLES[path]='fg=248,underline'
 
 setopt SHARE_HISTORY
 setopt EXTENDED_HISTORY
