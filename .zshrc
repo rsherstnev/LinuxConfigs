@@ -1,6 +1,5 @@
 typeset -A ZSH_HIGHLIGHT_STYLES
 
-export ZSH_THEME="norden"
 export ZSH=$HOME/.oh-my-zsh
 export HISTFILE=$HOME/.zsh_history
 export SAVEHIST=5000
@@ -19,9 +18,10 @@ export ZSH_HIGHLIGHT_STYLES[global-alias]='fg=114'
 export ZSH_HIGHLIGHT_STYLES[function]='fg=114'
 export ZSH_HIGHLIGHT_STYLES[autodirectory]='fg=114'
 export ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=208'
-export ZSH_HIGHLIGHT_STYLES[globbing]='fg=39'
+export ZSH_HIGHLIGHT_STYLES[globbing]='fg=174'
 export ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=227'
 export ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=227'
+export ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter]='fg=125'
 
 setopt SHARE_HISTORY
 setopt EXTENDED_HISTORY
@@ -86,3 +86,9 @@ DISABLE_AUTO_UPDATE=true
 source $ZSH/oh-my-zsh.sh
 zstyle ':completion:*' special-dirs false
 bindkey '^ ' autosuggest-accept
+
+export PROMPT='$FG[167]%n$FG[217]@$FG[215]%M $FG[006]%~ $(git_prompt_info)$FG[146]$%{$reset_color%} '
+export ZSH_THEME_GIT_PROMPT_PREFIX="$FG[145]git:($FG[226]"
+export ZSH_THEME_GIT_PROMPT_DIRTY="$FG[145]) $FG[226]✗"
+export ZSH_THEME_GIT_PROMPT_CLEAN="$FG[145])"
+export ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} "
