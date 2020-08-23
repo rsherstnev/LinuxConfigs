@@ -1,20 +1,19 @@
 #compdef wfuzz
 
 _wfuzz_arglist=(
-	"--filter-help[Filter language specification]"
+	"--filter-help[Display filter language specification]"
 	"-e[List of available modules selected type]:select type of modules:->modules_type"
-	"--recipe[Reads options from a recipe. Repeat for various recipes]:select file:_files"
-	"--dump-recipe[Prints current options as a recipe]:enter filename:_files"
-	"--oF[Saves fuzz results to a file. These can be consumed later using the wfuzz payload]:enter filename:_files"
+	"--recipe[Read options from a recipe. Repeat for various recipes]:select file:_files"
+	"--dump-recipe[Dump current options as a recipe]:enter filename:_files"
 	"-c[Output with colors]"
 	"-v[Verbose information]"
-	"-f[Store results in the output file using the specified printer (default: raw) in format: filename,printer]:enter filename and printer:->file_and_printer"
+	"-f[Save results in file using the specified printer (default: raw) in format: filename,printer]:enter filename and printer:->file_and_printer"
 	"-o[Show results using the specified printer]:select printer:->printer"
 	"--interact[If selected, all key presses are captured. This allows you to interact with the program]"
 	"--dry-run[Print the results of applying the requests without actually making any HTTP request]"
 	"--prev[Print the previous HTTP requests (only when using payloads generating fuzzresults)]"
 	"--efield[Show the specified language expression together with the current payload]:enter expression:()"
-	"--field[Do not show the payload but only the specified language expression]:enter expression:()"
+	"--field[Do not show the payload but show only the specified language expression]:enter expression:()"
 	"-p[Use Proxy in format: ip:port:type. Repeat option for using various proxies]:enter proxy address:->proxy"
 	"-t[Specify the number of concurrent connections (default: 10)]:enter number of threads:()"
 	"-s[Specify time delay between requests (default: 0)]:enter delay:()"
@@ -33,39 +32,39 @@ _wfuzz_arglist=(
 	"-z[Payload for each FUZZ keyword used in the form of: name\[,parameter\]\[,encoder\]]:select payload:->payload"
 	"-w[Wordlist file (alias for -z file,wordlist)]:select wordlist:_files"
 	"--zP[Arguments for the specified payload. It must be preceded by -z or -w]:select payload params:->payload_params"
-	"--zD[Default parameter for the specified payload. It must be preceded by -z or -w]:enter value of default payload parameter:->payload_default_param"
-	"--zE[Encoder for the specified payload. It must be preceded by -z or -w]:select payload encoders:->encoders"
+	"--zD[Default parameter value for the specified payload. It must be preceded by -z or -w]:enter value of default payload parameter:->payload_default_param"
+	"--zE[Encoders for the specified payload. It must be preceded by -z or -w]:select payload encoders:->encoders"
 	"--slice[Filter payload's elements using the specified expression. It must be preceded by -z or -w]:enter filter:()"
 	"-V[What parameters bruteforcing. No need for FUZZ keyword]:select parameters type:->parameters_type"
 	"-X[HTTP method for the request, ie. HEAD or FUZZ]:select HTTP method:->http_method"
-	"-b[Cookie header for the requests. Repeat option for various cookies]:enter cookie:()"
+	"-b[Cookie header for the requests]:enter cookie:()"
 	"-d[POST data]:enter POST data:()"
 	"-H[HTTP header. Repeat option for various headers]:enter header:()"
 	"--basic[Basic authentication in format 'user:pass' or 'FUZZ:FUZZ' or 'domain\FUZ2Z:FUZZ']:enter credentials:()"
 	"--ntlm[NTLM authentication in format 'user:pass' or 'FUZZ:FUZZ' or 'domain\FUZ2Z:FUZZ']:enter credentials:()"
 	"--digest[Digest authentication in format 'user:pass' or 'FUZZ:FUZZ' or 'domain\FUZ2Z:FUZZ']:enter credentials:()"
-	"--hc[Hide responses with the specified comma separated codes (Use BBB for taking values from baseline)]:select codes:->http_codes"
-	"--hl[Hide responses with the specified comma separated lines (Use BBB for taking values from baseline)]:enter lines:()"
-	"--hw[Hide responses with the specified comma separated words (Use BBB for taking values from baseline)]:enter words:()"
-	"--hh[Hide responses with the specified comma separated chars (Use BBB for taking values from baseline)]:enter chars:()"
+	"--hc[Hide responses with the specified comma separated codes]:select codes:->http_codes"
+	"--hl[Hide responses with the specified comma separated lines]:enter lines:()"
+	"--hw[Hide responses with the specified comma separated words]:enter words:()"
+	"--hh[Hide responses with the specified comma separated chars]:enter chars:()"
 	"--hs[Hide responses with the specified regex within the content]:enter regex:()"
-	"--sc[Show responses with the specified comma separated codes (Use BBB for taking values from baseline)]:select codes:->http_codes"
-	"--sl[Show responses with the specified comma separated lines (Use BBB for taking values from baseline)]:enter lines:()"
-	"--sw[Show responses with the specified comma separated words (Use BBB for taking values from baseline)]:enter words:()"
-	"--sh[Show responses with the specified comma separated chars (Use BBB for taking values from baseline)]:enter chars:()"
+	"--sc[Show responses with the specified comma separated codes]:select codes:->http_codes"
+	"--sl[Show responses with the specified comma separated lines]:enter lines:()"
+	"--sw[Show responses with the specified comma separated words]:enter words:()"
+	"--sh[Show responses with the specified comma separated chars]:enter chars:()"
 	"--ss[Show responses with the specified regex within the content]:enter regex:()"
-	"--filter[Show/hide responses using the specified filter expression (Use BBB for taking values from baseline)]:enter filter:()"
+	"--filter[Show/hide responses using the specified filter expression]:enter filter:()"
 	"--prefilter[Filter items before fuzzing using the specified expression]:enter filter:()"
 )
 
 _modules_types=("encoders" "payloads" "iterators" "printers" "scripts")
 
-_encoders="Enter encoder or several encoders. Several encoders can be specified at once, using “-” as a separator:
-$ wfuzz -z list,1-2-3,md5-sha1-none
+_encoders="Enter encoder or several encoders. Several encoders can be specified at once, using '-' as a separator:
+$ wfuzz -z list,1-2-3,none-md5-sha1
 Encoders can also be chained using the '@' char:
-$ wfuzz -z list,1-2-3,sha1-sha1@none
-Encoders are grouped by categories. This allows to select several encoders by category, for example:
-$ wfuzz -z list,1-2-3,hashes
+$ wfuzz -z list,1-2-3,none-sha1-sha1@sha1
+Encoders are grouped by categories. This allows to select several encoders by category (also allowed to use '-' or '@'), for example:
+$ wfuzz -z list,1-2-3,url-html
 
 none               Returns string without changes. Category: default
 random_upper       Replaces random characters in string with its capitals letters. Category: default
@@ -116,8 +115,8 @@ _payloads=(
 
 _iterators=(
 	"chain[Union all elements from all sources into one container]"
-	"product[Like cluster bomb in Burp Suite]"
-	"zip[Like pitchfork in Burp Suite]"
+	"product[Like Cluster Bomb in Burp Suite]"
+	"zip[Like Pitchfork in Burp Suite]"
 )
 
 _printers=(
@@ -129,7 +128,7 @@ _printers=(
 )
 
 _scripts=(
-	"cvs_extractor[Parses CVS/Entries file. Category: default, active, discovery]"
+	"cvs_extractor[Parses CVS/Entries file.	Category: default, active, discovery]"
 	"title[Parses HTML page title. Category: verbose, passive]"
 	"listing[Looks for directory listing vulnerabilities. Categoty: default, passive]"
 	"headers[Looks for server headers. Category: verbose, passive]"
