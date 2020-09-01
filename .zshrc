@@ -38,7 +38,7 @@ setopt NOTIFY
 setopt AUTOCD
 
 HISTORY_IGNORE="(history|ls|la|ll|lla|cd|clear|cls)"
-plugins=(git sudo tmux systemd nmap httpie dirhistory fzf fzf-tab zsh-autosuggestions zsh-syntax-highlighting pip pipenv docker rsync)
+plugins=(git sudo tmux systemd nmap httpie dirhistory fzf fzf-tab zsh-autosuggestions zsh-syntax-highlighting docker rsync)
 
 alias l='ls -A --color=auto'
 alias ls='ls -A --color=auto'
@@ -55,7 +55,6 @@ alias rowsandcolumns='stty -a | head -n1 | cut -d ";" -f 2-3 | cut -b2- | sed "s
 alias listservices='systemctl list-units --type=service'
 alias prp='pipenv run python'
 alias tmuxbell="echo -e '\a'"
-# alias ffuf='ffuf -c'
 # alias wfuzz='wfuzz -c'
 alias -g md='mkdir -p'
 alias -g sc='systemctl'
