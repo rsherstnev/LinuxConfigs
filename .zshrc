@@ -88,8 +88,10 @@ source $ZSH/oh-my-zsh.sh
 zstyle ':completion:*' special-dirs false
 bindkey '^ ' autosuggest-accept
 
-export PROMPT='$FG[167]%n$FG[217]@$FG[215]%M $FG[006]%~ $(git_prompt_info)$FG[146]$%{$reset_color%} '
+export PROMPT='$FG[167]%n$FG[217]@$FG[215]%M $FG[111]%~ $(git_prompt_info)$FG[146]$%{$reset_color%} '
 export ZSH_THEME_GIT_PROMPT_PREFIX="$FG[145]git:($FG[226]"
 export ZSH_THEME_GIT_PROMPT_DIRTY="$FG[145]) $FG[226]✗"
 export ZSH_THEME_GIT_PROMPT_CLEAN="$FG[145])"
 export ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} "
+
+source $HOME/.venv_tools
