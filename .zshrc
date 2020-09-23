@@ -7,8 +7,7 @@ export HISTSIZE=5000
 export VISUAL=/usr/bin/nvim
 export EDITOR=/usr/bin/nvim
 export MANPAGER='less -s -M +Gg'
-export TERM=xterm-256color
-export FZF_DEFAULT_OPTS='--bind alt-q:abort'
+export FZF_DEFAULT_OPTS='--bind alt-q:abort --color=pointer:227'
 export FZF_CTRL_R_OPTS='-e --cycle --prompt "Command: " --no-info --layout reverse --height 100% --color=fg:15,hl:9,hl+:9'
 export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 export ZSH_HIGHLIGHT_STYLES[builtin]='fg=114'
@@ -55,6 +54,7 @@ alias rowsandcolumns='stty -a | head -n1 | cut -d ";" -f 2-3 | cut -b2- | sed "s
 alias listservices='systemctl list-units --type=service'
 alias prp='pipenv run python'
 alias tmuxbell="echo -e '\a'"
+# alias ffuf='ffuf -c'
 # alias wfuzz='wfuzz -c'
 alias -g md='mkdir -p'
 alias -g sc='systemctl'
