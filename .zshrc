@@ -10,13 +10,13 @@ export MANPAGER='less -s -M +Gg'
 export FZF_DEFAULT_OPTS='--bind alt-q:abort --color=pointer:227'
 export FZF_CTRL_R_OPTS='-e --cycle --prompt "Command: " --no-info --layout reverse --height 100% --color=fg:15,hl:9,hl+:9'
 export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
-export ZSH_HIGHLIGHT_STYLES[builtin]='fg=114'
-export ZSH_HIGHLIGHT_STYLES[precommand]='fg=114,underline'
-export ZSH_HIGHLIGHT_STYLES[command]='fg=114'
-export ZSH_HIGHLIGHT_STYLES[global-alias]='fg=114'
-export ZSH_HIGHLIGHT_STYLES[alias]='fg=114'
-export ZSH_HIGHLIGHT_STYLES[function]='fg=114'
-export ZSH_HIGHLIGHT_STYLES[autodirectory]='fg=114'
+export ZSH_HIGHLIGHT_STYLES[builtin]='fg=#91C34B'
+export ZSH_HIGHLIGHT_STYLES[precommand]='fg=#91C34B,underline'
+export ZSH_HIGHLIGHT_STYLES[command]='fg=#91C34B'
+export ZSH_HIGHLIGHT_STYLES[global-alias]='fg=#91C34B'
+export ZSH_HIGHLIGHT_STYLES[alias]='fg=#91C34B'
+export ZSH_HIGHLIGHT_STYLES[function]='fg=#91C34B'
+export ZSH_HIGHLIGHT_STYLES[autodirectory]='fg=#91C34B'
 export ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=208'
 export ZSH_HIGHLIGHT_STYLES[globbing]='fg=174'
 export ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=227'
@@ -88,7 +88,7 @@ source $ZSH/oh-my-zsh.sh
 zstyle ':completion:*' special-dirs false
 bindkey '^ ' autosuggest-accept
 
-export PROMPT='$FG[167]%n$FG[217]@$FG[215]%M $FG[111]%~ $(git_prompt_info)$FG[146]$%{$reset_color%} '
+export PROMPT='$FG[167]%n$FG[217]@$FG[215]%M $FG[109]%~ $(git_prompt_info)$FG[146]$%{$reset_color%} '
 export ZSH_THEME_GIT_PROMPT_PREFIX="$FG[145]git:($FG[226]"
 export ZSH_THEME_GIT_PROMPT_DIRTY="$FG[145]) $FG[226]✗"
 export ZSH_THEME_GIT_PROMPT_CLEAN="$FG[145])"
