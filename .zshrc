@@ -7,7 +7,7 @@ export HISTSIZE=5000
 export VISUAL=/usr/bin/nvim
 export EDITOR=/usr/bin/nvim
 export MANPAGER='less -s -M +Gg'
-export FZF_DEFAULT_OPTS='--bind alt-q:abort --color=pointer:227'
+export FZF_DEFAULT_OPTS='--bind alt-q:abort --color=pointer:227,hl:131,hl+:131 --no-info'
 export FZF_CTRL_R_OPTS='-e --cycle --prompt "Command: " --no-info --layout reverse --height 100% --color=fg:15,hl:9,hl+:9'
 export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 export ZSH_HIGHLIGHT_STYLES[builtin]='fg=#91C34B'
@@ -54,20 +54,21 @@ alias rowsandcolumns='stty -a | head -n1 | cut -d ";" -f 2-3 | cut -b2- | sed "s
 alias listservices='systemctl list-units --type=service'
 alias prp='pipenv run python'
 alias tmuxbell="echo -e '\a'"
-# alias ffuf='ffuf -c'
-# alias wfuzz='wfuzz -c'
-alias -g md='mkdir -p'
-alias -g sc='systemctl'
-alias -g ipt='iptables'
-alias -g iptlist='iptables -L -n --line-numbers'
-alias -g ip6t='ip6tables'
-alias -g ip6tlist='ip6tables -L -n --line-numbers'
-# alias -g msfconsole='msfconsole --quiet'
-alias -g gdb='gdb --silent'
-alias -g xcopy='xclip -selection clipboard'
-alias -g xpaste='xclip -selection clipboard -o'
-alias -g starwars='beep -l 350 -f 392 -D 100 --new -l 350 -f 392 -D 100 --new -l 350 -f 392 -D 100 --new -l 250 -f 311.1 -D 100 --new -l 25 -f 466.2 -D 100 --new -l 350 -f 392 -D 100 --new -l 250 -f 311.1 -D 100 --new -l 25 -f 466.2 -D 100 --new -l 700 -f 392 -D 100 --new -l 350 -f 587.32 -D 100 --new -l 350 -f 587.32 -D 100 --new -l 350 -f 587.32 -D 100 --new -l 250 -f 622.26 -D 100 --new -l 25 -f 466.2 -D 100 --new -l 350 -f 369.99 -D 100 --new -l 250 -f 311.1 -D 100 --new -l 25 -f 466.2 -D 100 --new -l 700 -f 392 -D 100 --new -l 350 -f 784 -D 100 --new -l 250 -f 392 -D 100 --new -l 25 -f 392 -D 100 --new -l 350 -f 784 -D 100 --new -l 250 -f 739.98 -D 100 --new -l 25 -f 698.46 -D 100 --new -l 25 -f 659.26 -D 100 --new -l 25 -f 622.26 -D 100 --new -l 50 -f 659.26 -D 400 --new -l 25 -f 415.3 -D 200 --new -l 350 -f 554.36 -D 100 --new -l 250 -f 523.25 -D 100 --new -l 25 -f 493.88 -D 100 --new -l 25 -f 466.16 -D 100 --new -l 25 -f 440 -D 100 --new -l 50 -f 466.16 -D 400 --new -l 25 -f 311.13 -D 200 --new -l 350 -f 369.99 -D 100 --new -l 250 -f 311.13 -D 100 --new -l 25 -f 392 -D 100 --new -l 350 -f 466.16 -D 100 --new -l 250 -f 392 -D 100 --new -l 25 -f 466.16 -D 100 --new -l 700 -f 587.32 -D 100 --new -l 350 -f 784 -D 100 --new -l 250 -f 392 -D 100 --new -l 25 -f 392 -D 100 --new -l 350 -f 784 -D 100 --new -l 250 -f 739.98 -D 100 --new -l 25 -f 698.46 -D 100 --new -l 25 -f 659.26 -D 100 --new -l 25 -f 622.26 -D 100 --new -l 50 -f 659.26 -D 400 --new -l 25 -f 415.3 -D 200 --new -l 350 -f 554.36 -D 100 --new -l 250 -f 523.25 -D 100 --new -l 25 -f 493.88 -D 100 --new -l 25 -f 466.16 -D 100 --new -l 25 -f 440 -D 100 --new -l 50 -f 466.16 -D 400 --new -l 25 -f 311.13 -D 200 --new -l 350 -f 392 -D 100 --new -l 250 -f 311.13 -D 100 --new -l 25 -f 466.16 -D 100 --new -l 300 -f 392.00 -D 150 --new -l 250 -f 311.13 -D 100 --new -l 25 -f 466.16 -D 100 --new -l 700 -f 392'
-# alias impacket='cd /usr/share/doc/python3-impacket/examples/'
+alias ffuf='ffuf -c'
+alias wfuzz='wfuzz -c'
+alias md='mkdir -p'
+alias sc='systemctl'
+alias ipt='iptables'
+alias iptlist='iptables -L -n --line-numbers'
+alias ip6t='ip6tables'
+alias ip6tlist='ip6tables -L -n --line-numbers'
+alias msfconsole='msfconsole --quiet'
+alias gdb='gdb --silent'
+alias xcopy='xclip -selection clipboard'
+alias xpaste='xclip -selection clipboard -o'
+alias starwars='beep -l 350 -f 392 -D 100 --new -l 350 -f 392 -D 100 --new -l 350 -f 392 -D 100 --new -l 250 -f 311.1 -D 100 --new -l 25 -f 466.2 -D 100 --new -l 350 -f 392 -D 100 --new -l 250 -f 311.1 -D 100 --new -l 25 -f 466.2 -D 100 --new -l 700 -f 392 -D 100 --new -l 350 -f 587.32 -D 100 --new -l 350 -f 587.32 -D 100 --new -l 350 -f 587.32 -D 100 --new -l 250 -f 622.26 -D 100 --new -l 25 -f 466.2 -D 100 --new -l 350 -f 369.99 -D 100 --new -l 250 -f 311.1 -D 100 --new -l 25 -f 466.2 -D 100 --new -l 700 -f 392 -D 100 --new -l 350 -f 784 -D 100 --new -l 250 -f 392 -D 100 --new -l 25 -f 392 -D 100 --new -l 350 -f 784 -D 100 --new -l 250 -f 739.98 -D 100 --new -l 25 -f 698.46 -D 100 --new -l 25 -f 659.26 -D 100 --new -l 25 -f 622.26 -D 100 --new -l 50 -f 659.26 -D 400 --new -l 25 -f 415.3 -D 200 --new -l 350 -f 554.36 -D 100 --new -l 250 -f 523.25 -D 100 --new -l 25 -f 493.88 -D 100 --new -l 25 -f 466.16 -D 100 --new -l 25 -f 440 -D 100 --new -l 50 -f 466.16 -D 400 --new -l 25 -f 311.13 -D 200 --new -l 350 -f 369.99 -D 100 --new -l 250 -f 311.13 -D 100 --new -l 25 -f 392 -D 100 --new -l 350 -f 466.16 -D 100 --new -l 250 -f 392 -D 100 --new -l 25 -f 466.16 -D 100 --new -l 700 -f 587.32 -D 100 --new -l 350 -f 784 -D 100 --new -l 250 -f 392 -D 100 --new -l 25 -f 392 -D 100 --new -l 350 -f 784 -D 100 --new -l 250 -f 739.98 -D 100 --new -l 25 -f 698.46 -D 100 --new -l 25 -f 659.26 -D 100 --new -l 25 -f 622.26 -D 100 --new -l 50 -f 659.26 -D 400 --new -l 25 -f 415.3 -D 200 --new -l 350 -f 554.36 -D 100 --new -l 250 -f 523.25 -D 100 --new -l 25 -f 493.88 -D 100 --new -l 25 -f 466.16 -D 100 --new -l 25 -f 440 -D 100 --new -l 50 -f 466.16 -D 400 --new -l 25 -f 311.13 -D 200 --new -l 350 -f 392 -D 100 --new -l 250 -f 311.13 -D 100 --new -l 25 -f 466.16 -D 100 --new -l 300 -f 392.00 -D 150 --new -l 250 -f 311.13 -D 100 --new -l 25 -f 466.16 -D 100 --new -l 700 -f 392'
+alias impacket='cd /usr/share/doc/python3-impacket/examples/'
+alias htb='cd /opt/htb'
 
 bindkey '^[[A' up-line-or-search
 bindkey '^[[B' down-line-or-search
@@ -87,6 +88,7 @@ DISABLE_AUTO_UPDATE=true
 source $ZSH/oh-my-zsh.sh
 zstyle ':completion:*' special-dirs false
 bindkey '^ ' autosuggest-accept
+compinit /usr/share/zsh/functions/Completion/Unix/*
 
 export PROMPT='$FG[167]%n$FG[217]@$FG[215]%M $FG[109]%~ $(git_prompt_info)$FG[146]$%{$reset_color%} '
 export ZSH_THEME_GIT_PROMPT_PREFIX="$FG[145]git:($FG[226]"
@@ -94,4 +96,4 @@ export ZSH_THEME_GIT_PROMPT_DIRTY="$FG[145]) $FG[226]✗"
 export ZSH_THEME_GIT_PROMPT_CLEAN="$FG[145])"
 export ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} "
 
-source $HOME/.venv_tools
+source $HOME/.venvtools
