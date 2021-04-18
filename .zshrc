@@ -17,6 +17,7 @@ export ZSH_HIGHLIGHT_STYLES[global-alias]='fg=#91C34B'
 export ZSH_HIGHLIGHT_STYLES[alias]='fg=#91C34B'
 export ZSH_HIGHLIGHT_STYLES[function]='fg=#91C34B'
 export ZSH_HIGHLIGHT_STYLES[autodirectory]='fg=#91C34B'
+export ZSH_HIGHLIGHT_STYLES[arg0]='fg=#91C34B'
 export ZSH_HIGHLIGHT_STYLES[reserved-word]='fg=208'
 export ZSH_HIGHLIGHT_STYLES[globbing]='fg=174'
 export ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=227'
@@ -50,9 +51,7 @@ alias ip='ip -c'
 alias grep='grep --color=auto'
 alias http='http --style fruity'
 alias less='less -s -M +Gg'
-alias rowsandcolumns='stty -a | head -n1 | cut -d ";" -f 2-3 | cut -b2- | sed "s/; /\n/"'
 alias listservices='systemctl list-units --type=service'
-alias prp='pipenv run python'
 alias tmuxbell="echo -e '\a'"
 alias ffuf='ffuf -c'
 alias wfuzz='wfuzz -c'
@@ -66,8 +65,6 @@ alias msfconsole='msfconsole --quiet'
 alias gdb='gdb --silent'
 alias xcopy='xclip -selection clipboard'
 alias xpaste='xclip -selection clipboard -o'
-alias starwars='beep -l 350 -f 392 -D 100 --new -l 350 -f 392 -D 100 --new -l 350 -f 392 -D 100 --new -l 250 -f 311.1 -D 100 --new -l 25 -f 466.2 -D 100 --new -l 350 -f 392 -D 100 --new -l 250 -f 311.1 -D 100 --new -l 25 -f 466.2 -D 100 --new -l 700 -f 392 -D 100 --new -l 350 -f 587.32 -D 100 --new -l 350 -f 587.32 -D 100 --new -l 350 -f 587.32 -D 100 --new -l 250 -f 622.26 -D 100 --new -l 25 -f 466.2 -D 100 --new -l 350 -f 369.99 -D 100 --new -l 250 -f 311.1 -D 100 --new -l 25 -f 466.2 -D 100 --new -l 700 -f 392 -D 100 --new -l 350 -f 784 -D 100 --new -l 250 -f 392 -D 100 --new -l 25 -f 392 -D 100 --new -l 350 -f 784 -D 100 --new -l 250 -f 739.98 -D 100 --new -l 25 -f 698.46 -D 100 --new -l 25 -f 659.26 -D 100 --new -l 25 -f 622.26 -D 100 --new -l 50 -f 659.26 -D 400 --new -l 25 -f 415.3 -D 200 --new -l 350 -f 554.36 -D 100 --new -l 250 -f 523.25 -D 100 --new -l 25 -f 493.88 -D 100 --new -l 25 -f 466.16 -D 100 --new -l 25 -f 440 -D 100 --new -l 50 -f 466.16 -D 400 --new -l 25 -f 311.13 -D 200 --new -l 350 -f 369.99 -D 100 --new -l 250 -f 311.13 -D 100 --new -l 25 -f 392 -D 100 --new -l 350 -f 466.16 -D 100 --new -l 250 -f 392 -D 100 --new -l 25 -f 466.16 -D 100 --new -l 700 -f 587.32 -D 100 --new -l 350 -f 784 -D 100 --new -l 250 -f 392 -D 100 --new -l 25 -f 392 -D 100 --new -l 350 -f 784 -D 100 --new -l 250 -f 739.98 -D 100 --new -l 25 -f 698.46 -D 100 --new -l 25 -f 659.26 -D 100 --new -l 25 -f 622.26 -D 100 --new -l 50 -f 659.26 -D 400 --new -l 25 -f 415.3 -D 200 --new -l 350 -f 554.36 -D 100 --new -l 250 -f 523.25 -D 100 --new -l 25 -f 493.88 -D 100 --new -l 25 -f 466.16 -D 100 --new -l 25 -f 440 -D 100 --new -l 50 -f 466.16 -D 400 --new -l 25 -f 311.13 -D 200 --new -l 350 -f 392 -D 100 --new -l 250 -f 311.13 -D 100 --new -l 25 -f 466.16 -D 100 --new -l 300 -f 392.00 -D 150 --new -l 250 -f 311.13 -D 100 --new -l 25 -f 466.16 -D 100 --new -l 700 -f 392'
-alias impacket='cd /usr/share/doc/python3-impacket/examples/'
 alias htb='cd /opt/htb'
 
 bindkey '^[[A' up-line-or-search
@@ -90,7 +87,7 @@ zstyle ':completion:*' special-dirs false
 bindkey '^ ' autosuggest-accept
 compinit /usr/share/zsh/functions/Completion/Unix/*
 
-export PROMPT='$FG[167]%n$FG[217]@$FG[215]%M $FG[109]%~ $(git_prompt_info)$FG[146]$%{$reset_color%} '
+export PROMPT='$FG[167]%n$FG[217]@$FG[215]%M $FG[109]%~ $(git_prompt_info)$FG[146]#%{$reset_color%} '
 export ZSH_THEME_GIT_PROMPT_PREFIX="$FG[145]git:($FG[226]"
 export ZSH_THEME_GIT_PROMPT_DIRTY="$FG[145]) $FG[226]✗"
 export ZSH_THEME_GIT_PROMPT_CLEAN="$FG[145])"
