@@ -39,7 +39,7 @@ setopt NOTIFY
 setopt AUTOCD
 
 HISTORY_IGNORE="(history|ls|la|ll|lla|cd|clear|cls)"
-plugins=(git sudo tmux systemd nmap httpie dirhistory fzf fzf-tab zsh-autosuggestions zsh-syntax-highlighting docker rsync)
+plugins=(git sudo tmux systemd nmap httpie dirhistory fzf fzf-tab zsh-autosuggestions zsh-syntax-highlighting docker rsync pip)
 
 alias l='ls -A --color=auto'
 alias ls='ls -A --color=auto'
