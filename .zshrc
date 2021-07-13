@@ -54,7 +54,7 @@ alias grep='grep --color=auto'
 alias http='http --style fruity'
 alias less='less -s -M +Gg'
 alias listservices='systemctl list-units --type=service'
-alias tmuxbell="echo -e '\a'"
+alias tmux_notify="echo -e '\a'"
 alias wfuzz='wfuzz -c'
 alias md='mkdir -p'
 alias msfconsole='msfconsole --quiet'
@@ -62,7 +62,6 @@ alias gdb='gdb --silent'
 alias xcopy='xclip -selection clipboard'
 alias xpaste='xclip -selection clipboard -o'
 alias htb='cd /opt/htb'
-alias vim='nvim'
 alias hash-identifier='rlwrap hash-identifier'
 
 bindkey '^[[A' up-line-or-search

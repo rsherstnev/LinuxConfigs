@@ -1,7 +1,8 @@
 call plug#begin('~/.vim/plugins')
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'bling/vim-airline'
-Plug 'dracula/vim'
+Plug 'morhetz/gruvbox'
+Plug 'vim-airline/vim-airline-themes'
 call plug#end()
 
 syntax on
@@ -19,14 +20,17 @@ set noswapfile
 set iminsert=0
 set autoindent
 set mouse=a
+set list
 set t_Co=256
+set background=dark
+
+colorscheme gruvbox
+let g:airline_theme='wombat'
 
 nnoremap k gk
 nnoremap gk k
 nnoremap j gj
 nnoremap gj j
-
-colorscheme dracula
 
 map <F1> :NERDTreeToggle<CR>
 
