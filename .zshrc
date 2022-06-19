@@ -11,6 +11,7 @@ export EDITOR=/usr/bin/nvim
 export MANPAGER='less -Mr +Gg'
 export FZF_DEFAULT_OPTS='--bind alt-q:abort --color=pointer:227,hl:131,hl+:131 --no-info'
 export FZF_CTRL_R_OPTS='-e --cycle --prompt "Command: " --no-info --layout reverse --height 100% --color=fg:15,hl:9,hl+:9'
+export ZSH_TMUX_AUTOSTART=true
 export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 export ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=160'
 export ZSH_HIGHLIGHT_STYLES[builtin]='fg=107'
@@ -61,8 +62,6 @@ alias msfconsole='msfconsole --quiet'
 alias gdb='gdb --silent'
 alias xcopy='xclip -selection clipboard'
 alias xpaste='xclip -selection clipboard -o'
-alias htb='cd /opt/htb'
-alias hash-identifier='rlwrap hash-identifier'
 
 bindkey '^[[A' up-line-or-search
 bindkey '^[[B' down-line-or-search
