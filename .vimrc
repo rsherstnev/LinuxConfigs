@@ -1,8 +1,10 @@
 call plug#begin('~/.vim/plugins')
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
-Plug 'bling/vim-airline'
-Plug 'morhetz/gruvbox'
+Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'flazz/vim-colorschemes'
+Plug 'xolox/vim-colorscheme-switcher'
+Plug 'xolox/vim-misc'
 call plug#end()
 
 syntax on
@@ -24,7 +26,7 @@ set list
 set t_Co=256
 set background=dark
 
-colorscheme gruvbox
+colorscheme habamax
 let g:airline_theme='wombat'
 
 nnoremap k gk

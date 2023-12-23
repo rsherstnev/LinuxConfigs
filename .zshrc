@@ -89,8 +89,6 @@ export ZSH_THEME_GIT_PROMPT_DIRTY="$FG[145]]:[$FG[228]✗$FG[145]] "
 export ZSH_THEME_GIT_PROMPT_CLEAN="$FG[145]] "
 export ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
 
-source $HOME/.venvtools
-
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi

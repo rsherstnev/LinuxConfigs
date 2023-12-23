@@ -1,10 +1,9 @@
 [user]
-	email = guesswhat:)
 	name = NordeN
+	email = sher-rom2013@yandex.ru
 [core]
 	longpaths = true
 	quotepath = off
-	autocrlf = true	# "input" for Linux
 	safecrlf = warn
 	editor = vim
 [merge]
