@@ -1,17 +1,20 @@
 typeset -A ZSH_HIGHLIGHT_STYLES
 
+DISABLE_AUTO_UPDATE=true
+HIST_STAMPS="dd.mm.yyyy"
+
 export ZSH=$HOME/.oh-my-zsh
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
 export HISTFILE=$HOME/.zsh_history
 export SAVEHIST=5000
 export HISTSIZE=5000
 export VISUAL=/usr/bin/nvim
 export EDITOR=/usr/bin/nvim
 export MANPAGER='less -Mr +Gg'
+export ZSH_TMUX_AUTOSTART=true
+# Настройки плагина fzf-tab
 export FZF_DEFAULT_OPTS='--bind alt-q:abort --color=pointer:227,hl:131,hl+:131 --no-info'
 export FZF_CTRL_R_OPTS='-e --cycle --prompt "Command: " --no-info --layout reverse --height 100% --color=fg:15,hl:9,hl+:9'
-export ZSH_TMUX_AUTOSTART=true
+# Настройки плагина zsh-syntax-highlighting
 export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 export ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=160'
 export ZSH_HIGHLIGHT_STYLES[builtin]='fg=107'
@@ -42,14 +45,41 @@ setopt NOTIFY
 setopt AUTOCD
 
 HISTORY_IGNORE="(history|ls|la|ll|lla|cd|clear|cls)"
-plugins=(git sudo tmux systemd httpie dirhistory fzf fzf-tab zsh-autosuggestions zsh-syntax-highlighting docker rsync pip python)
+
+plugins=(
+  git
+  sudo
+  tmux
+  systemd
+  httpie
+  dirhistory
+  fzf  
+  docker
+  rsync
+  python
+  pip
+  pipenv
+  pyenv
+  poetry
+  aliases
+  colored-man-pages
+  colorize
+  command-not-found
+  copybuffer
+  firewalld
+  themes
+  thefuck
+  fzf-tab
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+)
 
 alias ls='ls -A --color=auto'
 alias la='ls -aA --color=auto'
 alias ll='ls -lA --color=auto'
 alias lla='ls -laA --color=auto'
 alias cls='clear'
-alias clsh='truncate -s 0 $HISTFILE && reset'
+alias clshist='truncate -s 0 $HISTFILE && reset'
 alias ip='ip -c'
 alias grep='grep --color=auto'
 alias http='http --style fruity'
@@ -63,32 +93,30 @@ alias gdb='gdb --silent'
 alias xcopy='xclip -selection clipboard'
 alias xpaste='xclip -selection clipboard -o'
 
+source $ZSH/oh-my-zsh.sh
+
+zstyle ':completion:*' special-dirs false
+
 bindkey '^[[A' up-line-or-search
 bindkey '^[[B' down-line-or-search
-
-man() {
-    env LESS_TERMCAP_mb=$'\E[01;31m' \
-    LESS_TERMCAP_md=$'\E[38;5;113m' \
-    LESS_TERMCAP_me=$'\E[0m' \
-    LESS_TERMCAP_se=$'\E[0m' \
-    LESS_TERMCAP_so=$'\E[38;5;167;1m' \
-    LESS_TERMCAP_ue=$'\E[0m' \
-    LESS_TERMCAP_us=$'\E[04;38;5;146m' \
-    man "$@"
-}
-
-DISABLE_AUTO_UPDATE=true
-source $ZSH/oh-my-zsh.sh
-zstyle ':completion:*' special-dirs false
 bindkey '^ ' autosuggest-accept
-compinit /usr/share/zsh/functions/Completion/Unix/*
 
+# Настройки Shell Prompt
 export PROMPT='$FG[167]%n$FG[217]@$FG[215]%M $FG[109]%~ $(git_prompt_info)%{$reset_color%}$FG[224]# '
 export ZSH_THEME_GIT_PROMPT_PREFIX="$FG[145]git:[$FG[228]"
 export ZSH_THEME_GIT_PROMPT_DIRTY="$FG[145]]:[$FG[228]✗$FG[145]] "
 export ZSH_THEME_GIT_PROMPT_CLEAN="$FG[145]] "
 export ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
 
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
+# Настройка плагина colored-man-pages
+typeset -AHg less_termcap
+less_termcap[mb]="${fg_bold[red]}" # 
+less_termcap[md]="${fg_bold[green]}" # параметры
+less_termcap[me]="${reset_color}"
+less_termcap[se]="${reset_color}"
+less_termcap[so]="${fg_bold[yellow]}" # строка состояния
+less_termcap[ue]="${reset_color}"
+less_termcap[us]="${fg_bold[red]}" # аргументы параметров
+
+# Подгрузка кастомных автодополнений для zsh
+fpath=($ZSH/custom/completions/ $fpath)
