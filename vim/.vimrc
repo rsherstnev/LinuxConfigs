@@ -9,6 +9,7 @@ call plug#end()
 
 syntax on
 set number
+set cursorline
 set tabstop=4
 set shiftwidth=4
 set smarttab
@@ -23,11 +24,17 @@ set iminsert=0
 set autoindent
 set mouse=a
 set list
+set shortmess=atI
 set t_Co=256
 set background=dark
 
 colorscheme habamax
 let g:airline_theme='wombat'
+
+set backupdir=$HOME/.vim/backups
+set directory=$HOME/.vim/swaps
+if exists("&undodir")
+	set undodir=$HOME/.vim/undo
 
 nnoremap k gk
 nnoremap gk k
