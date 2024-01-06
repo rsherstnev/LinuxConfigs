@@ -79,18 +79,22 @@ plugins=(
   zsh-syntax-highlighting
 )
 
+source $ZSH/oh-my-zsh.sh
+
 alias ls='exa --group-directories-first --icons=always --git --color=always'
-alias l='exa --oneline --group-directories-first --icons=always --git --color=always'
-alias la='exa -a --group-directories-first --icons=always --git --color=always'
-alias ll='exa -lh --group-directories-first --icons=always --git --color=always'
-alias lla='exa -lha --group-directories-first --icons=always --git --color=always'
-alias lg='exa --grid --group-directories-first --icons=always --git --color=always'
-alias lga='exa --grid -a --group-directories-first --icons=always --git --color=always'
-alias llm='exa -lh --group-directories-first --icons=always --git --color=always --sort=modified'
-alias llma='exa -lha --group-directories-first --icons=always --git --color=always --sort=modified'
-alias lt='exa --tree --level 2 --group-directories-first --icons=always --git --color=always'
-alias lta='exa --tree -a --level 2 --group-directories-first --icons=always --git --color=always'
-alias lx='exa -lhaHigUmu@ --changed --time-style="+%H:%M:%S %d.%m.%Y" --group-directories-first --icons=always --git --color=always --color-scale --total-size'
+alias l='ls --oneline'
+alias la='ls -a'
+alias ll='ls -lh'
+alias lla='ll -a'
+alias lg='ls --grid'
+alias lga='lg -a '
+alias llg='ll --grid'
+alias llga='llg -a'
+alias llm='ll --sort=modified --reverse'
+alias llma='llm -a'
+alias lt='ls --tree --level 2'
+alias lta='lt -a'
+alias lx='lla -gUmu@ --changed --time-style="+%H:%M:%S %d.%m.%Y" --color-scale --total-size'
 alias cls='clear'
 alias clshist='truncate -s 0 $HISTFILE && reset'
 alias ip='ip -c'
@@ -106,8 +110,6 @@ alias gdb='gdb --silent'
 alias xcopy='xclip -selection clipboard'
 alias xpaste='xclip -selection clipboard -o'
 alias hg='history | grep'
-
-source $ZSH/oh-my-zsh.sh
 
 # Настройки автодополнения zsh
 zstyle ':completion:*' special-dirs false
