@@ -5,13 +5,16 @@ HIST_STAMPS="dd.mm.yyyy"
 
 export ZSH=$HOME/.oh-my-zsh
 export HISTFILE=$HOME/.zsh_history
+export HTB=/opt/htb
 export SAVEHIST=5000
 export HISTSIZE=5000
 export VISUAL=/usr/bin/nvim
 export EDITOR=/usr/bin/nvim
 export MANPAGER='less -Mr +Gg'
 export ZSH_TMUX_AUTOSTART=true
-# Настройки плагина fzf-tab
+# Настройки fzf
+export FZF_DEFAULT_COMMAND="fd --hidden"
+export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND --type d"
 export FZF_DEFAULT_OPTS='--bind alt-q:abort --color=pointer:227,hl:131,hl+:131 --no-info'
 export FZF_CTRL_R_OPTS='-e --cycle --prompt "Command: " --no-info --layout reverse --height 100% --color=fg:15,hl:9,hl+:9'
 # Настройки плагина zsh-syntax-highlighting
@@ -31,6 +34,8 @@ export ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=227'
 export ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=227'
 export ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter]='fg=125'
 export ZSH_HIGHLIGHT_STYLES[path]='fg=248,underline'
+# Настройки плагина zsh-autosuggestions
+# TODO
 
 setopt SHARE_HISTORY
 setopt EXTENDED_HISTORY
@@ -74,10 +79,18 @@ plugins=(
   zsh-syntax-highlighting
 )
 
-alias ls='ls -A --color=auto'
-alias la='ls -aA --color=auto'
-alias ll='ls -lA --color=auto'
-alias lla='ls -laA --color=auto'
+alias ls='exa --group-directories-first --icons=always --git --color=always'
+alias l='exa --oneline --group-directories-first --icons=always --git --color=always'
+alias la='exa -a --group-directories-first --icons=always --git --color=always'
+alias ll='exa -lh --group-directories-first --icons=always --git --color=always'
+alias lla='exa -lha --group-directories-first --icons=always --git --color=always'
+alias lg='exa --grid --group-directories-first --icons=always --git --color=always'
+alias lga='exa --grid -a --group-directories-first --icons=always --git --color=always'
+alias llm='exa -lh --group-directories-first --icons=always --git --color=always --sort=modified'
+alias llma='exa -lha --group-directories-first --icons=always --git --color=always --sort=modified'
+alias lt='exa --tree --level 2 --group-directories-first --icons=always --git --color=always'
+alias lta='exa --tree -a --level 2 --group-directories-first --icons=always --git --color=always'
+alias lx='exa -lhaHigUmu@ --changed --time-style="+%H:%M:%S %d.%m.%Y" --group-directories-first --icons=always --git --color=always --color-scale --total-size'
 alias cls='clear'
 alias clshist='truncate -s 0 $HISTFILE && reset'
 alias ip='ip -c'
@@ -92,10 +105,17 @@ alias msfconsole='msfconsole --quiet'
 alias gdb='gdb --silent'
 alias xcopy='xclip -selection clipboard'
 alias xpaste='xclip -selection clipboard -o'
+alias hg='history | grep'
 
 source $ZSH/oh-my-zsh.sh
 
+# Настройки автодополнения zsh
 zstyle ':completion:*' special-dirs false
+# Настройки плагина fzf-tab
+zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+zstyle ':fzf-tab:complete:(vim|less|cat):*' fzf-preview 'bat --style=numbers --color=always --line-range :500 $realpath'
+zstyle ':fzf-tab:complete:systemctl-*:*' fzf-preview 'SYSTEMD_COLORS=1 systemctl status $word'
 
 bindkey '^[[A' up-line-or-search
 bindkey '^[[B' down-line-or-search
@@ -119,4 +139,4 @@ less_termcap[ue]="${reset_color}"
 less_termcap[us]="${fg_bold[red]}" # аргументы параметров
 
 # Подгрузка кастомных автодополнений для zsh
-fpath=($ZSH/custom/completions/ $fpath)
+fpath=($HOME/zsh-custom-completions/ $fpath)

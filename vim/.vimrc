@@ -1,10 +1,13 @@
 call plug#begin('~/.vim/plugins')
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'flazz/vim-colorschemes'
 Plug 'xolox/vim-colorscheme-switcher'
 Plug 'xolox/vim-misc'
+Plug 'psliwka/vim-smoothie'
 call plug#end()
 
 syntax on
@@ -35,6 +38,7 @@ set backupdir=$HOME/.vim/backups
 set directory=$HOME/.vim/swaps
 if exists("&undodir")
 	set undodir=$HOME/.vim/undo
+endif
 
 nnoremap k gk
 nnoremap gk k
