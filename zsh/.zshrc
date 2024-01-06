@@ -13,10 +13,10 @@ export EDITOR=/usr/bin/nvim
 export MANPAGER='less -Mr +Gg'
 export ZSH_TMUX_AUTOSTART=true
 # Настройки fzf
-export FZF_DEFAULT_COMMAND="fd --hidden"
-export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND --type d"
+export FZF_ALT_C_COMMAND="fd --hidden --type d"
 export FZF_DEFAULT_OPTS='--bind alt-q:abort --color=pointer:227,hl:131,hl+:131 --no-info'
 export FZF_CTRL_R_OPTS='-e --cycle --prompt "Command: " --no-info --layout reverse --height 100% --color=fg:15,hl:9,hl+:9'
+export FZF_CTRL_T_OPTS='--preview "bat -n --color=always {}" --bind "ctrl-/:change-preview-window(down|hidden|)"'
 # Настройки плагина zsh-syntax-highlighting
 export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 export ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=160'
@@ -114,10 +114,7 @@ alias hg='history | grep'
 # Настройки автодополнения zsh
 zstyle ':completion:*' special-dirs false
 # Настройки плагина fzf-tab
-zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
-zstyle ':fzf-tab:complete:(vim|less|cat):*' fzf-preview 'bat --style=numbers --color=always --line-range :500 $realpath'
-zstyle ':fzf-tab:complete:systemctl-*:*' fzf-preview 'SYSTEMD_COLORS=1 systemctl status $word'
 
 bindkey '^[[A' up-line-or-search
 bindkey '^[[B' down-line-or-search
