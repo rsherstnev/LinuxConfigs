@@ -138,4 +138,9 @@ less_termcap[ue]="${reset_color}"
 less_termcap[us]="${fg_bold[red]}" # аргументы параметров
 
 # Подгрузка кастомных автодополнений для zsh
-fpath=($HOME/zsh-custom-completions/ $fpath)
+fpath=(
+    $HOME/zsh-custom-completions
+    $fpath
+)
+autoload -Uz compinit
+compinit
