@@ -6,9 +6,17 @@
 	quotepath = off
 	safecrlf = warn
 	editor = vim
-[merge]
-	tool = meld
 [diff]
 	tool = meld
+[difftool "meld"]
+    cmd = meld $LOCAL $REMOTE
+[merge]
+	tool = meld
+[mergetool "meld"]
+    prompt = false
+    keepBackup = true
+    cmd = meld "$LOCAL" "$MERGED" "$REMOTE" --output="$MERGED"
 [alias]
 	lore = log --all --pretty=format:'%C(174)%h%C(auto)%d %C(114)[%s]'
+	df = difftool --dir-diff
+    mt = mergetool -t meld

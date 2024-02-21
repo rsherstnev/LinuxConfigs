@@ -34,8 +34,6 @@ export ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=227'
 export ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=227'
 export ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter]='fg=125'
 export ZSH_HIGHLIGHT_STYLES[path]='fg=248,underline'
-# Настройки плагина zsh-autosuggestions
-# TODO
 
 setopt SHARE_HISTORY
 setopt EXTENDED_HISTORY
@@ -118,10 +116,12 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
 
 bindkey '^[[A' up-line-or-search
 bindkey '^[[B' down-line-or-search
+# Настройки плагина zsh-autosuggestions
 bindkey '^ ' autosuggest-accept
 
 # Настройки Shell Prompt
-export PROMPT='$FG[167]%n$FG[217]@$FG[215]%M $FG[109]%~ $(git_prompt_info)%{$reset_color%}$FG[224]# '
+export PROMPT='$FG[224]┌──[%F{8}%*%f$FG[224]]-[$FG[167]%n$FG[217]@$FG[215]%M$FG[224]]-[$FG[109]%~$FG[224]] $(git_prompt_info)%{$reset_color%}
+└─$FG[224]# '
 export ZSH_THEME_GIT_PROMPT_PREFIX="$FG[145]git:[$FG[228]"
 export ZSH_THEME_GIT_PROMPT_DIRTY="$FG[145]]:[$FG[228]✗$FG[145]] "
 export ZSH_THEME_GIT_PROMPT_CLEAN="$FG[145]] "
