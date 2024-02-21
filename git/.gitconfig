@@ -1,22 +1,22 @@
 [user]
-	name = NordeN
-	email = sher-rom2013@yandex.ru
+    name = NordeN
+    email = sher-rom2013@yandex.ru
 [core]
-	longpaths = true
-	quotepath = off
-	safecrlf = warn
-	editor = vim
+    longpaths = true
+    quotepath = off
+    safecrlf = warn
+    editor = vim
 [diff]
-	tool = meld
+    tool = meld
 [difftool "meld"]
     cmd = meld $LOCAL $REMOTE
 [merge]
-	tool = meld
+    tool = meld
 [mergetool "meld"]
     prompt = false
-    keepBackup = true
+    keepBackup = false
     cmd = meld "$LOCAL" "$MERGED" "$REMOTE" --output="$MERGED"
 [alias]
-	lore = log --all --pretty=format:'%C(174)%h%C(auto)%d %C(114)[%s]'
-	df = difftool --dir-diff
+    lore = log --all --pretty=format:'%C(174)%h%C(auto)%d %C(114)[%s]'
+    df = difftool -t meld
     mt = mergetool -t meld
