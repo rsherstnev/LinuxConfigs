@@ -19,6 +19,15 @@ export MANPAGER="/usr/bin/most -s"
 export VISUAL="/usr/bin/nvim"
 export EDITOR="/usr/bin/nvim"
 
+export LESS_TERMCAP_mb=$'\033[01;36m'
+export LESS_TERMCAP_md=$'\033[01;32m'
+export LESS_TERMCAP_me=$'\033[0m'
+export LESS_TERMCAP_mu=$'\033[01;37m'
+export LESS_TERMCAP_se=$'\033[0m'
+export LESS_TERMCAP_so=$'\033[01;44;33m'
+export LESS_TERMCAP_ue=$'\033[0m'
+export LESS_TERMCAP_us=$'\033[01;36m'
+
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
