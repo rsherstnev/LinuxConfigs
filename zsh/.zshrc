@@ -65,6 +65,7 @@ plugins=(
   pyenv
   poetry
   aliases
+  emoji
   colored-man-pages
   colorize
   command-not-found
@@ -108,6 +109,8 @@ alias gdb='gdb --silent'
 alias xcopy='xclip -selection clipboard'
 alias xpaste='xclip -selection clipboard -o'
 alias hg='history | grep'
+alias mc='env LANG=ru_RU.UTF-8 mc'
+alias sudomc='sudo env LANG=ru_RU.UTF-8 mc'
 
 # Настройки автодополнения zsh
 zstyle ':completion:*' special-dirs false
