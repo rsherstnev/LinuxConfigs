@@ -108,9 +108,10 @@ alias msfconsole='msfconsole --quiet'
 alias gdb='gdb --silent'
 alias xcopy='xclip -selection clipboard'
 alias xpaste='xclip -selection clipboard -o'
-alias hg='history | grep'
+alias gh='history | grep'
 alias mc='env LANG=ru_RU.UTF-8 mc'
 alias sudomc='sudo env LANG=ru_RU.UTF-8 mc'
+alias catnotcomment='sed -e "/^#/d "'
 
 # Настройки автодополнения zsh
 zstyle ':completion:*' special-dirs false

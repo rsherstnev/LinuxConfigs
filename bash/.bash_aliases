@@ -36,6 +36,7 @@ alias du='du -ch'
 alias free='free -h'
 alias wget="wget -c"
 alias myexternalip='dig +short myip.opendns.com @resolver1.opendns.com'
+alias catnotcomment='sed -e "/^#/d "'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
