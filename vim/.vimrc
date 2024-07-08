@@ -27,6 +27,7 @@ set ignorecase
 set smartcase
 set showmatch
 set noerrorbells
+set listchars=tab:→\ ,trail:␣,extends:…,eol:$,space:·
 set iminsert=0
 set mouse=a
 
