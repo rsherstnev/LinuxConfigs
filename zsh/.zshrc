@@ -111,8 +111,8 @@ alias xpaste='xclip -selection clipboard -o'
 alias gh='history | grep'
 alias mc='env LANG=ru_RU.UTF-8 mc'
 alias sudomc='sudo env LANG=ru_RU.UTF-8 mc'
-alias catwithoutcomments='sed -e "/^#/d "'
-alias sudo='sudo -E'
+alias catwithoutcomments='grep -v "^$\|^#"'
+alias sudovim='sudo -E vim'
 
 # Настройки автодополнения zsh
 zstyle ':completion:*' special-dirs false
