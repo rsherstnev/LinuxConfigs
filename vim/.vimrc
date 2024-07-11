@@ -27,6 +27,9 @@ set ignorecase
 set smartcase
 set showmatch
 set noerrorbells
+set nobackup
+set noswapfile
+set noundofile
 set listchars=tab:→\ ,trail:␣,extends:…,eol:$,space:·
 set iminsert=0
 set mouse=a
@@ -34,17 +37,6 @@ set mouse=a
 set background=dark
 colorscheme catppuccin-mocha
 let g:airline_theme='wombat'
-
-set backup
-if !isdirectory("$HOME/.vim/backups")
-    silent! execute "!mkdir -p $HOME/.vim/backups"
-endif
-set backupdir=$HOME/.vim/backups
-
-if !isdirectory("$HOME/.vim/swaps")
-    silent! execute "!mkdir -p $HOME/.vim/swaps"
-endif
-set directory=$HOME/.vim/swaps
 
 nnoremap k gk
 nnoremap gk k
