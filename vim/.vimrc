@@ -30,7 +30,7 @@ set noerrorbells
 set nobackup
 set noswapfile
 set noundofile
-set listchars=tab:→\ ,trail:␣,extends:…,eol:$,space:·
+set listchars=tab:→\ ,trail:␣,extends:…,space:·,eol:$
 set iminsert=0
 set mouse=a
 
