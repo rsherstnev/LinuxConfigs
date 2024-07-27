@@ -26,11 +26,11 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    local _COLOR_RESET=$(tput sgr0)
-    local _COLOR1=$(tput bold setaf 167)
-    local _COLOR2=$(tput bold setaf 217)
-    local _COLOR3=$(tput bold setaf 215)
-    local _COLOR4=$(tput bold setaf 23)
+    _COLOR_RESET=$(tput sgr0)
+    _COLOR1=$(tput bold setaf 167)
+    _COLOR2=$(tput bold setaf 217)
+    _COLOR3=$(tput bold setaf 215)
+    _COLOR4=$(tput bold setaf 23)
     PS1='[${_COLOR1}\u${_COLOR2}@${_COLOR3}\H ${_COLOR4}\w${_COLOR_RESET}]\$ '
 else
     PS1='[\u@\H \w]\$ '
@@ -62,14 +62,14 @@ export EDITOR=vim
 
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-export LESS_TERMCAP_mb=$'\033[01;36m'
-export LESS_TERMCAP_md=$'\033[01;32m'
-export LESS_TERMCAP_me=$'\033[0m'
-export LESS_TERMCAP_mu=$'\033[01;37m'
-export LESS_TERMCAP_se=$'\033[0m'
-export LESS_TERMCAP_so=$'\033[01;33m'
-export LESS_TERMCAP_ue=$'\033[0m'
-export LESS_TERMCAP_us=$'\033[01;36m'
+export LESS_TERMCAP_mb=$'\e[1;36m'
+export LESS_TERMCAP_md=$'\e[1;32m'
+export LESS_TERMCAP_me=$'\e[0m'
+export LESS_TERMCAP_mu=$'\e[1;37m'
+export LESS_TERMCAP_se=$'\e[0m'
+export LESS_TERMCAP_so=$'\e[1;91m'
+export LESS_TERMCAP_ue=$'\e[0m'
+export LESS_TERMCAP_us=$'\e[1;36m'
 
 if [ -d ~/.bashrc.d ]; then
     for rc in ~/.bashrc.d/*; do
