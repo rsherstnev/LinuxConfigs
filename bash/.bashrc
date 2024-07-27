@@ -46,14 +46,14 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+    source ~/.bash_aliases
 fi
 
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
+    source /usr/share/bash-completion/bash_completion
   elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
+    source /etc/bash_completion
   fi
 fi
 
@@ -72,11 +72,11 @@ export LESS_TERMCAP_ue=$'\033[0m'
 export LESS_TERMCAP_us=$'\033[01;36m'
 
 if [ -d ~/.bashrc.d ]; then
-	for rc in ~/.bashrc.d/*; do
-		if [ -f "$rc" ]; then
-			. "$rc"
-		fi
-	done
+    for rc in ~/.bashrc.d/*; do
+        if [ -f "$rc" ]; then
+            source "$rc"
+        fi
+    done
 fi
 
 unset rc
