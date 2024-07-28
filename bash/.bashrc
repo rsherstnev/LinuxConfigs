@@ -26,12 +26,12 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    _COLOR_RESET=$(tput sgr0)
-    _COLOR1=$(tput bold setaf 167)
-    _COLOR2=$(tput bold setaf 217)
-    _COLOR3=$(tput bold setaf 215)
-    _COLOR4=$(tput bold setaf 23)
-    PS1='[${_COLOR1}\u${_COLOR2}@${_COLOR3}\H ${_COLOR4}\w${_COLOR_RESET}]\$ '
+    COLOR_RESET=$(tput sgr0)
+    COLOR1=$(tput bold)$(tput setaf 167)
+    COLOR2=$(tput setaf 144)
+    COLOR3=$(tput setaf 216)
+    COLOR4=$(tput setaf 23)
+    PS1="[${COLOR1}\u${COLOR2}㉿${COLOR3}\h ${COLOR4}\w${COLOR_RESET}]$ "
 else
     PS1='[\u@\H \w]\$ '
 fi
