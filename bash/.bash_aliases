@@ -1,4 +1,4 @@
-alias ls='exa --group-directories-first --git --color=always'
+alias ls='eza --group-directories-first --git --color=always'
 alias l='ls --oneline'
 alias la='ls -a'
 alias ll='ls -lh'
@@ -21,7 +21,12 @@ alias fgrep='fgrep -F --color=auto'
 alias less='less -s -M +Gg'
 alias mkdir='mkdir -p'
 alias http='http --style lovelace'
-alias listservices='systemctl list-units --type=service'
+alias ctlstat="systemctl status"
+alias ctlstart="systemctl start"
+alias ctlrestart="systemctl restart"
+alias ctlstop="systemctl stop"
+alias systemctl-services='systemctl list-units --type=service'
+alias systemctl-running='systemctl --type=service --state=running'
 alias ipt='iptables'
 alias iptlist='iptables -L -n --line-numbers'
 alias ip6t='ip6tables'
@@ -38,6 +43,8 @@ alias wget="wget -c"
 alias myexternalip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias catwithoutcomments='grep -v "^$\|^#"'
 alias sudovim='sudo -E vim'
+alias checkcommand="type -t"
+alias pipenv-run='pipenv run python'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
@@ -45,3 +52,9 @@ alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 alias .......='cd ../../../../../..'
 alias ........='cd ../../../../../../..'
+
+ctlstartandstat ()
+{
+	systemctl start "$1"
+    systemctl status "$1"
+}
