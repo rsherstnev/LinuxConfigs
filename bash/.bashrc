@@ -57,6 +57,8 @@ export EDITOR=vim
 
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
+export GREP_COLORS='ms=01;33'
+
 export LESS_TERMCAP_mb=$'\e[1;36m'
 export LESS_TERMCAP_md=$'\e[1;32m'
 export LESS_TERMCAP_me=$'\e[0m'
