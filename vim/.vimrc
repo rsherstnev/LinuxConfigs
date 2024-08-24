@@ -33,10 +33,19 @@ set noundofile
 set listchars=tab:→\ ,trail:␣,extends:…,space:·,eol:$
 set iminsert=0
 set mouse=a
+set wrap
+set linebreak
+set laststatus=2
 
-set background=dark
-colorscheme catppuccin-mocha
+set t_Co=256
+if has('termguicolors')
+    set termguicolors
+endif
+"colorscheme gruvbox
+"colorscheme habamax
+colorscheme iceberg
 let g:airline_theme='wombat'
+set background=dark
 
 nnoremap k gk
 nnoremap gk k
