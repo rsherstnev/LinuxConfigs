@@ -1,5 +1,7 @@
 set completion-ignore-case
-"\eOP": menu-complete-backward
-"\eOQ": menu-complete
-"\e[5~": history-search-backward
-"\e[6~": history-search-forward
+set echo-control-characters off
+
+"\e[Z": menu-complete
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+"\es": "\C-asudo \C-e"
