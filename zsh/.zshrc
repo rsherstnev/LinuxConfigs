@@ -79,40 +79,7 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
-
-alias ls='exa --group-directories-first --icons=always --git --color=always'
-alias l='ls --oneline'
-alias la='ls -a'
-alias ll='ls -lh'
-alias lla='ll -a'
-alias lg='ls --grid'
-alias lga='lg -a '
-alias llg='ll --grid'
-alias llga='llg -a'
-alias llm='ll --sort=modified --reverse'
-alias llma='llm -a'
-alias lt='ls --tree --level 2'
-alias lta='lt -a'
-alias lx='lla -gUmu@ --changed --time-style="+%H:%M:%S %d.%m.%Y" --color-scale --total-size'
-alias cls='clear'
-alias clshist='truncate -s 0 $HISTFILE && reset'
-alias ip='ip -c'
-alias grep='grep --color=auto'
-alias http='http --style fruity'
-alias less='less -s -M +Gg'
-alias listservices='systemctl list-units --type=service'
-alias tmux_notify="echo -e '\a'"
-alias wfuzz='wfuzz -c'
-alias md='mkdir -p'
-alias msfconsole='msfconsole --quiet'
-alias gdb='gdb --silent'
-alias xcopy='xclip -selection clipboard'
-alias xpaste='xclip -selection clipboard -o'
-alias gh='history | grep'
-alias mc='env LANG=ru_RU.UTF-8 mc'
-alias sudomc='sudo env LANG=ru_RU.UTF-8 mc'
-alias catwithoutcomments='grep -v "^$\|^#"'
-alias sudovim='sudo -E vim'
+source $HOME/.zsh_aliases
 
 # Настройки автодополнения zsh
 zstyle ':completion:*' special-dirs false
@@ -144,7 +111,7 @@ less_termcap[us]="${fg_bold[red]}" # аргументы параметров
 
 # Подгрузка кастомных автодополнений для zsh
 fpath=(
-    $HOME/zsh-custom-completions
+    $HOME/.zsh-custom-completions
     $fpath
 )
 autoload -Uz compinit
