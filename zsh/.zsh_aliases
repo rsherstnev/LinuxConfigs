@@ -54,6 +54,8 @@ alias myexternalip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias catwithoutcomments='grep -v "^$\|^#"'
 alias checkcommand='type -t'
 alias pipenv-run='pipenv run python'
+alias empire-server='docker start empire & docker attach empire'
+alias empire-client='docker exec -it empire ./ps-empire client'
 
 ctlstartandstat ()
 {
