@@ -60,8 +60,6 @@ plugins=(
   docker
   rsync
   python
-  pip
-  pipenv
   pyenv
   poetry
   aliases
@@ -92,9 +90,9 @@ bindkey '^[[B' down-line-or-search
 bindkey '^ ' autosuggest-accept
 
 # Настройки Shell Prompt
-export PROMPT='$FG[224]┌──(%F{29}%D{%T}$FG[224])-[$FG[167]%n$FG[217]@$FG[215]%M$FG[224]]-[$FG[109]%~$FG[224]] $(git_prompt_info)%{$reset_color%}
-└─$FG[224]# '
-export ZSH_THEME_GIT_PROMPT_PREFIX="$FG[145]git:[$FG[228]"
+export PROMPT='[%B$FG[167]%n$FG[144]㉿$FG[216]%M $FG[109]%~%f%b] $(git_prompt_info)
+%# '
+export ZSH_THEME_GIT_PROMPT_PREFIX="%B$FG[145]git:[$FG[228]"
 export ZSH_THEME_GIT_PROMPT_DIRTY="$FG[145]]:[$FG[228]✗$FG[145]] "
 export ZSH_THEME_GIT_PROMPT_CLEAN="$FG[145]] "
 export ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
