@@ -5,7 +5,6 @@ HIST_STAMPS="dd.mm.yyyy"
 
 export ZSH=$HOME/.oh-my-zsh
 export HISTFILE=$HOME/.zsh_history
-export HTB=/opt/htb
 export SAVEHIST=5000
 export HISTSIZE=5000
 export VISUAL=/usr/bin/nvim
@@ -56,7 +55,7 @@ plugins=(
   systemd
   httpie
   dirhistory
-  fzf  
+  fzf
   docker
   rsync
   python
