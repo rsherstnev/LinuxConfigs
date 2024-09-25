@@ -57,9 +57,6 @@ alias htb='cd /opt/htb'
 alias pipenv-run='pipenv run python'
 alias empire-server='docker start empire & docker attach empire'
 alias empire-client='docker exec -it empire ./ps-empire client'
-
-ctlstartandstat ()
-{
-    systemctl start "$1"
-    systemctl status "$1"
-}
+alias go-codeby="wg-quick up NordeN"
+alias codeby="cd /opt/codeby"
+alias hosts='vim /etc/hosts'

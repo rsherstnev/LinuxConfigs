@@ -49,34 +49,39 @@ setopt AUTOCD
 HISTORY_IGNORE="(history|ls|la|ll|lla|cd|clear|cls)"
 
 plugins=(
-  git
-  sudo
-  tmux
-  systemd
-  httpie
-  dirhistory
-  fzf
-  docker
-  rsync
-  python
-  pyenv
-  poetry
-  aliases
-  emoji
-  colored-man-pages
-  colorize
-  command-not-found
-  copybuffer
-  firewalld
-  themes
-  thefuck
-  fzf-tab
-  zsh-autosuggestions
-  zsh-syntax-highlighting
+    git
+    sudo
+    tmux
+    systemd
+    httpie
+    dirhistory
+    fzf
+    docker
+    rsync
+    python
+    pyenv
+    poetry
+    aliases
+    emoji
+    colored-man-pages
+    colorize
+    command-not-found
+    copybuffer
+    firewalld
+    themes
+    thefuck
+    fzf-tab
+    zsh-autosuggestions
+    zsh-syntax-highlighting
 )
 
 source $ZSH/oh-my-zsh.sh
-source $HOME/.zsh_aliases
+for config_file in $HOME/.{zsh_aliases,zsh_functions}; do
+    if [[ -r "$config_file" ]] && [[ -f "$config_file" ]]; then
+		source "$config_file"
+	fi
+done
+unset file
 
 # Настройки автодополнения zsh
 zstyle ':completion:*' special-dirs false
