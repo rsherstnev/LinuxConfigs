@@ -52,9 +52,12 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-if [ -f ~/.bash_aliases ]; then
-    source ~/.bash_aliases
-fi
+for config_file in $HOME/.{aliases,functions}; do
+    if [[ -r "$config_file" ]] && [[ -f "$config_file" ]]; then
+		source "$config_file"
+	fi
+done
+unset config_file
 
 if ! shopt -oq posix; then
 	if [[ -f /usr/share/bash-completion/bash_completion ]]; then

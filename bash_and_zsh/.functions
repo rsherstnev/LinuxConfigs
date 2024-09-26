@@ -1,0 +1,8 @@
+function ctlstartandstat () {
+	systemctl start "$1"
+    systemctl status "$1"
+}
+
+function sudovim() {
+	sudo -E vim $1
+}

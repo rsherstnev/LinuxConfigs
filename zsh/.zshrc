@@ -76,12 +76,13 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
-for config_file in $HOME/.{zsh_aliases,zsh_functions}; do
+
+for config_file in $HOME/.{aliases,functions}; do
     if [[ -r "$config_file" ]] && [[ -f "$config_file" ]]; then
 		source "$config_file"
 	fi
 done
-unset file
+unset config_file
 
 # Настройки автодополнения zsh
 zstyle ':completion:*' special-dirs false
