@@ -40,7 +40,7 @@ if [ "$color_prompt" = yes ]; then
         PS1="${_ROOT_WARNING}!!! ROOT !!! ${_COLOR_RESET}[${_COLOR1}\u${_COLOR2}㉿${_COLOR3}\H ${_COLOR4}\w${_COLOR_RESET}]\n\\$ "
     fi 
 else
-    PS1='[\u@\H \w]\$ '
+    PS1="[\u@\H \w]\n\\$ "
 fi
 unset color_prompt force_color_prompt
 

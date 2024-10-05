@@ -1,4 +1,3 @@
-# Created by `pipx` on 2023-12-17 19:19:30
 export PATH="$PATH:/root/.local/bin"
 
 export PYENV_ROOT="$HOME/.pyenv"
