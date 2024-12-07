@@ -1,14 +1,14 @@
 alias ls='ls --color=auto'
 
 # Uncomment for eza on server
-# alias ls='eza --group-directories-first --git --color=always'
+# alias ls='eza --group --time-style="+%d.%m.%Y %H:%M:%S" --color=always --header --git '
 
 # Uncomment for eza on workstation with nerd fonts
-# alias ls='eza --group-directories-first --icons=always --git --color=always'
+# alias ls='eza --group --time-style="+%d.%m.%Y %H:%M:%S" --color=always --header --git --icons=always'
 
 alias l='ls --oneline'
 alias la='ls -a'
-alias ll='ls -lh'
+alias ll='ls -l'
 alias lla='ll -a'
 alias lg='ls --grid'
 alias lga='lg -a '
@@ -18,7 +18,8 @@ alias llm='ll --sort=modified --reverse'
 alias llma='llm -a'
 alias lt='ls --tree --level 2'
 alias lta='lt -a'
-alias lx='lla -gUmu@ --changed --time-style="+%H:%M:%S %d.%m.%Y" --color-scale --total-size'
+alias lx='lla --created --modified --changed --accessed'
+alias lxs='lx --total-size'
 alias cls='clear'
 alias clshist='truncate -s 0 $HISTFILE && reset'
 alias ip='ip -color=auto'
@@ -59,7 +60,6 @@ alias go-codeby='wg-quick up NordeN'
 alias empire-server='docker start empire & docker attach empire'
 alias empire-client='docker exec -it empire ./ps-empire client'
 alias hosts='sudo vim /etc/hosts'
-
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
@@ -67,4 +67,3 @@ alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 alias .......='cd ../../../../../..'
 alias ........='cd ../../../../../../..'
-
