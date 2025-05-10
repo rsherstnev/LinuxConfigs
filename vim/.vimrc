@@ -36,6 +36,7 @@ set mouse=a
 set wrap
 set linebreak
 set laststatus=2
+set clipboard=unnamedplus
 
 set t_Co=256
 "colorscheme gruvbox
@@ -49,7 +50,21 @@ nnoremap gk k
 nnoremap j gj
 nnoremap gj j
 
-map <F1> :NERDTreeToggle<CR>
+function! TogglePaste()
+    if &paste
+        set nopaste
+        echo "🛑 Paste mode OFF"
+    else
+        set paste
+        echo "✅ Paste mode ON"
+    endif
+endfunction
+
+set laststatus=2                          " Always show statusline
+set statusline=%f%m%r%h%w\ [%{&filetype}]\ %{&paste?'[PASTE]':''}
+
+nnoremap <F1> :call TogglePaste()<CR>
+inoremap <F1> <C-O>:call TogglePaste()<CR>
 nmap <F2> :set list!<CR>
 nmap <F3> :w<CR>
 nmap <F4> :w!<CR>

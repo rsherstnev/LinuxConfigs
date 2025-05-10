@@ -1,8 +1,49 @@
-function ctlstartandstat () {
-	systemctl start "$1"
-    systemctl status "$1"
+function download-github-last-release {
+    if [[ $# != 2 ]]; then
+        echo "Usage: download-github-last-release "" /path/to/download"
+    else
+        DOWNLOAD_URL=$(curl https://api.github.com/repos/$1/releases/latest | jq '.assets[].browser_download_url' | grep -i linux | grep -e x64 -e amd64 | grep -v md5)
+        wget $DOWNLOAD_URL -O $2
+    fi
 }
 
-function sudovim() {
-	sudo -E vim $1
+function wg-qr-generate {
+    if [[ $# != 2 ]]; then
+        echo "Usage: wg-qr-generate /path/to/wg-client.conf /path/to/qr.png"
+    else
+        qrencode -r $1 -t png --foreground=85004B --size 16 --level H --margin 2 --dpi 300 -o $2
+    fi
+}
+
+function list_ips {
+    ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, "/"); print "[\033[96m" iface"\033[0m] "a[1] }'
+}
+
+function extract {
+    if [ -f $1 ]; then
+        case $1 in
+            *.tar.bz2) tar xvjf $1 ;;
+            *.tar.gz)  tar xvzf $1 ;;
+            *.bz2)     bunzip2 $1 ;;
+            *.rar)     unrar x $1 ;;
+            *.gz)      gunzip $1 ;;
+            *.tar)     tar xvf $1 ;;
+            *.tbz2)    tar xvjf $1 ;;
+            *.tgz)     tar xvzf $1 ;;
+            *.zip)     unzip $1 ;;
+            *.Z)      uncompress $1 ;;
+            *.7z)      7z x $1 ;;
+            *)        echo "Неизвестный формат архива" ;;
+        esac
+    else
+        echo "Файл '$1' не существует"
+    fi
+}
+
+function passgen {
+    if [[ $# != 1 ]]; then
+        echo "Usage: passgen [NUM]"
+    else
+        openssl rand -base64 $1
+    fi
 }

@@ -119,3 +119,7 @@ fpath=(
 )
 autoload -Uz compinit
 compinit
+
+zstyle ':completion:*:ssh:*' hosts
+zstyle ':completion:*:ssh:*' config ~/.ssh/config
+zstyle ':completion:*:ssh:*' known-hosts ~/.ssh/known_hosts
