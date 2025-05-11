@@ -1,7 +1,7 @@
 typeset -A ZSH_HIGHLIGHT_STYLES
 
 DISABLE_AUTO_UPDATE=true
-HIST_STAMPS="dd.mm.yyyy"
+HIST_STAMPS="%d.%m.%Y %H:%M:%S"
 
 export ZSH=$HOME/.oh-my-zsh
 export HISTFILE=$HOME/.zsh_history
@@ -69,7 +69,6 @@ plugins=(
     copybuffer
     firewalld
     themes
-    thefuck
     fzf-tab
     zsh-autosuggestions
     zsh-syntax-highlighting
@@ -123,3 +122,5 @@ compinit
 zstyle ':completion:*:ssh:*' hosts
 zstyle ':completion:*:ssh:*' config ~/.ssh/config
 zstyle ':completion:*:ssh:*' known-hosts ~/.ssh/known_hosts
+
+eval "$(uv generate-shell-completion zsh)"
