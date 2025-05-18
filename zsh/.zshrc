@@ -59,8 +59,6 @@ plugins=(
     docker
     rsync
     python
-    pyenv
-    poetry
     aliases
     emoji
     colored-man-pages

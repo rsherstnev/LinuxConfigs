@@ -47,3 +47,7 @@ function passgen {
         openssl rand -base64 $1
     fi
 }
+
+function docker-shell {
+    docker exec -it $1 bash
+}
