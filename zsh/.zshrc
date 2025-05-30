@@ -92,8 +92,8 @@ bindkey '^[[B' down-line-or-search
 bindkey '^ ' autosuggest-accept
 
 # Настройки Shell Prompt
-export PROMPT='[%B$FG[167]%n$FG[144]㉿$FG[216]%M $FG[109]%~%f%b] $(git_prompt_info)
-%# '
+export PROMPT='┌──[%B$FG[167]%n$FG[144]㉿$FG[216]%M $FG[109]%~%f%b] $(git_prompt_info)
+└─%# '
 export ZSH_THEME_GIT_PROMPT_PREFIX="%B$FG[145]git:[$FG[228]"
 export ZSH_THEME_GIT_PROMPT_DIRTY="$FG[145]]:[$FG[228]✗$FG[145]] "
 export ZSH_THEME_GIT_PROMPT_CLEAN="$FG[145]] "

@@ -1,6 +1,6 @@
 function github-download-last-release {
-    if [[ $# != 2 || "$1" == "--help" || "$1" == "-h" ]]; then
-        echo "Usage: github-download-last-release <GITHUB_REPO> </path/to/download>"
+     if [[ $# != 2 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: github-download-last-release <GITHUB_REPO> </PATH/TO/DOWNLOAD>"
     else
         DOWNLOAD_URL=$(curl https://api.github.com/repos/$1/releases/latest | jq '.assets[].browser_download_url' | grep -i linux | grep -e x64 -e amd64 | grep -v md5)
         wget $DOWNLOAD_URL -O $2
@@ -8,8 +8,8 @@ function github-download-last-release {
 }
 
 function wg-generate-qr {
-    if [[ $# != 2 || "$1" == "--help" || "$1" == "-h" ]]; then
-        echo "Usage: wg-generate-qr </path/to/wg-client.conf> </path/to/qr.png>"
+    if [[ $# != 2 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: wg-generate-qr </PATH/TO/WG-CLIENT.conf> </PATH/TO/QR.png>"
     else
         qrencode -r $1 -t png --foreground=85004B --size 16 --level H --margin 2 --dpi 300 -o $2
     fi
@@ -40,16 +40,16 @@ function extract {
     fi
 }
 
-function passgen {
-    if [[ $# != 1 || "$1" == "--help" || "$1" == "-h" ]]; then
-        echo "Usage: passgen <LENGTH>"
+function generate-password {
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: generate-password <LENGTH>"
     else
         openssl rand -base64 $1
     fi
 }
 
 function docker-shell {
-    if [[ $# != 1 || "$1" == "--help" || "$1" == "-h" ]]; then
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo "Usage: docker-shell <CONTAINER>"
     else
         docker exec -it $1 bash
@@ -61,15 +61,27 @@ function history-view {
 }
 
 function tracetcp {
-    if [[ $# != 2 || "$1" == "--help" || "$1" == "-h" ]]; then
+    if [[ $# != 2 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo "Usage: tracetcp <ADDRESS> <PORT>"
     else
         traceroute -T $1 -p $2
     fi
 }
 
+function tmux-set-box-ip {
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: tmux-set-box-ip <ADDRESS>"
+    else
+        STATUS_BACKUP=$(tmux show-option -gv status-left)
+        STATUS_LENGTH_BACKUP=$(tmux show-option -gv status-left-length)
+        STATUS_IP_COLOR="#[fg=colour16,bg=colour96]"
+        tmux set-option -g status-left "$STATUS_BACKUP$STATUS_IP_COLOR BOX: $1 #[fg=default,bg=default] "
+        set -g status-left-length $(($STATUS_LENGTH_BACKUP + 21))
+    fi
+}
+
 function ssh-stealth {
-    if [[ $# != 3 || "$1" == "--help" || "$1" == "-h" ]]; then
+    if [[ $# != 3 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo "Usage: ssh-stealth <USER> <ADDRESS> <COMMAND>"
     else
         ssh $1@$2 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "$3"
