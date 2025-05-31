@@ -1,9 +1,8 @@
-function github-download-last-release {
-     if [[ $# != 2 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: github-download-last-release <GITHUB_REPO> </PATH/TO/DOWNLOAD>"
+function github-show-last-release {
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: github-show-last-release <GITHUB_OWNER/GITHUB_REPO>"
     else
-        DOWNLOAD_URL=$(curl https://api.github.com/repos/$1/releases/latest | jq '.assets[].browser_download_url' | grep -i linux | grep -e x64 -e amd64 | grep -v md5)
-        wget $DOWNLOAD_URL -O $2
+        curl -s https://api.github.com/repos/$1/releases/latest | jq '.assets[].browser_download_url' | sed "s/ /\\n/g"
     fi
 }
 
