@@ -51,7 +51,7 @@ function docker-shell {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo "Usage: docker-shell <CONTAINER>"
     else
-        docker exec -it $1 bash
+        docker exec -it $1 /bin/bash
     fi
 }
 
