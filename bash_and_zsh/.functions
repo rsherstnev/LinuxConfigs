@@ -1,4 +1,4 @@
-function github-show-last-release {
+function github-show-last-release() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo "Usage: github-show-last-release <GITHUB_OWNER/GITHUB_REPO>"
     else
@@ -6,7 +6,7 @@ function github-show-last-release {
     fi
 }
 
-function wg-generate-qr {
+function wg-generate-qr() {
     if [[ $# != 2 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo "Usage: wg-generate-qr </PATH/TO/WG-CLIENT.conf> </PATH/TO/QR.png>"
     else
@@ -14,11 +14,11 @@ function wg-generate-qr {
     fi
 }
 
-function list-ips {
+function list-ips() {
     ip a show scope global | awk '/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, "/"); print "[\033[96m" iface"\033[0m] "a[1] }'
 }
 
-function extract {
+function extract() {
     if [ -f $1 ]; then
         case $1 in
             *.tar.bz2) tar xvjf $1 ;;
@@ -39,7 +39,7 @@ function extract {
     fi
 }
 
-function generate-password {
+function generate-password() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo "Usage: generate-password <LENGTH>"
     else
@@ -47,7 +47,7 @@ function generate-password {
     fi
 }
 
-function docker-shell {
+function docker-shell() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo "Usage: docker-shell <CONTAINER>"
     else
@@ -55,11 +55,11 @@ function docker-shell {
     fi
 }
 
-function history-view {
+function history-view() {
     history | tac | less
 }
 
-function tracetcp {
+function tracetcp() {
     if [[ $# != 2 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo "Usage: tracetcp <ADDRESS> <PORT>"
     else
@@ -67,7 +67,7 @@ function tracetcp {
     fi
 }
 
-function tmux-set-box-ip {
+function tmux-set-box-ip() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo "Usage: tmux-set-box-ip <ADDRESS>"
     else
@@ -79,10 +79,22 @@ function tmux-set-box-ip {
     fi
 }
 
-function ssh-stealth {
+function ssh-stealth() {
     if [[ $# != 3 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo "Usage: ssh-stealth <USER> <ADDRESS> <COMMAND>"
     else
         ssh $1@$2 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "$3"
     fi
 }
+
+function conky-reload() {
+    if [[ $(pgrep -x conky) ]]; then
+        killall conky;
+        conky -q -d;
+    else
+        conky -q -d;
+    fi
+}
+# Либо можно добавить значок Conky на панель задач и изменить команду запуска на:
+# bash -c "if [[ $(pgrep -x conky) ]]; then killall conky; conky -q -d; else conky -q -d; fi"
+# Не ставя CheckBox "Запускать в терминале"
