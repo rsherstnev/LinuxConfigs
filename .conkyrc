@@ -1,6 +1,6 @@
 conky.config = {
     alignment = 'top_right',
-    background = false,
+    background = true,
     border_width = 1,
     cpu_avg_samples = 2,
     default_color = 'white',
@@ -28,8 +28,10 @@ conky.config = {
     own_window_class = 'Conky',
     own_window_type = 'normal',
     own_window_hints = 'undecorated,sticky,below,skip_taskbar,skip_pager',
-    own_window_transparent = true,
+    own_window_transparent = false,
     own_window_argb_visual = true,
+    own_window_argb_value = 120,
+    own_window_colour = 'black',
     show_graph_range = false,
     show_graph_scale = false,
     stippled_borders = 0,
@@ -40,8 +42,6 @@ conky.config = {
 }
 
 conky.text = [[
-Сетевая активность:
-
 ${color green}eth0:${color}
 Скорость: ${goto 100}↓ ${downspeedf eth0} KB/s ${goto 215}↑ ${upspeedf eth0} KB/s
 Всего: ${goto 100}↓ ${totaldown eth0} ${goto 215}↑ ${totalup eth0}
