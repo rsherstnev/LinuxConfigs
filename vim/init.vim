@@ -1,10 +1,11 @@
-call plug#begin('~/.vim/plugins')
+call plug#begin('~/.local/share/nvim/plugged')
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'psliwka/vim-smoothie'
+Plug 'catppuccin/nvim'
 call plug#end()
 
 syntax on
@@ -35,9 +36,7 @@ set laststatus=2
 set clipboard=unnamedplus
 
 set t_Co=256
-"colorscheme gruvbox
-"colorscheme habamax
-colorscheme iceberg
+colorscheme catppuccin-mocha
 let g:airline_theme='wombat'
 set background=dark
 

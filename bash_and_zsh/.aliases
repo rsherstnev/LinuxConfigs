@@ -76,13 +76,15 @@ alias ........='cd ../../../../../../..'
 
 # Kali Linux
 # alias headers='http --headers'
+alias vim='nvim'
+alias nvim-config="nvim $HOME/.config/nvim/init.vim"
 alias powershell='pwsh -NoLogo'
 alias msfconsole='msfconsole -q'
 alias handler-msf='msfconsole -q -x "use exploit/multi/handler"'
 alias handler-netcat='rlwrap ncat -nvlp'
-alias empire-server='docker container start -ia empire'
 alias www='list-ips && python3 -m http.server'
 alias smb='list-ips && impacket-smbserver -smb2support norden_smb .'
+alias empire-server='docker container start -ia empire'
 alias havoc-server='havoc server --profile /usr/share/havoc/profiles/havoc.yaotl'
 alias what-hash='haiti'
 alias base64file='base64 -w0'
