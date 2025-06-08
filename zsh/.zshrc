@@ -58,7 +58,6 @@ plugins=(
     fzf
     docker
     rsync
-    python
     aliases
     emoji
     colored-man-pages

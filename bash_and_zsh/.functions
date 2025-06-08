@@ -135,3 +135,33 @@ reload_zsh_completion() {
         unfunction _$1 && compinit _$1
     fi
 }
+
+mkv(){
+    if [[ $# != 0 && $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: mkv [PYTHON_VENV_NAME]"
+    else
+        case "$#" in
+            0)
+                python3 -m venv .venv --prompt '(.venv)'
+                ;;
+            1)
+                python3 -m venv $1 --prompt "($1)"
+                ;;
+        esac
+    fi
+}
+
+vrun (){
+    if [[ $# != 0 && $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: vrun [PYTHON_VENV_NAME]"
+    else
+        case "$#" in
+            0)
+                source .venv/bin/activate
+                ;;
+            1)
+                source $1/bin/activate
+                ;;
+        esac
+    fi
+}
