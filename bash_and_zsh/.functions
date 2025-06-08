@@ -136,7 +136,7 @@ reload_zsh_completion() {
     fi
 }
 
-mkv(){
+mkv() {
     if [[ $# != 0 && $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo "Usage: mkv [PYTHON_VENV_NAME]"
     else
@@ -151,7 +151,7 @@ mkv(){
     fi
 }
 
-vrun (){
+vrun () {
     if [[ $# != 0 && $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo "Usage: vrun [PYTHON_VENV_NAME]"
     else
@@ -163,5 +163,13 @@ vrun (){
                 source $1/bin/activate
                 ;;
         esac
+    fi
+}
+
+docker-container-volumes() {
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: docker-container-volumes <CONTAINER>"
+    else
+        docker container inspect $1 | jq '.[].Mounts.[].Source'
     fi
 }
