@@ -91,3 +91,4 @@ alias base64file='base64 -w0'
 alias villain='uv run --directory /opt/python-software/villain Villain.py'
 alias hoaxshell='uv run --directory /opt/python-software/hoaxshell hoaxshell.py'
 alias rustscan='rustscan --ulimit 5000'
+alias code="code --no-sandbox --user-data-dir $HOME/.vscode"
