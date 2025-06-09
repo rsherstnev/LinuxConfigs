@@ -58,6 +58,8 @@ endfunction
 set laststatus=2
 set statusline=%f%m%r%h%w\ [%{&filetype}]\ %{&paste?'[PASTE]':''}
 
+autocmd FileType yaml setlocal tabstop=2 shiftwidth=2 expandtab
+
 nnoremap <F1> :call TogglePaste()<CR>
 inoremap <F1> <C-O>:call TogglePaste()<CR>
 nmap <F2> :set list!<CR>
