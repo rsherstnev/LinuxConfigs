@@ -35,11 +35,13 @@ set laststatus=2
 set clipboard=unnamedplus
 
 set t_Co=256
-"colorscheme gruvbox
-"colorscheme habamax
-colorscheme iceberg
-let g:airline_theme='wombat'
 set background=dark
+colorscheme iceberg "gruvbox habamax
+let g:airline_theme='wombat'
+let g:airline_detect_paste=1
+"set statusline=%f%m%r%h%w\ [%{&filetype}]\ %{&paste?'[PASTE]':''}
+
+autocmd FileType yaml setlocal tabstop=2 shiftwidth=2 expandtab
 
 nnoremap k gk
 nnoremap gk k
@@ -55,11 +57,6 @@ function! TogglePaste()
         echo "✅ Paste mode ON"
     endif
 endfunction
-
-set laststatus=2
-set statusline=%f%m%r%h%w\ [%{&filetype}]\ %{&paste?'[PASTE]':''}
-
-autocmd FileType yaml setlocal tabstop=2 shiftwidth=2 expandtab
 
 nnoremap <F1> :call TogglePaste()<CR>
 inoremap <F1> <C-O>:call TogglePaste()<CR>

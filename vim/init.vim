@@ -36,9 +36,13 @@ set laststatus=2
 set clipboard=unnamedplus
 
 set t_Co=256
+set background=dark
 colorscheme catppuccin-mocha
 let g:airline_theme='wombat'
-set background=dark
+let g:airline_detect_paste=1
+"set statusline=%f%m%r%h%w\ [%{&filetype}]\ %{&paste?'[PASTE]':''}
+
+autocmd FileType yaml setlocal tabstop=2 shiftwidth=2 expandtab
 
 nnoremap k gk
 nnoremap gk k
@@ -54,11 +58,6 @@ function! TogglePaste()
         echo "✅ Paste mode ON"
     endif
 endfunction
-
-set laststatus=2
-set statusline=%f%m%r%h%w\ [%{&filetype}]\ %{&paste?'[PASTE]':''}
-
-autocmd FileType yaml setlocal tabstop=2 shiftwidth=2 expandtab
 
 nnoremap <F1> :call TogglePaste()<CR>
 inoremap <F1> <C-O>:call TogglePaste()<CR>
