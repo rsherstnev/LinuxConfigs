@@ -48,10 +48,17 @@ generate-password() {
 }
 
 docker-shell() {
-    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: docker-shell <CONTAINER>"
+    if [[ $# != 1 && $# != 2 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: docker-shell <CONTAINER> [SHELL]"
     else
-        docker exec -it $1 /bin/bash
+        case "$#" in
+            1)
+                docker exec -it $1 /bin/bash
+                ;;
+            2)
+                docker exec -it $1 $2
+                ;;
+        esac
     fi
 }
 
