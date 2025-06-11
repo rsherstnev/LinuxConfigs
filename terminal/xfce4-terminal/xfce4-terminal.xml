@@ -1,0 +1,36 @@
+<?xml version="1.1" encoding="UTF-8"?>
+
+<channel name="xfce4-terminal" version="1.0">
+  <property name="background-darkness" type="double" value="0.93000000000000005"/>
+  <property name="background-mode" type="string" value="TERMINAL_BACKGROUND_TRANSPARENT"/>
+  <property name="color-background" type="string" value="#282A36"/>
+  <property name="color-background-vary" type="bool" value="false"/>
+  <property name="color-bold-is-bright" type="bool" value="true"/>
+  <property name="color-bold-use-default" type="bool" value="true"/>
+  <property name="color-cursor" type="string" value="#F8F8F2"/>
+  <property name="color-cursor-use-default" type="bool" value="true"/>
+  <property name="color-foreground" type="string" value="#F8F8F2"/>
+  <property name="color-palette" type="string" value="#21222C;#FF5555;#50FA7B;#F1FA8C;#BD93F9;#FF79C6;#8BE9FD;#F8F8F2;#6272A4;#FF6E6E;#69FF94;#FFFFA5;#D6ACFF;#FF92DF;#A4FFFF;#FFFFFF"/>
+  <property name="color-selection-use-default" type="bool" value="true"/>
+  <property name="color-use-theme" type="bool" value="false"/>
+  <property name="font-name" type="string" value="CaskaydiaCove Nerd Font Semi-Bold 11"/>
+  <property name="font-use-system" type="bool" value="false"/>
+  <property name="misc-confirm-close" type="bool" value="false"/>
+  <property name="misc-copy-on-select" type="bool" value="true"/>
+  <property name="misc-cursor-blinks" type="bool" value="true"/>
+  <property name="misc-default-geometry" type="string" value="150x37"/>
+  <property name="misc-right-click-action" type="string" value="TERMINAL_RIGHT_CLICK_ACTION_PASTE_CLIPBOARD"/>
+  <property name="misc-show-unsafe-paste-dialog" type="bool" value="false"/>
+  <property name="scrolling-on-output" type="bool" value="true"/>
+  <property name="scrolling-unlimited" type="bool" value="true"/>
+  <property name="shortcuts-no-menukey" type="bool" value="true"/>
+  <property name="tab-activity-color" type="string" value="#aa0000"/>
+  <property name="title-initial" type="string" value="BTWOS"/>
+  <property name="title-mode" type="string" value="TERMINAL_TITLE_HIDE"/>
+  <property name="color-cursor-foreground" type="string" value=""/>
+  <property name="color-selection" type="string" value=""/>
+  <property name="color-selection-background" type="string" value=""/>
+  <property name="color-bold" type="string" value=""/>
+  <property name="shortcuts-no-mnemonics" type="bool" value="true"/>
+  <property name="misc-cursor-shape" type="string" value="TERMINAL_CURSOR_SHAPE_BLOCK"/>
+</channel>
