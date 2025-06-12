@@ -167,6 +167,7 @@ if [ -d $HOME/.python-custom-completions ]; then
         fi
     done
 fi
+unset completion_file
 
 zstyle ':completion:*:ssh:*' hosts
 zstyle ':completion:*:ssh:*' config ~/.ssh/config
