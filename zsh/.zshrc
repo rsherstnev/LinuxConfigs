@@ -33,6 +33,43 @@ export ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=227'
 export ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=227'
 export ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter]='fg=125'
 export ZSH_HIGHLIGHT_STYLES[path]='fg=248,underline'
+# Настройки grep
+export GREP_COLORS='ms=01;33'
+# Настройки exa
+export EXA_COLORS=""
+EXA_PREFIX="1;38;5" # Жирный кастомный цвет
+EXA_R="107" # Цвет: полномочие чтения
+EXA_W="131" # Цвет: полномочие записи
+EXA_X="172" # Цвет: полномочие исполнения
+EXA_SETTINGS=(
+    "ur=$EXA_PREFIX;$EXA_R" # Полномочие чтения пользователя
+    "uw=$EXA_PREFIX;$EXA_W" # Полномочие записи пользователя
+    "ux=$EXA_PREFIX;$EXA_X" # Полномочие исполнения пользователя для обычных файлов
+    "ue=$EXA_PREFIX;$EXA_X" # Полномочие исполнения пользователя для других файлов
+    "gr=$EXA_PREFIX;$EXA_R" # Полномочие чтения группы
+    "gw=$EXA_PREFIX;$EXA_W" # Полномочие записи группы
+    "gx=$EXA_PREFIX;$EXA_X" # Полномочие исполнения группы
+    "tr=$EXA_PREFIX;$EXA_R" # Полномочие чтения для иных
+    "tw=$EXA_PREFIX;$EXA_W" # Полномочие записи для иных
+    "tx=$EXA_PREFIX;$EXA_X" # Полномочие исполнения для иных
+    "uu=$EXA_PREFIX;65" # Ваш пользотватель
+    "uR=$EXA_PREFIX;124" # Пользователь root
+    "un=$EXA_PREFIX;142" # Пользователь не ваш и не root
+    "gu=$EXA_PREFIX;65" # Ваша группа
+    "gR=$EXA_PREFIX;124" # Группа root
+    "gn=$EXA_PREFIX;142" # Группа не ваша и не root
+    "da=$EXA_PREFIX;60" # Дата файла
+    "di=$EXA_PREFIX;31" # Тип сущности: директория
+    "ex=$EXA_PREFIX;$EXA_X" # Тип сущности: исполняемый файл
+    "bd=$EXA_PREFIX;217" # Тип сущности: блочное устройство
+    "cd=$EXA_PREFIX;229" # Тип сущности: символьное устройство
+    "ln=$EXA_PREFIX;73" # Тип сущности: симлинк
+    "xa=$EXA_PREFIX;96" # Индикатор расширенных аттрибутов
+)
+for EXA_SETTING in ${EXA_SETTINGS[*]}
+do
+    export EXA_COLORS=$EXA_COLORS:$EXA_SETTING
+done
 
 setopt SHARE_HISTORY
 setopt EXTENDED_HISTORY
@@ -122,6 +159,14 @@ fpath=(
 )
 autoload -Uz compinit
 compinit
+
+if [ -d $HOME/.python-custom-completions ]; then
+    for completion_file in $HOME/.python-custom-completions/*; do
+        if [ -f "$completion_file" ]; then
+            source "$completion_file"
+        fi
+    done
+fi
 
 zstyle ':completion:*:ssh:*' hosts
 zstyle ':completion:*:ssh:*' config ~/.ssh/config
