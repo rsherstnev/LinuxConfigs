@@ -143,9 +143,9 @@ reload_zsh_completion() {
     fi
 }
 
-mkv() {
+venv-create() {
     if [[ $# != 0 && $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: mkv [PYTHON_VENV_NAME]"
+        echo "Usage: venv-create [PYTHON_VENV_NAME]"
     else
         case "$#" in
             0)
@@ -158,9 +158,9 @@ mkv() {
     fi
 }
 
-vrun () {
+venv-enter () {
     if [[ $# != 0 && $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: vrun [PYTHON_VENV_NAME]"
+        echo "Usage: venv-enter [PYTHON_VENV_NAME]"
     else
         case "$#" in
             0)
