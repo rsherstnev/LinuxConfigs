@@ -135,9 +135,9 @@ get-dockerhub-image-versions() {
     fi
 }
 
-reload_zsh_completion() {
+reload-zsh-completion() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: reload_zsh_completion <COMMAND>"
+        echo "Usage: reload-zsh-completion <COMMAND>"
     else
         unfunction _$1 && compinit _$1
     fi

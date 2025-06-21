@@ -27,20 +27,33 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+VIRTUAL_ENV_DISABLE_PROMPT=0
+
+VENV_PROMPT() {
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+        echo "($(basename $VIRTUAL_ENV))";
+    fi
+}
+
 if [ "$color_prompt" = yes ]; then
     _COLOR1="\[\e[01;38;5;167m\]"
     _COLOR2="\[\e[01;38;5;144m\]"
     _COLOR3="\[\e[01;38;5;216m\]"
     _COLOR4="\[\e[01;38;5;109m\]"
+    _COLOR5="\[\e[01;38;5;036m\]"
     _COLOR_RESET="\[\e[0m\]"
-    if [ "$(id -u)" != "0" ]; then
-        PS1="[${_COLOR1}\u${_COLOR2}㉿${_COLOR3}\H ${_COLOR4}\w${_COLOR_RESET}]\n\\$ "
+    if [[ $EUID != 0 ]]; then
+        PS1="┌─${_COLOR5}\$(VENV_PROMPT)${_COLOR_RESET}─[${_COLOR1}\u${_COLOR2}@${_COLOR3}\H ${_COLOR4}\w${_COLOR_RESET}]\n└─\\$ "
     else
-        _ROOT_WARNING="\[\e[01;38;5;160m\]"
-        PS1="${_ROOT_WARNING}!!! ROOT !!! ${_COLOR_RESET}[${_COLOR1}\u${_COLOR2}㉿${_COLOR3}\H ${_COLOR4}\w${_COLOR_RESET}]\n\\$ "
+        ROOT_WARNING="\[\e[01;38;5;160m\][!!! ROOT !!!]${_COLOR_RESET}"
+        PS1="┌─${_COLOR5}\$(VENV_PROMPT)${_COLOR_RESET}─${ROOT_WARNING}─[${_COLOR1}\u${_COLOR2}@${_COLOR3}\H ${_COLOR4}\w${_COLOR_RESET}]\n└─\\$ "
     fi 
 else
-    PS1="[\u@\H \w]\n\\$ "
+    if [[ $EUID != 0 ]]; then
+        PS1="┌─\$(VENV_PROMPT)─[\u@\H \w]\n└─\\$ "
+    else
+        PS1="┌─\$(VENV_PROMPT)─[!!! ROOT !!!]─[\u@\H \w]\n└─\\$ "
+    fi
 fi
 unset color_prompt force_color_prompt
 
