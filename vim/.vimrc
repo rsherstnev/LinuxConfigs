@@ -39,7 +39,7 @@ set background=dark
 colorscheme iceberg "gruvbox habamax
 let g:airline_theme='wombat'
 let g:airline_detect_paste=1
-"set statusline=%f%m%r%h%w\ [%{&filetype}]\ %{&paste?'[PASTE]':''}
+"set statusline=%F\ %y\ %m\ %r\ %=Line:%l/%L\ Col:%c
 
 autocmd FileType yaml setlocal tabstop=2 shiftwidth=2 expandtab
 
@@ -60,11 +60,5 @@ endfunction
 
 nnoremap <F1> :call TogglePaste()<CR>
 inoremap <F1> <C-O>:call TogglePaste()<CR>
-nmap <F2> :set list!<CR>
-nmap <F3> :w<CR>
-nmap <F4> :w!<CR>
-nmap <F5> :q<CR>
-nmap <F5> :q!<CR>
-nmap <F7> :tabnew<CR>
-nmap <F8> :tabprev<CR>
-nmap <F9> :tabnext<CR>
+nnoremap <F2> :set list!<CR>
+nnoremap <F3> :set number!<CR>
