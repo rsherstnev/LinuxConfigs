@@ -180,3 +180,14 @@ docker-container-volumes() {
         docker container inspect $1 | jq '.[].Mounts.[].Source'
     fi
 }
+
+ipa() {
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: ipa <IP_ADDRESS>"
+    else
+        if command -v jq &> /dev/null; then
+            curl -s https://ifconfig.co/json?ip=$1 | jq 'del(.user_agent)'
+        else
+            curl -s https://ifconfig.co/json?ip=$1
+    fi
+}
