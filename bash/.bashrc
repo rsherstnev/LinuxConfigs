@@ -151,3 +151,10 @@ if [ -d ~/.bashrc.d ]; then
 fi
 
 unset rc
+
+# TMUX Autostart
+if [[ -z "$TMUX" ]] && [[ $- == *i* ]]; then
+    if command -v tmux &> /dev/null; then
+        tmux attach-session || tmux
+    fi
+fi
