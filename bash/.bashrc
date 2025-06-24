@@ -43,16 +43,16 @@ if [ "$color_prompt" = yes ]; then
     _COLOR5="\[\e[01;38;5;036m\]"
     _COLOR_RESET="\[\e[0m\]"
     if [[ $EUID != 0 ]]; then
-        PS1="┌─${_COLOR5}\$(VENV_PROMPT)${_COLOR_RESET}─[${_COLOR1}\u${_COLOR2}@${_COLOR3}\H ${_COLOR4}\w${_COLOR_RESET}]\n└─\\$ "
+        PS1="┌─${_COLOR5}\$(VENV_PROMPT)${_COLOR_RESET}─[${_COLOR1}\u${_COLOR2}@${_COLOR3}\H${_COLOR_RESET}]─[${_COLOR4}\w${_COLOR_RESET}]\n└─\\$ "
     else
         ROOT_WARNING="\[\e[01;38;5;160m\][!!! ROOT !!!]${_COLOR_RESET}"
-        PS1="┌─${_COLOR5}\$(VENV_PROMPT)${_COLOR_RESET}─${ROOT_WARNING}─[${_COLOR1}\u${_COLOR2}@${_COLOR3}\H ${_COLOR4}\w${_COLOR_RESET}]\n└─\\$ "
+        PS1="┌─${_COLOR5}\$(VENV_PROMPT)${_COLOR_RESET}─${ROOT_WARNING}─[${_COLOR1}\u${_COLOR2}@${_COLOR3}\H${_COLOR_RESET}]─[${_COLOR4}\w${_COLOR_RESET}]\n└─\\$ "
     fi 
 else
     if [[ $EUID != 0 ]]; then
-        PS1="┌─\$(VENV_PROMPT)─[\u@\H \w]\n└─\\$ "
+        PS1="┌─\$(VENV_PROMPT)─[\u@\H]─[\w]\n└─\\$ "
     else
-        PS1="┌─\$(VENV_PROMPT)─[!!! ROOT !!!]─[\u@\H \w]\n└─\\$ "
+        PS1="┌─\$(VENV_PROMPT)─[!!! ROOT !!!]─[\u@\H]─[\w]\n└─\\$ "
     fi
 fi
 unset color_prompt force_color_prompt
