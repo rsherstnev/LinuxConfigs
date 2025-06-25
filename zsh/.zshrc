@@ -135,7 +135,7 @@ function VENV_PROMPT {
 }
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 export RESET_PROMPT="%{$reset_color%}"
-export PROMPT='┌─%B$FG[036]$(VENV_PROMPT)$RESET_PROMPT─[%B$FG[167]%n$FG[144]㉿$FG[216]%M $FG[109]%~%f%b] $(git_prompt_info)
+export PROMPT='┌─%B$FG[036]$(VENV_PROMPT)$RESET_PROMPT─[%B$FG[167]%n$FG[144]㉿$FG[216]%M$RESET_PROMPT]─[$FG[109]%~%f%b] $(git_prompt_info)
 └─%# '
 export ZSH_THEME_GIT_PROMPT_PREFIX="%B$FG[145]git:[$FG[228]"
 export ZSH_THEME_GIT_PROMPT_DIRTY="$FG[145]]:[$FG[228]✗$FG[145]] "
