@@ -186,8 +186,9 @@ ipa() {
         echo "Usage: ipa <IP_ADDRESS>"
     else
         if command -v jq &> /dev/null; then
-            curl -s https://ifconfig.co/json?ip=$1 | jq 'del(.user_agent)'
+            curl -s "https://ifconfig.co/json?ip=$1" | jq 'del(.user_agent)'
         else
-            curl -s https://ifconfig.co/json?ip=$1
+            curl -s "https://ifconfig.co/json?ip=$1"
+        fi
     fi
 }
