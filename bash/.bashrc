@@ -29,32 +29,40 @@ fi
 
 VIRTUAL_ENV_DISABLE_PROMPT=0
 
-VENV_PROMPT() {
-    if [[ -n "$VIRTUAL_ENV" ]]; then
-        echo "($(basename $VIRTUAL_ENV))";
-    fi
-}
+_COLOR1="\e[01;38;5;167m"
+_COLOR2="\e[01;38;5;144m"
+_COLOR3="\e[01;38;5;216m"
+_COLOR4="\e[01;38;5;109m"
+_COLOR5="\e[01;38;5;036m"
+_COLOR6="\e[01;38;5;160m"
+_COLOR_RESET="\e[0m"
 
 if [ "$color_prompt" = yes ]; then
-    _COLOR1="\[\e[01;38;5;167m\]"
-    _COLOR2="\[\e[01;38;5;144m\]"
-    _COLOR3="\[\e[01;38;5;216m\]"
-    _COLOR4="\[\e[01;38;5;109m\]"
-    _COLOR5="\[\e[01;38;5;036m\]"
-    _COLOR_RESET="\[\e[0m\]"
+    VENV_PROMPT() {
+        if [[ -n "$VIRTUAL_ENV" ]]; then
+            printf "%b" "${_COLOR5}($(basename $VIRTUAL_ENV))${_COLOR_RESET}─";
+        fi
+    }
+    ROOT_WARNING="${_COLOR6}[!!! ROOT !!!]${_COLOR_RESET}─"
     if [[ $EUID != 0 ]]; then
-        PS1="┌─${_COLOR5}\$(VENV_PROMPT)${_COLOR_RESET}─[${_COLOR1}\u${_COLOR2}@${_COLOR3}\H${_COLOR_RESET}]─[${_COLOR4}\w${_COLOR_RESET}]\n└─\\$ "
+        PS1="┌──\$(VENV_PROMPT)[${_COLOR1}\u${_COLOR2}@${_COLOR3}\H${_COLOR_RESET}]─[${_COLOR4}\w${_COLOR_RESET}]\n└─\\$ "
     else
-        ROOT_WARNING="\[\e[01;38;5;160m\][!!! ROOT !!!]${_COLOR_RESET}"
-        PS1="┌─${_COLOR5}\$(VENV_PROMPT)${_COLOR_RESET}─${ROOT_WARNING}─[${_COLOR1}\u${_COLOR2}@${_COLOR3}\H${_COLOR_RESET}]─[${_COLOR4}\w${_COLOR_RESET}]\n└─\\$ "
+        PS1="┌──\$(VENV_PROMPT)${ROOT_WARNING}[${_COLOR1}\u${_COLOR2}@${_COLOR3}\H${_COLOR_RESET}]─[${_COLOR4}\w${_COLOR_RESET}]\n└─\\$ "
     fi 
 else
+    VENV_PROMPT() {
+        if [[ -n "$VIRTUAL_ENV" ]]; then
+            printf "%b" "($(basename $VIRTUAL_ENV))─";
+        fi
+    }
+    ROOT_WARNING="[!!! ROOT !!!]─"
     if [[ $EUID != 0 ]]; then
-        PS1="┌─\$(VENV_PROMPT)─[\u@\H]─[\w]\n└─\\$ "
+        PS1="┌──\$(VENV_PROMPT)[\u@\H]─[\w]\n└─\\$ "
     else
-        PS1="┌─\$(VENV_PROMPT)─[!!! ROOT !!!]─[\u@\H]─[\w]\n└─\\$ "
+        PS1="┌──\$(VENV_PROMPT)${ROOT_WARNING}[\u@\H]─[\w]\n└─\\$ "
     fi
 fi
+
 unset color_prompt force_color_prompt
 
 if [ -x /usr/bin/dircolors ]; then
