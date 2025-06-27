@@ -74,15 +74,30 @@ tracetcp() {
     fi
 }
 
-tmux-set-box-ip() {
+htb-set-tmux() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: tmux-set-box-ip <ADDRESS>"
+        echo "Usage: htb-set-tmux <ADDRESS>"
     else
         STATUS_BACKUP=$(tmux show-option -gv status-left)
         STATUS_LENGTH_BACKUP=$(tmux show-option -gv status-left-length)
         STATUS_IP_COLOR="#[fg=colour16,bg=colour96]"
         tmux set-option -g status-left "$STATUS_BACKUP$STATUS_IP_COLOR BOX: $1 #[fg=default,bg=default] "
         set -g status-left-length $(($STATUS_LENGTH_BACKUP + 21))
+    fi
+}
+
+htb-set-zsh() {
+    if [[ $# != 0 && $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: htb-set-zsh [ADDRESS]"
+    else
+        case "$#" in
+            0)
+                sed -i "s|^export HTB_ADDRESS=.*|export HTB_ADDRESS=\"\"|" $HOME/.zshrc && source $HOME/.zshrc
+                ;;
+            1)
+                sed -i "s|^export HTB_ADDRESS=.*|export HTB_ADDRESS=\"$1\"|" $HOME/.zshrc && source $HOME/.zshrc
+                ;;
+        esac
     fi
 }
 
@@ -106,9 +121,9 @@ conky-reload() {
 # bash -c "if [[ $(pgrep -x conky) ]]; then killall conky; conky -q -d; else conky -q -d; fi"
 # Не ставя CheckBox "Запускать в терминале"
 
-get-dockerhub-image-versions() {
+dockerhub-get-image-versions() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: get-dockerhub-image-versions <DOCKERHUB_REPO>"
+        echo "Usage: dockerhub-get-image-versions <DOCKERHUB_REPO>"
     else
         local image="$1"
         local namespace

@@ -128,7 +128,15 @@ bindkey '^[[B' down-line-or-search
 bindkey '^ ' autosuggest-accept
 
 # Настройки Shell Prompt
-function VENV_PROMPT {
+export HTB_ADDRESS=""
+
+HTB_PROMPT() {
+    if [[ -n "$HTB_ADDRESS" ]]; then
+        echo "%B$FG[184][🥝 $HTB_ADDRESS]$RESET_PROMPT─"
+    fi
+}
+
+VENV_PROMPT() {
     if [[ -n "$VIRTUAL_ENV" ]]; then
         echo "%B$FG[036]($(basename "$VIRTUAL_ENV"))$RESET_PROMPT─"
     fi
@@ -136,10 +144,10 @@ function VENV_PROMPT {
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 export RESET_PROMPT="%{$reset_color%}"
-export PROMPT='┌──$(VENV_PROMPT)[%B$FG[167]%n$FG[144]㉿$FG[216]%M$RESET_PROMPT]─[$FG[109]%~%f%b]$(git_prompt_info)
+export PROMPT='┌──$(HTB_PROMPT)$(VENV_PROMPT)[%B$FG[167]%n$FG[144]㉿$FG[216]%M$RESET_PROMPT]─[$FG[109]%~%f%b]$(git_prompt_info)
 └─%# '
-export ZSH_THEME_GIT_PROMPT_PREFIX="─%B$FG[145][💣:$FG[228]"
-export ZSH_THEME_GIT_PROMPT_DIRTY="$FG[145]]:[$FG[228]✗$FG[145]] "
+export ZSH_THEME_GIT_PROMPT_PREFIX="─%B$FG[145][git:$FG[011]"
+export ZSH_THEME_GIT_PROMPT_DIRTY="$FG[145]]:[$FG[011]🔴$FG[145]] "
 export ZSH_THEME_GIT_PROMPT_CLEAN="$FG[145]] "
 export ZSH_THEME_GIT_PROMPT_SUFFIX=$RESET_PROMPT
 
