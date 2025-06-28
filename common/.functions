@@ -92,10 +92,10 @@ htb-set-zsh() {
     else
         case "$#" in
             0)
-                sed -i "s|^export HTB_ADDRESS=.*|export HTB_ADDRESS=\"\"|" $HOME/.zshrc && source $HOME/.zshrc
+                sed -i "s|^export BOX_ADDRESS=.*|export BOX_ADDRESS=\"\"|" $HOME/.zshrc && source $HOME/.zshrc
                 ;;
             1)
-                sed -i "s|^export HTB_ADDRESS=.*|export HTB_ADDRESS=\"$1\"|" $HOME/.zshrc && source $HOME/.zshrc
+                sed -i "s|^export BOX_ADDRESS=.*|export BOX_ADDRESS=\"$1\"|" $HOME/.zshrc && source $HOME/.zshrc
                 ;;
         esac
     fi
