@@ -207,3 +207,19 @@ ipa() {
         fi
     fi
 }
+
+cat-with-no-comments() {
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: cat-with-no-comments <FILE>"
+    else
+        grep -v '^[[:space:]]*#' $1 | awk 'NF{print; blank=0} !NF && !blank{print ""; blank=1}'
+    fi
+}
+
+mkbak() {
+    cp "$1" "$1.bak";
+}
+
+speedtest-cli() {
+    curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python3 -
+}
