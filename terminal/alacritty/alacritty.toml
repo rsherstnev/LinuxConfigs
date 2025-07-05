@@ -12,30 +12,6 @@ multiplier = 3
 normal = { family = "CaskaydiaCove Nerd Font", style = "SemiBold" }
 size = 11.0
 
-[colors.primary]
-background = "#282A36"
-foreground = "#F8F8F2"
-
-[colors.normal]
-black   = "#21222C"
-red     = "#FF5555"
-green   = "#50FA7B"
-yellow  = "#F1FA8C"
-blue    = "#BD93F9"
-magenta = "#FF79C6"
-cyan    = "#8BE9FD"
-white   = "#F8F8F2"
-
-[colors.bright]
-black   = "#6272A4"
-red     = "#FF6E6E"
-green   = "#69FF94"
-yellow  = "#FFFFA5"
-blue    = "#D6ACFF"
-magenta = "#FF92DF"
-cyan    = "#A4FFFF"
-white   = "#FFFFFF"
-
 [selection]
 save_to_clipboard = true
 

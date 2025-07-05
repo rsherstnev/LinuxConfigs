@@ -1,11 +1,11 @@
 call plug#begin('~/.local/share/nvim/plugged')
-Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim', { 'on': 'Files' }
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'nvim-lualine/lualine.nvim'
+Plug 'nvim-tree/nvim-tree.lua'
+Plug 'nvim-tree/nvim-web-devicons'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 Plug 'psliwka/vim-smoothie'
-Plug 'catppuccin/nvim'
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 call plug#end()
 
 syntax on
@@ -32,15 +32,10 @@ set iminsert=0
 set mouse=a
 set wrap
 set linebreak
-set laststatus=2
 set clipboard=unnamedplus
+set laststatus=3
 
-set termguicolors
-set background=dark
 colorscheme catppuccin-mocha
-let g:airline_theme='wombat'
-let g:airline_detect_paste=1
-"set statusline=%F\ %y\ %m\ %r\ %=Line:%l/%L\ Col:%c
 
 autocmd FileType yaml setlocal tabstop=2 shiftwidth=2 expandtab
 
@@ -52,10 +47,10 @@ nnoremap gj j
 function! TogglePaste()
     if &paste
         set nopaste
-        echo "🛑 Paste mode OFF"
+        echo "🔴 Paste Mode OFF"
     else
         set paste
-        echo "✅ Paste mode ON"
+        echo "🟢 Paste Mode ON"
     endif
 endfunction
 
@@ -63,3 +58,25 @@ nnoremap <F1> :call TogglePaste()<CR>
 inoremap <F1> <C-O>:call TogglePaste()<CR>
 nnoremap <F2> :set list!<CR>
 nnoremap <F3> :set number!<CR>
+
+lua << END
+require('lualine').setup {
+  options = {
+    theme = 'catppuccin',
+    icons_enabled = true,
+    component_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
+    disabled_filetypes = {}
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {},
+    lualine_c = {
+      { 'filename', path = 2 }
+    },
+    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  }
+}
+END

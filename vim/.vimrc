@@ -2,8 +2,6 @@ call plug#begin('~/.vim/plugins')
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim', { 'on': 'Files' }
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'psliwka/vim-smoothie'
 call plug#end()
 
@@ -37,9 +35,7 @@ set clipboard=unnamedplus
 set t_Co=256
 set background=dark
 colorscheme iceberg "gruvbox habamax
-let g:airline_theme='wombat'
-let g:airline_detect_paste=1
-"set statusline=%F\ %y\ %m\ %r\ %=Line:%l/%L\ Col:%c
+set statusline=%F\ %y\ %m\ %r\ %=Line:%l/%L\ Col:%c
 
 autocmd FileType yaml setlocal tabstop=2 shiftwidth=2 expandtab
 
@@ -51,10 +47,10 @@ nnoremap gj j
 function! TogglePaste()
     if &paste
         set nopaste
-        echo "🛑 Paste mode OFF"
+        echo "🔴 Paste Mode OFF"
     else
         set paste
-        echo "✅ Paste mode ON"
+        echo "🟢 Paste Mode ON"
     endif
 endfunction
 

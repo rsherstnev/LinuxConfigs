@@ -132,7 +132,7 @@ export BOX_ADDRESS=""
 
 BOX_PROMPT() {
     if [[ -n "$BOX_ADDRESS" ]]; then
-        echo "%B$FG[181][🥝 $BOX_ADDRESS]$RESET_PROMPT─"
+        echo "%B$FG[144][🥝 $BOX_ADDRESS]$RESET_PROMPT─"
     fi
 }
 
