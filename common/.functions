@@ -223,3 +223,12 @@ mkbak() {
 speedtest-cli() {
     curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python3 -
 }
+
+b64encode() {
+    if [[ $# == 0 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: b64encode <TEXT>"
+    else
+        local input="$*"
+        printf "%s" "$input" | base64
+    fi
+}

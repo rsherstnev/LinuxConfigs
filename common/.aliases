@@ -92,3 +92,4 @@ alias gef='gdb -x /opt/software/gef/.gdbinit'
 alias rustscan='rustscan --ulimit 5000'
 alias code="code --no-sandbox --user-data-dir $HOME/.vscode"
 alias zed="env ZED_ALLOW_EMULATED_GPU=1 zed"
+alias htb='cd /opt/ctf/htb'
