@@ -1,8 +1,8 @@
 [window]
-dimensions = { columns = 150, lines = 37 }
+dimensions = { columns = 190, lines = 48 }
 dynamic_title = false
 title = "BTWOS"
-opacity = 0.93
+opacity = 0.95
 
 [scrolling]
 history = 100000
@@ -10,7 +10,7 @@ multiplier = 3
 
 [font]
 normal = { family = "CaskaydiaCove Nerd Font", style = "SemiBold" }
-size = 11.0
+size = 10.5
 
 [selection]
 save_to_clipboard = true

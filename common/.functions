@@ -232,3 +232,15 @@ b64encode() {
         printf "%s" "$input" | base64
     fi
 }
+
+hoaxshell() {
+    uv run --directory /opt/python-software/hoaxshell hoaxshell.py -q "$@"
+}
+
+villain() {
+    uv run --directory /opt/python-software/villain Villain.py -q "$@"
+}
+
+searchnmapscript() {
+    uv run --directory /opt/scripts searchnmapscript.py "$@"
+}
