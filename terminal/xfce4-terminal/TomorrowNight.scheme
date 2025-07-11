@@ -1,0 +1,9 @@
+[Scheme]
+Name=TomorrowNight
+ColorForeground=#d8d8d8
+ColorBackground=#181818
+ColorCursor=#d8d8d8
+ColorCursorForeground=#181818
+ColorBold=#f8f8f8
+ColorPalette=#181818;#ac4242;#90a959;#f4bf75;#6a9fb5;#aa759f;#75b5aa;#d8d8d8;#6b6b6b;#c55555;#aac474;#feca88;#82b8c8;#c28cb8;#93d3c3;#f8f8f8
+BoldIsBright=TRUE
