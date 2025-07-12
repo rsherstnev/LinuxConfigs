@@ -79,7 +79,7 @@ alias powershell='pwsh -NoLogo'
 alias msfconsole='msfconsole -q'
 alias msf-handler='msfconsole -q -x "use exploit/multi/handler"'
 alias www='list-ips && python3 -m http.server'
-alias smb='list-ips && impacket-smbserver -smb2support norden-smb .'
+alias smb='list-ips && impacket-smbserver -smb2support share .'
 alias empire-server='docker container start -ia empire'
 alias havoc-server='cd /opt/software/Havoc && ./havoc server --profile data/havoc.yaotl'
 alias adaptix-server='cd /opt/software/AdaptixC2/dist && ./adaptixserver -profile profile.json'
@@ -88,6 +88,6 @@ alias hashid='haiti'
 alias b64encode-file='base64 -w0'
 alias gef='gdb -x /opt/software/gef/.gdbinit'
 alias rustscan='rustscan --ulimit 5000'
-alias code="code --no-sandbox --user-data-dir $HOME/.vscode"
-alias zed="env ZED_ALLOW_EMULATED_GPU=1 zed"
+alias code="/usr/share/code/code --no-sandbox"
+alias zed="env ZED_ALLOW_EMULATED_GPU=1 ZED_ALLOW_ROOT=true zed"
 alias htb='cd /opt/ctf/htb'

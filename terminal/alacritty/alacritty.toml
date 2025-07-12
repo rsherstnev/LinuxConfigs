@@ -4,6 +4,10 @@ dynamic_title = false
 title = "BTWOS"
 opacity = 0.95
 
+[window.padding]
+x = 4
+y = 4
+
 [scrolling]
 history = 100000
 multiplier = 3
