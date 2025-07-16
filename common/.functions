@@ -1,9 +1,61 @@
-github-show-last-release() {
+github-show-latest-release() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: github-show-last-release <GITHUB_OWNER/GITHUB_REPO>"
+        echo "Usage: github-show-latest-release <GITHUB_OWNER/GITHUB_REPO>"
     else
         curl -s https://api.github.com/repos/$1/releases/latest | jq '.assets[].browser_download_url' | sed "s/ /\\n/g"
     fi
+}
+
+github-download-latest-release() {
+    if [[ $# != 2 && $# != 3 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: github-download-latest-release <GITHUB_OWNER/GITHUB_REPO> <FILE-PATTERN> [OUTPUT-DIR]"
+        echo "Example: github-download-latest-release \"DominicBreuker/pspy\" pspy64"
+        return 1
+    fi
+
+    local _RED_COLOR="\e[1;31m"
+    local _GREEN_COLOR="\e[1;32m"
+    local _COLOR_RESET="\e[0m"
+
+    local repo="$1"
+    local pattern="$2"
+    local output_dir="${3:-.}"
+
+    if ! command -v jq &> /dev/null; then
+        echo -e "${_RED_COLOR}[ERROR] Для работы функции необходима утилита \"jq\"!${_COLOR_RESET}"
+        return 1
+    fi
+
+    echo "[INFO] Получаю список файлов в последнем релизе репозитория \"$repo\"..."
+    local api_url="https://api.github.com/repos/$repo/releases/latest"
+    local response=$(curl -sL "$api_url")
+
+    local download_urls=($(echo "$response" | jq -r --arg pattern "$pattern" '.assets[] | select(.name | contains($pattern)).browser_download_url'))
+
+    if [ ${#download_urls[@]} -eq 0 ]; then
+        echo "${_RED_COLOR}[ERROR] В последнем релизе репозитория не были найдены файлы с паттерном \"$pattern\"!${_COLOR_RESET}"
+        return 1
+    fi
+
+    mkdir -p "$output_dir"
+
+    for url in "${download_urls[@]}"; do
+        local filename=$(basename "$url")
+        echo "[INFO] Загрузка файла: $filename"
+        if command -v wget &> /dev/null; then
+            if wget -q --show-progress -O "$output_dir/$filename" "$url"; then
+                echo "${_GREEN_COLOR}[SUCCESS] Файл "$filename" был успешно загружен в директорию \"$output_dir\".${_COLOR_RESET}"
+            else
+                echo "${_RED_COLOR}[ERROR] При загрузке файла "$filename" в директорию \"$output_dir\" произошла ошибка!${_COLOR_RESET}"
+            fi
+        else
+            if curl -L -o "$output_dir/$filename" "$url"; then
+                echo "${_GREEN_COLOR}[SUCCESS] Файл "$filename" был успешно загружен в директорию \"$output_dir\".${_COLOR_RESET}"
+            else
+                echo "${_RED_COLOR}[ERROR] При загрузке файла "$filename" в директорию \"$output_dir\" произошла ошибка!${_COLOR_RESET}"
+            fi
+        fi
+    done
 }
 
 wg-generate-qr() {
