@@ -87,7 +87,9 @@ alias bloodhound='docker compose -f /opt/docker-compose/bloodhound-ce.yml -p blo
 alias hashid='haiti'
 alias b64encode-file='base64 -w0'
 alias gef='gdb -x /opt/software/gef/.gdbinit'
-alias rustscan='rustscan --ulimit 5000'
+alias rustscan='rustscan --no-banner --ulimit 5000'
 alias code="/usr/share/code/code --no-sandbox"
+alias codediff='code --diff'
 alias zed="env ZED_ALLOW_EMULATED_GPU=1 ZED_ALLOW_ROOT=true zed"
 alias htb='cd /opt/ctf/htb'
+alias smbmap='smbmap --no-banner'

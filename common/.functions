@@ -244,3 +244,61 @@ villain() {
 searchnmapscript() {
     uv run --directory /opt/scripts searchnmapscript.py "$@"
 }
+
+nxc-test-passwords() {
+    if [[ $# != 3 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: nxc-test-passwords <HOST> <LOGIN> <PASSWORD>"
+    else
+        for proto in smb ldap wmi winrm rdp mssql nfs ssh ftp vnc; do
+            nxc $proto $1 -u "$2" -p "$3" 2&>/dev/null
+        done
+    fi
+}
+
+nxc-test-hashes() {
+    if [[ $# != 3 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: nxc-test-hashes <HOST> <LOGIN> <HASH>"
+    else
+        for proto in smb ldap wmi winrm rdp mssql nfs ssh ftp vnc; do
+            nxc $proto $1 -u "$2" -H "$3" 2&>/dev/null
+        done
+    fi
+}
+
+nmap-scan-tcp-ports() {
+    local target="$1"
+
+    echo "[*] Быстрое сканирование $target..."
+    local ports=$(nmap -sS -n -Pn --min-rate 500 --open "$target" | awk '/^[0-9]+\/tcp/ && $2 == "open" { split($1, a, "/"); print a[1] }' | paste -sd, -)
+
+    if [[ -n "$ports" ]]; then
+        echo "[*] Открытые порты: $ports"
+        echo "[*] Запуск подробного сканирования..."
+        nmap -sC -sV -n -v -Pn -p "$ports" "$target" -oN nmap.tcp.ports
+    else
+        echo "[!] Открытых портов не найдено"
+    fi
+}
+
+nmap-scan-tcp-all-ports() {
+    local target="$1"
+
+    echo "[*] Быстрое сканирование $target..."
+    local ports=$(nmap -sS -n -p- -Pn --min-rate 500 --open "$target" | awk '/^[0-9]+\/tcp/ && $2 == "open" { split($1, a, "/"); print a[1] }' | paste -sd, -)
+
+    if [[ -n "$ports" ]]; then
+        echo "[*] Открытые порты: $ports"
+        echo "[*] Запуск подробного сканирования..."
+        nmap -sC -sV -n -v -Pn -p "$ports" "$target" -oN nmap.tcp.allports
+    else
+        echo "[!] Открытых портов не найдено"
+    fi
+}
+
+rustscan-tcp-ports() {
+    command rustscan --no-banner --scan-order random --ulimit 5000 -a "$1" -- -sC -sV -n -Pn -oN rustscan.tcp.ports
+}
+
+rustscan-tcp-all-ports() {
+    command rustscan --no-banner --scan-order random --ulimit 5000 -r 1-65535 -a "$1" -- -sC -sV -n -Pn -oN rustscan.tcp.allports
+}
