@@ -318,39 +318,123 @@ nxc-test-hashes() {
 }
 
 nmap-scan-tcp-ports() {
-    local target="$1"
-
-    echo "[*] Быстрое сканирование $target..."
-    local ports=$(nmap -sS -n -Pn --min-rate 500 --open "$target" | awk '/^[0-9]+\/tcp/ && $2 == "open" { split($1, a, "/"); print a[1] }' | paste -sd, -)
-
-    if [[ -n "$ports" ]]; then
-        echo "[*] Открытые порты: $ports"
-        echo "[*] Запуск подробного сканирования..."
-        nmap -sC -sV -n -v -Pn -p "$ports" "$target" -oN nmap.tcp.ports
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: nmap-scan-tcp-ports <ADDRESS>"
     else
-        echo "[!] Открытых портов не найдено"
+        local target="$1"
+
+        echo "[*] Быстрое сканирование $target..."
+        local ports=$(nmap -sS -n -Pn --min-rate 500 --open "$target" | awk '/^[0-9]+\/tcp/ && $2 == "open" { split($1, a, "/"); print a[1] }' | paste -sd, -)
+
+        if [[ -n "$ports" ]]; then
+            echo "[*] Открытые порты: $ports"
+            echo "[*] Запуск подробного сканирования..."
+            nmap -sC -sV -n -v -Pn -p "$ports" "$target" -oN nmap.tcp.ports
+        else
+            echo "[!] Открытых портов не найдено"
+        fi
     fi
 }
 
 nmap-scan-tcp-all-ports() {
-    local target="$1"
-
-    echo "[*] Быстрое сканирование $target..."
-    local ports=$(nmap -sS -n -p- -Pn --min-rate 500 --open "$target" | awk '/^[0-9]+\/tcp/ && $2 == "open" { split($1, a, "/"); print a[1] }' | paste -sd, -)
-
-    if [[ -n "$ports" ]]; then
-        echo "[*] Открытые порты: $ports"
-        echo "[*] Запуск подробного сканирования..."
-        nmap -sC -sV -n -v -Pn -p "$ports" "$target" -oN nmap.tcp.allports
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: nmap-scan-tcp-all-ports <ADDRESS>"
     else
-        echo "[!] Открытых портов не найдено"
+        local target="$1"
+
+        echo "[*] Быстрое сканирование $target..."
+        local ports=$(nmap -sS -n -p- -Pn --min-rate 500 --open "$target" | awk '/^[0-9]+\/tcp/ && $2 == "open" { split($1, a, "/"); print a[1] }' | paste -sd, -)
+
+        if [[ -n "$ports" ]]; then
+            echo "[*] Открытые порты: $ports"
+            echo "[*] Запуск подробного сканирования..."
+            nmap -sC -sV -n -v -Pn -p "$ports" "$target" -oN nmap.tcp.allports
+        else
+            echo "[!] Открытых портов не найдено"
+        fi
     fi
 }
 
 rustscan-tcp-ports() {
-    command rustscan --no-banner --scan-order random --ulimit 5000 -a "$1" -- -sC -sV -n -Pn -oN rustscan.tcp.ports
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: rustscan-tcp-ports <ADDRESS>"
+    else
+        command rustscan --no-banner --scan-order random --ulimit 5000 -a "$1" -- -sC -sV -n -Pn -oN rustscan.tcp.ports
+    fi
 }
 
 rustscan-tcp-all-ports() {
-    command rustscan --no-banner --scan-order random --ulimit 5000 -r 1-65535 -a "$1" -- -sC -sV -n -Pn -oN rustscan.tcp.allports
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: rustscan-tcp-all-ports <ADDRESS>"
+    else
+        command rustscan --no-banner --scan-order random --ulimit 5000 -r 1-65535 -a "$1" -- -sC -sV -n -Pn -oN rustscan.tcp.allports
+    fi
+}
+
+hashid-file() {
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: hashid-file <FILE>"
+    else
+        haiti -e - < "$1"
+    fi
+}
+
+which-packet() {
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: which-packet <TOOL>"
+    else
+        dpkg -S $(which $1)
+    fi
+}
+
+www() {
+    if [[ $# != 0 && $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: www [PORT]"
+    else
+        local _GREEN_COLOR="\e[1;32m"
+        local _COLOR_RESET="\e[0m"
+
+        echo -e "${_GREEN_COLOR}IP адреса машины:${_COLOR_RESET}"
+        list-ips
+        echo
+
+        echo -e "${_GREEN_COLOR}Содержимое директории:${_COLOR_RESET}"
+        ls -a
+        echo
+        
+        case "$#" in
+            0)
+                python3 -m http.server
+                ;;
+            1)
+                python3 -m http.server $1
+                ;;
+        esac
+    fi
+}
+
+smb() {
+    if [[ $# != 0 && $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: smb [SHARE-NAME]"
+    else
+        local _GREEN_COLOR="\e[1;32m"
+        local _COLOR_RESET="\e[0m"
+
+        echo -e "${_GREEN_COLOR}IP адреса машины:${_COLOR_RESET}"
+        list-ips
+        echo
+
+        echo -e "${_GREEN_COLOR}Содержимое директории:${_COLOR_RESET}"
+        ls -a
+        echo
+        
+        case "$#" in
+            0)
+                impacket-smbserver -smb2support share .
+                ;;
+            1)
+                impacket-smbserver -smb2support "$1" .
+                ;;
+        esac
+    fi
 }
