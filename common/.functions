@@ -438,3 +438,20 @@ smb() {
         esac
     fi
 }
+
+git-grep() {
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: git-grep <PATTERN>"
+    else
+        local pattern="$1"
+        local red=$'\033[31m' green=$'\033[32m' blue=$'\033[34m' reset=$'\033[0m'
+
+        git rev-list --all | while read -r commit; do
+            git --no-pager grep "$pattern" "$commit" | while IFS=: read -r file line text; do
+                text="${text#"${text%%[![:space:]]*}"}"
+                highlighted_text=$(echo "$text" | sed -E "s/($pattern)/${red}\1${reset}/gI")
+                printf "%s%s%s:%s%s%s:%s\n" "$blue" "$file" "$reset" "$green" "$line" "$reset" "$highlighted_text"
+            done
+        done | column -t -s ":"
+    fi
+}
