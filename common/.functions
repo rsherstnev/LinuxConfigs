@@ -297,6 +297,10 @@ searchnmapscript() {
     uv run --directory /opt/scripts searchnmapscript.py "$@"
 }
 
+phpsploit() {
+    uv run --directory /opt/python-software/phpsploit ./phpsploit "$@"
+}
+
 nxc-test-passwords() {
     if [[ $# != 3 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo "Usage: nxc-test-passwords <HOST> <LOGIN> <PASSWORD>"
@@ -329,7 +333,7 @@ nmap-scan-tcp-ports() {
         if [[ -n "$ports" ]]; then
             echo "[*] Открытые порты: $ports"
             echo "[*] Запуск подробного сканирования..."
-            nmap -sC -sV -n -v -Pn -p "$ports" "$target" -oN nmap.tcp.ports
+            nmap -sC -sV -n -vvv -Pn -p "$ports" "$target" -oN nmap.tcp.ports
         else
             echo "[!] Открытых портов не найдено"
         fi
@@ -348,7 +352,7 @@ nmap-scan-tcp-all-ports() {
         if [[ -n "$ports" ]]; then
             echo "[*] Открытые порты: $ports"
             echo "[*] Запуск подробного сканирования..."
-            nmap -sC -sV -n -v -Pn -p "$ports" "$target" -oN nmap.tcp.allports
+            nmap -sC -sV -n -vvv -Pn -p "$ports" "$target" -oN nmap.tcp.allports
         else
             echo "[!] Открытых портов не найдено"
         fi
@@ -424,6 +428,9 @@ smb() {
         list-ips
         echo
 
+        echo -e "${_GREEN_COLOR}Имя шары: share${_COLOR_RESET}"
+        echo
+
         echo -e "${_GREEN_COLOR}Содержимое директории:${_COLOR_RESET}"
         ls -a
         echo
@@ -453,5 +460,51 @@ git-grep() {
                 printf "%s%s%s:%s%s%s:%s\n" "$blue" "$file" "$reset" "$green" "$line" "$reset" "$highlighted_text"
             done
         done | column -t -s ":"
+    fi
+}
+
+http-simple-test() {
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: http-simple-test <SITE-URL>"
+    else
+        local _RED_COLOR="\e[1;31m"
+        local _YELLOW_COLOR="\e[1;33m"
+        local _GREEN_COLOR="\e[1;32m"
+        local _COLOR_RESET="\e[0m"
+
+        local base_url="$1"
+
+        local pages=(
+            "robots.txt"
+            "sitemap.xml"
+            ".gitignore"
+            ".git/"
+            ".svn/"
+            "admin/"
+            "backup/"
+            ".env"
+        )
+
+        if ! command -v curl > /dev/null; then
+            echo "${_RED_COLOR}[FAIL] Для работы функции необходима утилита \"curl\", но она не была найдена!${_COLOR_RESET}"
+            return 1
+        fi
+
+        for page in "${pages[@]}"; do
+            full_url="${base_url}/${page}"
+            http_code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 10 "$full_url")
+
+            case "$http_code" in
+                200)
+                    echo "${_GREEN_COLOR}[$http_code] $full_url${_COLOR_RESET}"
+                    ;;
+                404)
+                    echo "${_RED_COLOR}[$http_code] $full_url${_COLOR_RESET}"
+                    ;;
+                *)
+                    echo "${_YELLOW_COLOR}[$http_code] $full_url${_COLOR_RESET}"
+                    ;;
+            esac
+        done
     fi
 }
