@@ -359,6 +359,27 @@ nmap-scan-tcp-all-ports() {
     fi
 }
 
+nmap-scan-udp-main-ports() {
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: nmap-scan-udp-main-ports <ADDRESS>"
+    else
+        local target="$1"
+        local main_udp_ports=(53 67 69 123 137 138 161 162 500 514 520 623 1434 1812 1900 2049 4500 5353 5678 11211)
+        local port_list=$(IFS=, ; echo "${main_udp_ports[*]}")
+
+        echo "[*] Быстрое сканирование $target..."
+        local ports=$(nmap -sU -n -p $port_list -Pn "$target" | awk '/^[0-9]+\/udp/ && $2 != "closed" { split($1, a, "/"); print a[1] }' | paste -sd,)
+
+        if [[ -n "$ports" ]]; then
+            echo "[*] Открытые порты: $ports"
+            echo "[*] Запуск подробного сканирования..."
+            nmap -sU -sC -sV -n -vvv -Pn -p "$ports" "$target" -oN nmap.udp.mainports
+        else
+            echo "[!] Открытых портов не найдено"
+        fi
+    fi
+}
+
 rustscan-tcp-ports() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo "Usage: rustscan-tcp-ports <ADDRESS>"
