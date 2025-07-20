@@ -91,9 +91,9 @@ extract() {
     fi
 }
 
-generate-password() {
+password-generate() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: generate-password <LENGTH>"
+        echo "Usage: password-generate <LENGTH>"
     else
         openssl rand -base64 $1
     fi
@@ -202,9 +202,9 @@ dockerhub-get-image-versions() {
     fi
 }
 
-reload-zsh-completion() {
+zsh-completion-reload() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: reload-zsh-completion <COMMAND>"
+        echo "Usage: zsh-completion-reload <COMMAND>"
     else
         unfunction _$1 && compinit _$1
     fi
@@ -527,5 +527,13 @@ http-simple-test() {
                     ;;
             esac
         done
+    fi
+}
+
+openssl-certinfo() {
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: openssl-certinfo <CERT>"
+    else
+        openssl x509 -in "$1" -noout -text
     fi
 }

@@ -56,10 +56,10 @@ alias externalip-dig='dig +short myip.opendns.com @resolver1.opendns.com'
 alias externalip-curl='curl ifconfig.me'
 alias ping-windows='ping -c 4'
 alias flushdns='sudo systemd-resolve --flush-caches'
-alias certinfo='openssl x509 -text -noout -in'
 alias mountinfo='mount | column -t'
 alias datetime='date "+%A %d.%m.%Y %H:%M:%S"'
 alias venv-exit='deactivate'
+alias wg-wg0='wg-quick up wg0'
 
 # CD aliases
 alias ..='cd ..'
@@ -90,3 +90,4 @@ alias codediff='code --diff'
 alias zed="env ZED_ALLOW_EMULATED_GPU=1 ZED_ALLOW_ROOT=true zed"
 alias htb='cd /opt/ctf/htb'
 alias smbmap='smbmap --no-banner'
+alias wfuzz='wfuzz -c'
