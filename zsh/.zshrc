@@ -128,8 +128,6 @@ bindkey '^[[B' down-line-or-search
 bindkey '^ ' autosuggest-accept
 
 # Настройки Shell Prompt
-export BOX_ADDRESS=""
-
 BOX_PROMPT() {
     if [[ -n "$BOX_ADDRESS" ]]; then
         echo "%B$FG[144][🥝 $BOX_ADDRESS]$RESET_PROMPT─"
