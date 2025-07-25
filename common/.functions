@@ -632,3 +632,25 @@ EOF
 
     proxychains4 -q -f "$HOME/.proxychains_burp" "$@"
 }
+
+# Чисто вайб-кодинг
+get-link-local-ipv6-by-mac() {
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo "Usage: get-link-local-ipv6-by-mac <MAC-ADDRESS>"
+    else
+        mac=$(echo "$1" | tr '[:upper:]' '[:lower:]' | tr '-' ':')
+
+        if ! echo "$mac" | grep -Eq '^([0-9a-f]{2}:){5}[0-9a-f]{2}$'; then
+            echo-red "Неверный MAC-адрес!"
+            echo-red "MAC-адрес должен быть в формате XX:XX:XX:XX:XX:XX или XX-XX-XX-XX-XX-XX"
+            return 1
+        fi
+
+        IFS=':' read -r o1 o2 o3 o4 o5 o6 <<< "$mac"
+
+        dec=$(( 0x$o1 ))
+        dec=$(( dec ^ 0x02 ))
+        o1_mod=$(printf "%02x" $dec)
+        printf 'fe80::%s%02s:%s%02s:%s%02s:%s%02s\n' "${o1_mod}" "${o2}" "${o3}" "ff" "fe" "${o4}" "${o5}" "${o6}"
+    fi
+}
