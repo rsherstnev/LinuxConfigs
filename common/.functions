@@ -1,3 +1,21 @@
+echo-green() {
+    local _GREEN_COLOR="\e[1;32m"
+    local _COLOR_RESET="\e[0m"
+    echo -e "${_GREEN_COLOR}$1${_COLOR_RESET}"
+}
+
+echo-yellow() {
+    local _YELLOW_COLOR="\e[1;33m"
+    local _COLOR_RESET="\e[0m"
+    echo -e "${_YELLOW_COLOR}$1${_COLOR_RESET}"
+}
+
+echo-red() {
+    local _RED_COLOR="\e[1;31m"
+    local _COLOR_RESET="\e[0m"
+    echo -e "${_RED_COLOR}$1${_COLOR_RESET}"
+}
+
 github-show-latest-release() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo "Usage: github-show-latest-release <GITHUB_OWNER/GITHUB_REPO>"
@@ -13,27 +31,23 @@ github-download-latest-release() {
         return 1
     fi
 
-    local _RED_COLOR="\e[1;31m"
-    local _GREEN_COLOR="\e[1;32m"
-    local _COLOR_RESET="\e[0m"
-
     local repo="$1"
     local pattern="$2"
     local output_dir="${3:-.}"
 
     if ! command -v jq &> /dev/null; then
-        echo -e "${_RED_COLOR}[ERROR] Для работы функции необходима утилита \"jq\"!${_COLOR_RESET}"
+        echo-red "[ERROR] Для работы функции необходима утилита \"jq\"!"
         return 1
     fi
 
-    echo "[INFO] Получаю список файлов в последнем релизе репозитория \"$repo\"..."
+    echo-yellow "[INFO] Получаю список файлов в последнем релизе репозитория \"$repo\"..."
     local api_url="https://api.github.com/repos/$repo/releases/latest"
     local response=$(curl -sL "$api_url")
 
     local download_urls=($(echo "$response" | jq -r --arg pattern "$pattern" '.assets[] | select(.name | contains($pattern)).browser_download_url'))
 
     if [ ${#download_urls[@]} -eq 0 ]; then
-        echo "${_RED_COLOR}[ERROR] В последнем релизе репозитория не были найдены файлы с паттерном \"$pattern\"!${_COLOR_RESET}"
+        echo-red "[ERROR] В последнем релизе репозитория не были найдены файлы с паттерном \"$pattern\"!"
         return 1
     fi
 
@@ -44,15 +58,15 @@ github-download-latest-release() {
         echo "[INFO] Загрузка файла: $filename"
         if command -v wget &> /dev/null; then
             if wget -q --show-progress -O "$output_dir/$filename" "$url"; then
-                echo "${_GREEN_COLOR}[SUCCESS] Файл "$filename" был успешно загружен в директорию \"$output_dir\".${_COLOR_RESET}"
+                echo-green "[SUCCESS] Файл "$filename" был успешно загружен в директорию \"$output_dir\"."
             else
-                echo "${_RED_COLOR}[ERROR] При загрузке файла "$filename" в директорию \"$output_dir\" произошла ошибка!${_COLOR_RESET}"
+                echo-red "[ERROR] При загрузке файла "$filename" в директорию \"$output_dir\" произошла ошибка!"
             fi
         else
             if curl -L -o "$output_dir/$filename" "$url"; then
-                echo "${_GREEN_COLOR}[SUCCESS] Файл "$filename" был успешно загружен в директорию \"$output_dir\".${_COLOR_RESET}"
+                echo-green "[SUCCESS] Файл "$filename" был успешно загружен в директорию \"$output_dir\"."
             else
-                echo "${_RED_COLOR}[ERROR] При загрузке файла "$filename" в директорию \"$output_dir\" произошла ошибка!${_COLOR_RESET}"
+                echo-red "[ERROR] При загрузке файла "$filename" в директорию \"$output_dir\" произошла ошибка!"
             fi
         fi
     done
@@ -331,15 +345,15 @@ nmap-scan-tcp-ports() {
     else
         local target="$1"
 
-        echo "[*] Быстрое сканирование $target..."
+        echo-yellow "[*] Быстрое сканирование $target..."
         local ports=$(nmap -sS -n -Pn --min-rate 500 --open "$target" | awk '/^[0-9]+\/tcp/ && $2 == "open" { split($1, a, "/"); print a[1] }' | paste -sd, -)
 
         if [[ -n "$ports" ]]; then
-            echo "[*] Открытые порты: $ports"
-            echo "[*] Запуск подробного сканирования..."
+            echo-green "[*] Открытые порты: $ports"
+            echo-yellow "[*] Запуск подробного сканирования..."
             nmap -sC -sV -n -vvv -Pn -p "$ports" "$target" -oN nmap.tcp.ports
         else
-            echo "[!] Открытых портов не найдено"
+            echo-red "[!] Открытых портов не найдено"
         fi
     fi
 }
@@ -350,15 +364,15 @@ nmap-scan-tcp-all-ports() {
     else
         local target="$1"
 
-        echo "[*] Быстрое сканирование $target..."
+        echo-yellow "[*] Быстрое сканирование $target..."
         local ports=$(nmap -sS -n -p- -Pn --min-rate 500 --open "$target" | awk '/^[0-9]+\/tcp/ && $2 == "open" { split($1, a, "/"); print a[1] }' | paste -sd, -)
 
         if [[ -n "$ports" ]]; then
-            echo "[*] Открытые порты: $ports"
-            echo "[*] Запуск подробного сканирования..."
+            echo-green "[*] Открытые порты: $ports"
+            echo-yellow "[*] Запуск подробного сканирования..."
             nmap -sC -sV -n -vvv -Pn -p "$ports" "$target" -oN nmap.tcp.allports
         else
-            echo "[!] Открытых портов не найдено"
+            echo-red "[!] Открытых портов не найдено"
         fi
     fi
 }
@@ -371,15 +385,15 @@ nmap-scan-udp-main-ports() {
         local main_udp_ports=(53 67 69 123 137 138 161 162 500 514 520 623 1434 1812 1900 2049 4500 5353 5678 11211)
         local port_list=$(IFS=, ; echo "${main_udp_ports[*]}")
 
-        echo "[*] Быстрое сканирование $target..."
+        echo-yellow "[*] Быстрое сканирование $target..."
         local ports=$(nmap -sU -n -p $port_list -Pn "$target" | awk '/^[0-9]+\/udp/ && $2 != "closed" { split($1, a, "/"); print a[1] }' | paste -sd,)
 
         if [[ -n "$ports" ]]; then
-            echo "[*] Открытые порты: $ports"
-            echo "[*] Запуск подробного сканирования..."
+            echo-green "[*] Открытые порты: $ports"
+            echo-yellow "[*] Запуск подробного сканирования..."
             nmap -sU -sC -sV -n -vvv -Pn -p "$ports" "$target" -oN nmap.udp.mainports
         else
-            echo "[!] Открытых портов не найдено"
+            echo-red "[!] Открытых портов не найдено"
         fi
     fi
 }
@@ -420,14 +434,11 @@ http-server() {
     if [[ $# != 0 && $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo "Usage: http-server [PORT]"
     else
-        local _GREEN_COLOR="\e[1;32m"
-        local _COLOR_RESET="\e[0m"
-
-        echo -e "${_GREEN_COLOR}IP адреса машины:${_COLOR_RESET}"
+        echo-green "IP адреса машины:"
         list-ips
         echo
 
-        echo -e "${_GREEN_COLOR}Содержимое директории:${_COLOR_RESET}"
+        echo-green "Содержимое директории:"
         ls -a
         echo
         
@@ -446,9 +457,6 @@ smb-server() {
     if [[ $# != 0 && $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo "Usage: smb-server [SHARE-NAME]"
     else
-        local _GREEN_COLOR="\e[1;32m"
-        local _COLOR_RESET="\e[0m"
-
         case "$#" in
             0)
                 local share_name="share"
@@ -459,15 +467,15 @@ smb-server() {
         esac
         
 
-        echo -e "${_GREEN_COLOR}IP адреса машины:${_COLOR_RESET}"
+        echo-green "IP адреса машины:"
         list-ips
         echo
 
-        echo -e "${_GREEN_COLOR}Имя шары:${_COLOR_RESET}"
+        echo-green "Имя шары:"
         echo $share_name
         echo
 
-        echo -e "${_GREEN_COLOR}Содержимое директории:${_COLOR_RESET}"
+        echo-green "Содержимое директории:"
         ls -a
         echo
         
@@ -486,14 +494,11 @@ ftp-server() {
     if [[ $# != 0 && $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo "Usage: ftp-server [PORT]"
     else
-        local _GREEN_COLOR="\e[1;32m"
-        local _COLOR_RESET="\e[0m"
-
-        echo -e "${_GREEN_COLOR}IP адреса машины:${_COLOR_RESET}"
+        echo-green "IP адреса машины:"
         list-ips
         echo
 
-        echo -e "${_GREEN_COLOR}Содержимое директории:${_COLOR_RESET}"
+        echo-green "Содержимое директории:"
         ls -a
         echo
 
@@ -512,14 +517,11 @@ tftp-server() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo "Usage: tftp-server <INTERFACE>"
     else
-        local _GREEN_COLOR="\e[1;32m"
-        local _COLOR_RESET="\e[0m"
-
-        echo -e "${_GREEN_COLOR}IP адреса машины:${_COLOR_RESET}"
+        echo-green "IP адреса машины:"
         list-ips
         echo
 
-        echo -e "${_GREEN_COLOR}Содержимое директории:${_COLOR_RESET}"
+        echo-green "Содержимое директории:"
         ls -a
         echo
 
@@ -548,11 +550,6 @@ http-simple-test() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo "Usage: http-simple-test <SITE-URL>"
     else
-        local _RED_COLOR="\e[1;31m"
-        local _YELLOW_COLOR="\e[1;33m"
-        local _GREEN_COLOR="\e[1;32m"
-        local _COLOR_RESET="\e[0m"
-
         local base_url="$1"
 
         local pages=(
@@ -582,7 +579,7 @@ http-simple-test() {
         )
 
         if ! command -v curl > /dev/null; then
-            echo "${_RED_COLOR}[FAIL] Для работы функции необходима утилита \"curl\", но она не была найдена!${_COLOR_RESET}"
+            echo-red "[FAIL] Для работы функции необходима утилита \"curl\", но она не была найдена!"
             return 1
         fi
 
@@ -592,13 +589,13 @@ http-simple-test() {
 
             case "$http_code" in
                 200)
-                    echo "${_GREEN_COLOR}[$http_code] $full_url${_COLOR_RESET}"
+                    echo-green "[$http_code] $full_url"
                     ;;
                 404)
-                    echo "${_RED_COLOR}[$http_code] $full_url${_COLOR_RESET}"
+                    echo-red "[$http_code] $full_url"
                     ;;
                 *)
-                    echo "${_YELLOW_COLOR}[$http_code] $full_url${_COLOR_RESET}"
+                    echo-yellow "[$http_code] $full_url"
                     ;;
             esac
         done
