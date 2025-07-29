@@ -149,9 +149,9 @@ tracetcp() {
     fi
 }
 
-set-htb-address() {
+htb-set-box-address() {
     if [[ $# != 0 && $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: set-htb-address [ADDRESS]"
+        echo "Usage: htb-set-box-address [ADDRESS]"
     else
         if ! grep -q "^export BOX_ADDRESS=" "$HOME/.zshenv"; then
             echo 'export BOX_ADDRESS=""' >> "$HOME/.zshenv"
@@ -243,7 +243,7 @@ venv-create() {
     fi
 }
 
-venv-enter () {
+venv-activate () {
     if [[ $# != 0 && $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo "Usage: venv-enter [PYTHON_VENV_NAME]"
     else
@@ -671,5 +671,23 @@ https-cert-download() {
             echo-red "При загрузке сертификата сайта https://$host:$port в файл $output_file произошла ошибка!"
             return 2
         fi
+    fi
+}
+
+copy-file-to-clipboard() {
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo-yellow "Usage: copy-file-to-clipboard <FILE>"
+    elif ! [[ -f "$1" ]]; then
+        echo-red "Ошибка! Файл \"$1\" не найден!"
+    else
+        if command -v xclip &>/dev/null; then
+            xclip -selection clipboard < "$1"
+        elif command -v xsel &>/dev/null; then
+            xsel --clipboard < "$1"
+        else
+            echo-red "Ошибка! Утилиты \"xclip\" и \"xsel\" не были найдены"
+            return 1
+        fi
+        echo-green "Файл \"$1\" был скопирован в буфер обмена"
     fi
 }

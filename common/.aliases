@@ -61,6 +61,7 @@ alias mountinfo='mount | column -t'
 alias datetime='date "+%A %d.%m.%Y %H:%M:%S"'
 alias venv-exit='deactivate'
 alias wg-wg0='wg-quick up wg0'
+alias vimless='vim -R'
 
 # CD aliases
 alias ..='cd ..'
@@ -89,9 +90,9 @@ alias rustscan='rustscan --no-banner --ulimit 5000'
 alias code="/usr/share/code/code --no-sandbox"
 alias codediff='code --diff'
 alias zed="env ZED_ALLOW_EMULATED_GPU=1 ZED_ALLOW_ROOT=true zed"
-alias htb='cd /opt/ctf/htb'
+alias ctf-htb='cd /opt/ctf/htb'
 alias smbmap='smbmap --no-banner'
 alias wfuzz='wfuzz -c'
-alias file='magika --format "%p: %d (%g) %S | Возможное расширение: %e | MIME тип: %m"'
+alias file='magika --format "| %p: %d (%g) %S | Возможное расширение: %e | MIME тип: %m |"'
 alias dog-short='dog -1'
 alias strings='floss'
