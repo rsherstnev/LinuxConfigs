@@ -180,4 +180,5 @@ zstyle ':completion:*:ssh:*' hosts
 zstyle ':completion:*:ssh:*' config ~/.ssh/config
 zstyle ':completion:*:ssh:*' known-hosts ~/.ssh/known_hosts
 
-eval "$(uv generate-shell-completion zsh)"
+# Uncomment for ASDF using
+# export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"

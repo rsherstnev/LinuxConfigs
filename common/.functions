@@ -18,7 +18,7 @@ echo-red() {
 
 github-show-latest-release() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: github-show-latest-release <GITHUB_OWNER/GITHUB_REPO>"
+        echo-yellow "Usage: github-show-latest-release <GITHUB_OWNER/GITHUB_REPO>"
     else
         curl -s https://api.github.com/repos/$1/releases/latest | jq '.assets[].browser_download_url' | sed "s/ /\\n/g"
     fi
@@ -26,8 +26,8 @@ github-show-latest-release() {
 
 github-download-latest-release() {
     if [[ $# != 2 && $# != 3 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: github-download-latest-release <GITHUB_OWNER/GITHUB_REPO> <FILE-PATTERN> [OUTPUT-DIR]"
-        echo "Example: github-download-latest-release \"DominicBreuker/pspy\" pspy64"
+        echo-yellow "Usage: github-download-latest-release <GITHUB_OWNER/GITHUB_REPO> <FILE-PATTERN> [OUTPUT-DIR]"
+        echo-yellow "Example: github-download-latest-release \"DominicBreuker/pspy\" pspy64"
         return 1
     fi
 
@@ -55,7 +55,7 @@ github-download-latest-release() {
 
     for url in "${download_urls[@]}"; do
         local filename=$(basename "$url")
-        echo "[INFO] Загрузка файла: $filename"
+        echo-yellow "[INFO] Загрузка файла: $filename"
         if command -v wget &> /dev/null; then
             if wget -q --show-progress -O "$output_dir/$filename" "$url"; then
                 echo-green "[SUCCESS] Файл "$filename" был успешно загружен в директорию \"$output_dir\"."
@@ -74,7 +74,7 @@ github-download-latest-release() {
 
 wg-generate-qr() {
     if [[ $# != 2 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: wg-generate-qr </PATH/TO/WG-CLIENT.conf> </PATH/TO/QR.png>"
+        echo-yellow "Usage: wg-generate-qr </PATH/TO/WG-CLIENT.conf> </PATH/TO/QR.png>"
     else
         qrencode -r $1 -t png --foreground=85004B --size 16 --level H --margin 2 --dpi 300 -o $2
     fi
@@ -101,13 +101,13 @@ extract() {
             *)        echo "Неизвестный формат архива" ;;
         esac
     else
-        echo "Файл '$1' не существует"
+        echo-red "Файл '$1' не существует"
     fi
 }
 
 password-generate() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: password-generate <LENGTH>"
+        echo-yellow "Usage: password-generate <LENGTH>"
     else
         openssl rand -base64 $1
     fi
@@ -115,7 +115,7 @@ password-generate() {
 
 password-strong-generate() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: password-strong-generate <LENGTH>"
+        echo-yellow "Usage: password-strong-generate <LENGTH>"
     else
         tr -dc 'A-Za-z0-9!@#$%^&*()_+-=<>' </dev/random | head -c "$1"
         echo
@@ -124,7 +124,7 @@ password-strong-generate() {
 
 docker-shell() {
     if [[ $# != 1 && $# != 2 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: docker-shell <CONTAINER> [SHELL]"
+        echo-yellow "Usage: docker-shell <CONTAINER> [SHELL]"
     else
         case "$#" in
             1)
@@ -143,7 +143,7 @@ history-view() {
 
 tracetcp() {
     if [[ $# != 2 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: tracetcp <ADDRESS> <PORT>"
+        echo-yellow "Usage: tracetcp <ADDRESS> <PORT>"
     else
         traceroute -T $1 -p $2
     fi
@@ -151,7 +151,7 @@ tracetcp() {
 
 htb-set-box-address() {
     if [[ $# != 0 && $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: htb-set-box-address [ADDRESS]"
+        echo-yellow "Usage: htb-set-box-address [ADDRESS]"
     else
         if ! grep -q "^export BOX_ADDRESS=" "$HOME/.zshenv"; then
             echo 'export BOX_ADDRESS=""' >> "$HOME/.zshenv"
@@ -173,7 +173,7 @@ htb-set-box-address() {
 
 ssh-stealth() {
     if [[ $# != 3 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: ssh-stealth <USER> <ADDRESS> <COMMAND>"
+        echo-yellow "Usage: ssh-stealth <USER> <ADDRESS> <COMMAND>"
     else
         ssh $1@$2 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "$3"
     fi
@@ -193,7 +193,7 @@ conky-reload() {
 
 dockerhub-get-image-versions() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: dockerhub-get-image-versions <DOCKERHUB_REPO>"
+        echo-yellow "Usage: dockerhub-get-image-versions <DOCKERHUB_REPO>"
     else
         local image="$1"
         local namespace
@@ -222,7 +222,7 @@ dockerhub-get-image-versions() {
 
 zsh-completion-reload() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: zsh-completion-reload <COMMAND>"
+        echo-yellow "Usage: zsh-completion-reload <COMMAND>"
     else
         unfunction _$1 && compinit _$1
     fi
@@ -230,7 +230,7 @@ zsh-completion-reload() {
 
 venv-create() {
     if [[ $# != 0 && $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: venv-create [PYTHON_VENV_NAME]"
+        echo-yellow "Usage: venv-create [PYTHON_VENV_NAME]"
     else
         case "$#" in
             0)
@@ -245,7 +245,7 @@ venv-create() {
 
 venv-activate () {
     if [[ $# != 0 && $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: venv-enter [PYTHON_VENV_NAME]"
+        echo-yellow "Usage: venv-activate [PYTHON_VENV_NAME]"
     else
         case "$#" in
             0)
@@ -260,7 +260,7 @@ venv-activate () {
 
 docker-container-volumes() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: docker-container-volumes <CONTAINER>"
+        echo-yellow "Usage: docker-container-volumes <CONTAINER>"
     else
         docker container inspect $1 | jq '.[].Mounts.[].Source'
     fi
@@ -268,7 +268,7 @@ docker-container-volumes() {
 
 ipa() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: ipa <IP_ADDRESS>"
+        echo-yellow "Usage: ipa <IP_ADDRESS>"
     else
         if command -v jq &> /dev/null; then
             curl -s "https://ifconfig.co/json?ip=$1" | jq 'del(.user_agent)'
@@ -280,7 +280,7 @@ ipa() {
 
 cat-with-no-comments() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: cat-with-no-comments <FILE>"
+        echo-yellow "Usage: cat-with-no-comments <FILE>"
     else
         grep -v '^[[:space:]]*#' $1 | awk 'NF{print; blank=0} !NF && !blank{print ""; blank=1}'
     fi
@@ -296,7 +296,7 @@ speedtest-cli() {
 
 b64encode() {
     if [[ $# == 0 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: b64encode <TEXT>"
+        echo-yellow "Usage: b64encode <TEXT>"
     else
         local input="$*"
         printf "%s" "$input" | base64
@@ -321,7 +321,7 @@ phpsploit() {
 
 nxc-test-passwords() {
     if [[ $# != 3 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: nxc-test-passwords <HOST> <LOGIN> <PASSWORD>"
+        echo-yellow "Usage: nxc-test-passwords <HOST> <LOGIN> <PASSWORD>"
     else
         for proto in smb ldap wmi winrm rdp mssql nfs ssh ftp vnc; do
             nxc $proto $1 -u "$2" -p "$3" 2&>/dev/null
@@ -341,7 +341,7 @@ nxc-test-hashes() {
 
 nmap-scan-tcp-ports() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: nmap-scan-tcp-ports <ADDRESS>"
+        echo-yellow "Usage: nmap-scan-tcp-ports <ADDRESS>"
     else
         local target="$1"
 
@@ -360,7 +360,7 @@ nmap-scan-tcp-ports() {
 
 nmap-scan-tcp-all-ports() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: nmap-scan-tcp-all-ports <ADDRESS>"
+        echo-yellow "Usage: nmap-scan-tcp-all-ports <ADDRESS>"
     else
         local target="$1"
 
@@ -379,7 +379,7 @@ nmap-scan-tcp-all-ports() {
 
 nmap-scan-udp-main-ports() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: nmap-scan-udp-main-ports <ADDRESS>"
+        echo-yellow "Usage: nmap-scan-udp-main-ports <ADDRESS>"
     else
         local target="$1"
         local main_udp_ports=(53 67 69 80 123 137 138 161 162 500 514 520 623 631 1434 1645 1701 1812 1900 2049 4500 5060 5353 5678 11211)
@@ -400,7 +400,7 @@ nmap-scan-udp-main-ports() {
 
 rustscan-tcp-ports() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: rustscan-tcp-ports <ADDRESS>"
+        echo-yellow "Usage: rustscan-tcp-ports <ADDRESS>"
     else
         command rustscan --no-banner --scan-order random --ulimit 5000 -a "$1" -- -sC -sV -n -Pn -oN rustscan.tcp.ports
     fi
@@ -408,7 +408,7 @@ rustscan-tcp-ports() {
 
 rustscan-tcp-all-ports() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: rustscan-tcp-all-ports <ADDRESS>"
+        echo-yellow "Usage: rustscan-tcp-all-ports <ADDRESS>"
     else
         command rustscan --no-banner --scan-order random --ulimit 5000 -r 1-65535 -a "$1" -- -sC -sV -n -Pn -oN rustscan.tcp.allports
     fi
@@ -416,7 +416,7 @@ rustscan-tcp-all-ports() {
 
 hashid-file() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: hashid-file <FILE>"
+        echo-yellow "Usage: hashid-file <FILE>"
     else
         haiti -e - < "$1"
     fi
@@ -424,7 +424,7 @@ hashid-file() {
 
 which-packet() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: which-packet <TOOL>"
+        echo-yellow "Usage: which-packet <TOOL>"
     else
         dpkg -S $(which $1)
     fi
@@ -432,7 +432,7 @@ which-packet() {
 
 http-server() {
     if [[ $# != 0 && $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: http-server [PORT]"
+        echo-yellow "Usage: http-server [PORT]"
     else
         echo-green "IP адреса машины:"
         list-ips
@@ -455,7 +455,7 @@ http-server() {
 
 smb-server() {
     if [[ $# != 0 && $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: smb-server [SHARE-NAME]"
+        echo-yellow "Usage: smb-server [SHARE-NAME]"
     else
         case "$#" in
             0)
@@ -492,7 +492,7 @@ smb-server() {
 
 ftp-server() {
     if [[ $# != 0 && $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: ftp-server [PORT]"
+        echo-yellow "Usage: ftp-server [PORT]"
     else
         echo-green "IP адреса машины:"
         list-ips
@@ -515,7 +515,7 @@ ftp-server() {
 
 tftp-server() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: tftp-server <INTERFACE>"
+        echo-yellow "Usage: tftp-server <INTERFACE>"
     else
         echo-green "IP адреса машины:"
         list-ips
@@ -531,7 +531,7 @@ tftp-server() {
 
 git-grep() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: git-grep <PATTERN>"
+        echo-yellow "Usage: git-grep <PATTERN>"
     else
         local pattern="$1"
         local red=$'\033[31m' green=$'\033[32m' blue=$'\033[34m' reset=$'\033[0m'
@@ -548,7 +548,7 @@ git-grep() {
 
 http-simple-test() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: http-simple-test <SITE-URL>"
+        echo-yellow "Usage: http-simple-test <SITE-URL>"
     else
         local base_url="$1"
 
@@ -604,7 +604,7 @@ http-simple-test() {
 
 openssl-certinfo() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: openssl-certinfo <CERT>"
+        echo-yellow "Usage: openssl-certinfo <CERT>"
     else
         openssl x509 -in "$1" -noout -text
     fi
@@ -612,12 +612,12 @@ openssl-certinfo() {
 
 burp-proxy() {
     if ! command -v proxychains &> /dev/null; then
-        echo "Для работы функции необходим proxychains, но он не был найден!"
+        echo-red "Для работы функции необходим proxychains, но он не был найден!"
         return 1
     fi
 
     if [ $# -eq 0 ]; then
-        echo "Usage: burp-proxy <COMMAND> [ARGUMENTS...]"
+        echo-yellow "Usage: burp-proxy <COMMAND> [ARGUMENTS...]"
         return 1
     fi
 
@@ -636,7 +636,7 @@ EOF
 # Чисто вайб-кодинг
 get-link-local-ipv6-by-mac() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: get-link-local-ipv6-by-mac <MAC-ADDRESS>"
+        echo-yellow "Usage: get-link-local-ipv6-by-mac <MAC-ADDRESS>"
     else
         mac=$(echo "$1" | tr '[:upper:]' '[:lower:]' | tr '-' ':')
 
