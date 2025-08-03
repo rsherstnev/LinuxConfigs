@@ -691,3 +691,23 @@ copy-file-to-clipboard() {
         echo-green "Файл \"$1\" был скопирован в буфер обмена"
     fi
 }
+
+bloodhound() {
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo-yellow "Usage: bloodhound <start | stop>"
+    else
+        local BLOODHOUND_COMPOSE_FILE="/opt/docker-compose/bloodhound-ce/bloodhound-ce.yml"
+        local BLOODHOUND_COMPOSE_NAME="bloodhound-ce"
+        case "$1" in
+            start)
+                docker compose -f $BLOODHOUND_COMPOSE_FILE -p $BLOODHOUND_COMPOSE_NAME start
+                ;;
+            stop)
+                docker compose -f $BLOODHOUND_COMPOSE_FILE -p $BLOODHOUND_COMPOSE_NAME stop
+                ;;
+            *)
+                echo-yellow "Usage: bloodhound <start | stop>"
+                ;;
+        esac
+    fi
+}
