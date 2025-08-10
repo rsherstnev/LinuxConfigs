@@ -117,6 +117,8 @@ for config_file in $HOME/.{aliases,functions}; do
 done
 unset config_file
 
+tabs -4
+
 # Настройки автодополнения zsh
 zstyle ':completion:*' special-dirs false
 # Настройки плагина fzf-tab
@@ -130,7 +132,7 @@ bindkey '^ ' autosuggest-accept
 # Настройки Shell Prompt
 BOX_PROMPT() {
     if [[ -n "$BOX_ADDRESS" ]]; then
-        echo "%B$FG[144][$BOX_ADDRESS]$RESET_PROMPT─"
+        echo "[%B$FG[144]$BOX_ADDRESS$RESET_PROMPT]─"
     fi
 }
 
@@ -142,10 +144,10 @@ VIRTUAL_ENV_PROMPT() {
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 export RESET_PROMPT="%{$reset_color%}"
-export PROMPT='┌──$(BOX_PROMPT)$(VIRTUAL_ENV_PROMPT)[%B$FG[167]%n$FG[144]㉿$FG[216]%M$RESET_PROMPT]─[$FG[109]%~%f%b]$(git_prompt_info)
+export PROMPT='┌──$(BOX_PROMPT)$(VIRTUAL_ENV_PROMPT)(%B$FG[167]%n$FG[144]㉿$FG[216]%M$RESET_PROMPT)─[$FG[109]%~%f%b]$(git_prompt_info)
 └─%# '
 export ZSH_THEME_GIT_PROMPT_PREFIX="─%B$FG[145][git:$FG[011]"
-export ZSH_THEME_GIT_PROMPT_DIRTY="$FG[145]]:[$FG[011]🔴$FG[145]] "
+export ZSH_THEME_GIT_PROMPT_DIRTY="$FG[145]]:[$FG[011] X $FG[145]] "
 export ZSH_THEME_GIT_PROMPT_CLEAN="$FG[145]] "
 export ZSH_THEME_GIT_PROMPT_SUFFIX=$RESET_PROMPT
 

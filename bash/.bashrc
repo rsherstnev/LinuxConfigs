@@ -160,6 +160,8 @@ fi
 
 unset rc
 
+tabs -4
+
 # TMUX Autostart
 if [[ -z "$TMUX" ]] && [[ $- == *i* ]]; then
     if command -v tmux &> /dev/null; then

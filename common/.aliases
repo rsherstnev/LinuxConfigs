@@ -97,3 +97,4 @@ alias file-magika='magika --format "| %p: %d (%g) %S | Возможное рас
 alias dog-short='dog -1'
 alias strings-floss='floss'
 alias ffuf='ffuf -c'
+alias stty-cols-and-rows="stty -a | head -n1 | cut -d ';' -f 2-3 | cut -b2- | sed 's/; /\n/'"
