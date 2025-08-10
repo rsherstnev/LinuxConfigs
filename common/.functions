@@ -262,7 +262,7 @@ docker-container-volumes() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo-yellow "Usage: docker-container-volumes <CONTAINER>"
     else
-        docker container inspect $1 | jq '.[].Mounts.[].Source'
+        docker container inspect $1 | jq -r '.[].Mounts.[].Source'
     fi
 }
 
