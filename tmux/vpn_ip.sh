@@ -1,2 +1,8 @@
-#!/bin/sh
-[ -d /proc/sys/net/ipv4/conf/tun0 ] && echo " VPN $({ ip -4 -br a sh dev tun0 | awk {'print $3'} | cut -f1 -d/; } 2>/dev/null) "
+#!/bin/bash
+
+if [ -d /proc/sys/net/ipv4/conf/tun0 ]; then
+    VPN_INTERFACE=$(ip -4 -br a show dev tun0 2>/dev/null | awk '{print $3}' | cut -d/ -f1)
+    if [ -n "$VPN_INTERFACE" ]; then
+        echo " VPN $VPN_INTERFACE "
+    fi
+fi
