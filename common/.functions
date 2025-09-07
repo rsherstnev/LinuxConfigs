@@ -320,23 +320,79 @@ phpsploit() {
 }
 
 nxc-test-passwords() {
-    if [[ $# != 3 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo-yellow "Usage: nxc-test-passwords <HOST> <LOGIN> <PASSWORD>"
-    else
-        for proto in smb ldap wmi winrm rdp mssql nfs ssh ftp vnc; do
-            nxc $proto $1 -u "$2" -p "$3" 2&>/dev/null
-        done
+    local host="$1"
+    shift 2>/dev/null
+
+    if [[ -z "$host" || "$host" == "-h" || "$host" == "--help" ]]; then
+        echo-yellow "Usage: nxc-test-passwords <HOST> -u <LOGIN> -p <PASSWORD>"
+        return 1
     fi
+
+    local user pass
+
+    while getopts "u:p:" opt 2>/dev/null; do
+        case "$opt" in
+            u)
+                user="$OPTARG"
+                ;;
+            p)
+                pass="$OPTARG"
+                ;;
+            *) 
+                echo-yellow "Usage: nxc-test-passwords <HOST> -u <LOGIN> -p <PASSWORD>"
+                return 1
+                ;;
+        esac
+    done
+
+    shift $((OPTIND-1)) 2>/dev/null
+
+    if [[ -z "$user" || -z "$pass" ]]; then
+        echo-yellow "Usage: nxc-test-passwords <HOST> -u <LOGIN> -p <PASSWORD>"
+        return 1
+    fi
+
+    for proto in smb ldap wmi winrm rdp mssql nfs ssh ftp vnc; do
+        nxc "$proto" "$host" -u "$user" -p "$pass" 2>/dev/null
+    done
 }
 
 nxc-test-hashes() {
-    if [[ $# != 3 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo "Usage: nxc-test-hashes <HOST> <LOGIN> <HASH>"
-    else
-        for proto in smb ldap wmi winrm rdp mssql nfs ssh ftp vnc; do
-            nxc $proto $1 -u "$2" -H "$3" 2&>/dev/null
-        done
+    local host="$1"
+    shift 2>/dev/null
+
+    if [[ -z "$host" || "$host" == "-h" || "$host" == "--help" ]]; then
+        echo-yellow "Usage: nxc-test-hashes <HOST> -u <LOGIN> -H <HASH>"
+        return 1
     fi
+
+    local user hash
+
+    while getopts "u:H:" opt 2>/dev/null; do
+        case "$opt" in
+            u)
+                user="$OPTARG"
+                ;;
+            H)
+                hash="$OPTARG"
+                ;;
+            *) 
+                echo-yellow "Usage: nxc-test-hashes <HOST> -u <LOGIN> -H <HASH>"
+                return 1
+                ;;
+        esac
+    done
+
+    shift $((OPTIND-1)) 2>/dev/null
+
+    if [[ -z "$user" || -z "$hash" ]]; then
+        echo-yellow "Usage: nxc-test-hashes <HOST> -u <LOGIN> -H <HASH>"
+        return 1
+    fi
+
+    for proto in smb ldap wmi winrm rdp mssql nfs ssh ftp vnc; do
+        nxc "$proto" "$host" -u "$user" -H "$hash" 2>/dev/null
+    done
 }
 
 nmap-scan-tcp-ports() {
@@ -366,6 +422,9 @@ nmap-scan-tcp-all-ports() {
 
         echo-yellow "[*] Быстрое сканирование $target..."
         local ports=$(nmap -sS -n -p- -Pn --min-rate 500 --open "$target" | awk '/^[0-9]+\/tcp/ && $2 == "open" { split($1, a, "/"); print a[1] }' | paste -sd, -)
+        # OTHER VARIANT
+        # local ports=$(nmap -sS -n -p- -Pn --min-rate 500 --open "$target" | grep tcp  | cut -d '/' -f1 | tr '\n' ',')
+        # nmap -sC -sV -n -vvv -Pn -p ${ports} "$target" -oN nmap.tcp.allports
 
         if [[ -n "$ports" ]]; then
             echo-green "[*] Открытые порты: $ports"

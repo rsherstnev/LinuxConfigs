@@ -144,9 +144,18 @@ VIRTUAL_ENV_PROMPT() {
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 export RESET_PROMPT="%{$reset_color%}"
-export PROMPT='┌──$(BOX_PROMPT)$(VIRTUAL_ENV_PROMPT)(%B$FG[001]%n$FG[144]㉿$FG[216]%M$RESET_PROMPT)─[$FG[109]%~%f%b]$(git_prompt_info)
+
+export ROOT_WARNING="%B$FG[001][!!! ROOT !!!]${RESET_PROMPT}─"
+
+if [[ $EUID != 0 ]]; then
+    export PROMPT='┌──$(BOX_PROMPT)$(VIRTUAL_ENV_PROMPT)(%B$FG[001]%n$FG[060]㉿$FG[216]%M$RESET_PROMPT)─[$FG[109]%~%f%b]$(git_prompt_info)
 └─%# '
-export ZSH_THEME_GIT_PROMPT_PREFIX="─%B$FG[145][git:$FG[011]"
+else
+    export PROMPT='┌──$(BOX_PROMPT)$(VIRTUAL_ENV_PROMPT)${ROOT_WARNING}(%B$FG[001]%n$FG[060]㉿$FG[216]%M$RESET_PROMPT)─[$FG[109]%~%f%b]$(git_prompt_info)
+└─%# '
+fi
+
+export ZSH_THEME_GIT_PROMPT_PREFIX="─%B$FG[145][git $FG[011]"
 export ZSH_THEME_GIT_PROMPT_DIRTY="$FG[145]]:[$FG[011] X $FG[145]] "
 export ZSH_THEME_GIT_PROMPT_CLEAN="$FG[145]] "
 export ZSH_THEME_GIT_PROMPT_SUFFIX=$RESET_PROMPT
