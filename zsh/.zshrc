@@ -10,7 +10,11 @@ export HISTSIZE=5000
 export VISUAL=/usr/bin/nvim
 export EDITOR=/usr/bin/nvim
 export MANPAGER='less -Mr +Gg'
-export ZSH_TMUX_AUTOSTART=true
+if [ -n "$VSCODE_INJECTION" ] || [ "$TERM_PROGRAM" = "vscode" ]; then
+    export ZSH_TMUX_AUTOSTART=false
+else
+    export ZSH_TMUX_AUTOSTART=true
+fi
 # Настройки fzf
 export FZF_ALT_C_COMMAND="fd --hidden --type d"
 export FZF_DEFAULT_OPTS='--bind alt-q:abort --color=pointer:227,hl:131,hl+:131 --no-info'
