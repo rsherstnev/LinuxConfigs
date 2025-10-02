@@ -787,3 +787,35 @@ bloodhound() {
         esac
     fi
 }
+
+md5 () {
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo-yellow "Usage: md5 <TEXT>"
+    else
+        echo -n $1 | md5sum | cut -d ' ' -f 1
+    fi
+}
+
+sha1 () {
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo-yellow "Usage: sha1 <TEXT>"
+    else
+        echo -n $1 | sha1sum | cut -d ' ' -f 1
+    fi
+}
+
+sha256 () {
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo-yellow "Usage: sha256 <TEXT>"
+    else
+        echo -n $1 | sha256sum | cut -d ' ' -f 1
+    fi
+}
+
+sha512 () {
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo-yellow "Usage: sha512 <TEXT>"
+    else
+        echo -n $1 | sha512sum | cut -d ' ' -f 1
+    fi
+}
