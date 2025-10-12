@@ -149,36 +149,6 @@ tracetcp() {
     fi
 }
 
-htb-set-box-address() {
-    if [[ $# != 0 && $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo-yellow "Usage: htb-set-box-address [ADDRESS]"
-    else
-        if ! grep -q "^export BOX_ADDRESS=" "$HOME/.zshenv"; then
-            echo 'export BOX_ADDRESS=""' >> "$HOME/.zshenv"
-        fi
-        case "$#" in
-            0)
-                sed -i "s|^export BOX_ADDRESS=.*|export BOX_ADDRESS=\"\"|" $HOME/.zshenv
-                source $HOME/.zshenv
-                tmux set-environment -g BOX_ADDRESS "$BOX_ADDRESS"
-                ;;
-            1)
-                sed -i "s|^export BOX_ADDRESS=.*|export BOX_ADDRESS=\"$1\"|" $HOME/.zshenv
-                source $HOME/.zshenv
-                tmux set-environment -g BOX_ADDRESS "$BOX_ADDRESS"
-                ;;
-        esac
-    fi
-}
-
-ssh-stealth() {
-    if [[ $# != 3 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo-yellow "Usage: ssh-stealth <USER> <ADDRESS> <COMMAND>"
-    else
-        ssh $1@$2 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "$3"
-    fi
-}
-
 conky-reload() {
     if [[ $(pgrep -x conky) ]]; then
         killall conky;
@@ -303,98 +273,6 @@ b64encode() {
     fi
 }
 
-hoaxshell() {
-    uv run --directory /opt/python-software/hoaxshell hoaxshell.py -q "$@"
-}
-
-villain() {
-    uv run --directory /opt/python-software/villain Villain.py -q "$@"
-}
-
-searchnmapscript() {
-    uv run --directory /opt/scripts searchnmapscript.py "$@"
-}
-
-phpsploit() {
-    uv run --directory /opt/python-software/phpsploit ./phpsploit "$@"
-}
-
-nxc-test-passwords() {
-    local host="$1"
-    shift 2>/dev/null
-
-    if [[ -z "$host" || "$host" == "-h" || "$host" == "--help" ]]; then
-        echo-yellow "Usage: nxc-test-passwords <HOST> -u <LOGIN> -p <PASSWORD>"
-        return 1
-    fi
-
-    local user pass
-
-    while getopts "u:p:" opt 2>/dev/null; do
-        case "$opt" in
-            u)
-                user="$OPTARG"
-                ;;
-            p)
-                pass="$OPTARG"
-                ;;
-            *) 
-                echo-yellow "Usage: nxc-test-passwords <HOST> -u <LOGIN> -p <PASSWORD>"
-                return 1
-                ;;
-        esac
-    done
-
-    shift $((OPTIND-1)) 2>/dev/null
-
-    if [[ -z "$user" || -z "$pass" ]]; then
-        echo-yellow "Usage: nxc-test-passwords <HOST> -u <LOGIN> -p <PASSWORD>"
-        return 1
-    fi
-
-    for proto in smb ldap wmi winrm rdp mssql nfs ssh ftp vnc; do
-        nxc "$proto" "$host" -u "$user" -p "$pass" 2>/dev/null
-    done
-}
-
-nxc-test-hashes() {
-    local host="$1"
-    shift 2>/dev/null
-
-    if [[ -z "$host" || "$host" == "-h" || "$host" == "--help" ]]; then
-        echo-yellow "Usage: nxc-test-hashes <HOST> -u <LOGIN> -H <HASH>"
-        return 1
-    fi
-
-    local user hash
-
-    while getopts "u:H:" opt 2>/dev/null; do
-        case "$opt" in
-            u)
-                user="$OPTARG"
-                ;;
-            H)
-                hash="$OPTARG"
-                ;;
-            *) 
-                echo-yellow "Usage: nxc-test-hashes <HOST> -u <LOGIN> -H <HASH>"
-                return 1
-                ;;
-        esac
-    done
-
-    shift $((OPTIND-1)) 2>/dev/null
-
-    if [[ -z "$user" || -z "$hash" ]]; then
-        echo-yellow "Usage: nxc-test-hashes <HOST> -u <LOGIN> -H <HASH>"
-        return 1
-    fi
-
-    for proto in smb ldap wmi winrm rdp mssql nfs ssh ftp vnc; do
-        nxc "$proto" "$host" -u "$user" -H "$hash" 2>/dev/null
-    done
-}
-
 nmap-scan-tcp-ports() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo-yellow "Usage: nmap-scan-tcp-ports <ADDRESS>"
@@ -454,22 +332,6 @@ nmap-scan-udp-main-ports() {
         else
             echo-red "[!] Открытых портов не найдено"
         fi
-    fi
-}
-
-rustscan-tcp-ports() {
-    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo-yellow "Usage: rustscan-tcp-ports <ADDRESS>"
-    else
-        command rustscan --no-banner --scan-order random --ulimit 5000 -a "$1" -- -sC -sV -n -Pn -oN rustscan.tcp.ports
-    fi
-}
-
-rustscan-tcp-all-ports() {
-    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo-yellow "Usage: rustscan-tcp-all-ports <ADDRESS>"
-    else
-        command rustscan --no-banner --scan-order random --ulimit 5000 -r 1-65535 -a "$1" -- -sC -sV -n -Pn -oN rustscan.tcp.allports
     fi
 }
 
@@ -605,91 +467,12 @@ git-grep() {
     fi
 }
 
-http-simple-test() {
-    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo-yellow "Usage: http-simple-test <SITE-URL>"
-    else
-        local base_url="$1"
-
-        local pages=(
-            "robots.txt"
-            "sitemap.xml"
-            ".gitignore"
-            ".env"
-            ".htpasswd"
-            ".htaccess"
-            ".git/"
-            ".svn/"
-            "admin/"
-            "signup/"
-            "login/"
-            "user/"
-            "register/"
-            "upload/"
-            "files/upload/"
-            "media/upload/"
-            "config/"
-            "setup/"
-            "api/"
-            "backup/"
-            "backups/"
-            "old/"
-            "cgi-bin/"
-        )
-
-        if ! command -v curl > /dev/null; then
-            echo-red "[FAIL] Для работы функции необходима утилита \"curl\", но она не была найдена!"
-            return 1
-        fi
-
-        for page in "${pages[@]}"; do
-            full_url="${base_url}/${page}"
-            http_code=$(curl -s -k -o /dev/null -w "%{http_code}" --max-time 10 "$full_url")
-
-            case "$http_code" in
-                200)
-                    echo-green "[$http_code] $full_url"
-                    ;;
-                404)
-                    echo-red "[$http_code] $full_url"
-                    ;;
-                *)
-                    echo-yellow "[$http_code] $full_url"
-                    ;;
-            esac
-        done
-    fi
-}
-
 openssl-certinfo() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo-yellow "Usage: openssl-certinfo <CERT>"
     else
         openssl x509 -in "$1" -noout -text
     fi
-}
-
-burp-proxy() {
-    if ! command -v proxychains &> /dev/null; then
-        echo-red "Для работы функции необходим proxychains, но он не был найден!"
-        return 1
-    fi
-
-    if [ $# -eq 0 ]; then
-        echo-yellow "Usage: burp-proxy <COMMAND> [ARGUMENTS...]"
-        return 1
-    fi
-
-    if [ ! -f "$HOME/.proxychains_burp" ]; then
-        cat > $HOME/.proxychains_burp <<EOF
-strict_chain
-proxy_dns
-[ProxyList]
-http 127.0.0.1 8080
-EOF
-    fi
-
-    proxychains4 -q -f "$HOME/.proxychains_burp" "$@"
 }
 
 # Чисто вайб-кодинг
@@ -751,6 +534,39 @@ copy-file-to-clipboard() {
     fi
 }
 
+md5() {
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo-yellow "Usage: md5 <TEXT>"
+    else
+        echo -n $1 | md5sum | cut -d ' ' -f 1
+    fi
+}
+
+sha1() {
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo-yellow "Usage: sha1 <TEXT>"
+    else
+        echo -n $1 | sha1sum | cut -d ' ' -f 1
+    fi
+}
+
+sha256() {
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo-yellow "Usage: sha256 <TEXT>"
+    else
+        echo -n $1 | sha256sum | cut -d ' ' -f 1
+    fi
+}
+
+sha512() {
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo-yellow "Usage: sha512 <TEXT>"
+    else
+        echo -n $1 | sha512sum | cut -d ' ' -f 1
+    fi
+}
+
+# Kali Linux
 bloodhound() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo-yellow "Usage: bloodhound <download | create | start | stop | remove>"
@@ -788,34 +604,219 @@ bloodhound() {
     fi
 }
 
-md5 () {
+burp-proxy() {
+    if ! command -v proxychains &> /dev/null; then
+        echo-red "Для работы функции необходим proxychains, но он не был найден!"
+        return 1
+    fi
+
+    if [ $# -eq 0 ]; then
+        echo-yellow "Usage: burp-proxy <COMMAND> [ARGUMENTS...]"
+        return 1
+    fi
+
+    if [ ! -f "$HOME/.proxychains_burp" ]; then
+        cat > $HOME/.proxychains_burp <<EOF
+strict_chain
+proxy_dns
+[ProxyList]
+http 127.0.0.1 8080
+EOF
+    fi
+
+    proxychains4 -q -f "$HOME/.proxychains_burp" "$@"
+}
+
+http-simple-test() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo-yellow "Usage: md5 <TEXT>"
+        echo-yellow "Usage: http-simple-test <SITE-URL>"
     else
-        echo -n $1 | md5sum | cut -d ' ' -f 1
+        local base_url="$1"
+
+        local pages=(
+            "robots.txt"
+            "sitemap.xml"
+            ".gitignore"
+            ".env"
+            ".htpasswd"
+            ".htaccess"
+            ".git/"
+            ".svn/"
+            "admin/"
+            "signup/"
+            "login/"
+            "user/"
+            "register/"
+            "upload/"
+            "files/upload/"
+            "media/upload/"
+            "config/"
+            "setup/"
+            "api/"
+            "backup/"
+            "backups/"
+            "old/"
+            "cgi-bin/"
+        )
+
+        if ! command -v curl > /dev/null; then
+            echo-red "[FAIL] Для работы функции необходима утилита \"curl\", но она не была найдена!"
+            return 1
+        fi
+
+        for page in "${pages[@]}"; do
+            full_url="${base_url}/${page}"
+            http_code=$(curl -s -k -o /dev/null -w "%{http_code}" --max-time 10 "$full_url")
+
+            case "$http_code" in
+                200)
+                    echo-green "[$http_code] $full_url"
+                    ;;
+                404)
+                    echo-red "[$http_code] $full_url"
+                    ;;
+                *)
+                    echo-yellow "[$http_code] $full_url"
+                    ;;
+            esac
+        done
     fi
 }
 
-sha1 () {
+nxc-test-passwords() {
+    local host="$1"
+    shift 2>/dev/null
+
+    if [[ -z "$host" || "$host" == "-h" || "$host" == "--help" ]]; then
+        echo-yellow "Usage: nxc-test-passwords <HOST> -u <LOGIN> -p <PASSWORD>"
+        return 1
+    fi
+
+    local user pass
+
+    while getopts "u:p:" opt 2>/dev/null; do
+        case "$opt" in
+            u)
+                user="$OPTARG"
+                ;;
+            p)
+                pass="$OPTARG"
+                ;;
+            *) 
+                echo-yellow "Usage: nxc-test-passwords <HOST> -u <LOGIN> -p <PASSWORD>"
+                return 1
+                ;;
+        esac
+    done
+
+    shift $((OPTIND-1)) 2>/dev/null
+
+    if [[ -z "$user" || -z "$pass" ]]; then
+        echo-yellow "Usage: nxc-test-passwords <HOST> -u <LOGIN> -p <PASSWORD>"
+        return 1
+    fi
+
+    for proto in smb ldap wmi winrm rdp mssql nfs ssh ftp vnc; do
+        nxc "$proto" "$host" -u "$user" -p "$pass" 2>/dev/null
+    done
+}
+
+nxc-test-hashes() {
+    local host="$1"
+    shift 2>/dev/null
+
+    if [[ -z "$host" || "$host" == "-h" || "$host" == "--help" ]]; then
+        echo-yellow "Usage: nxc-test-hashes <HOST> -u <LOGIN> -H <HASH>"
+        return 1
+    fi
+
+    local user hash
+
+    while getopts "u:H:" opt 2>/dev/null; do
+        case "$opt" in
+            u)
+                user="$OPTARG"
+                ;;
+            H)
+                hash="$OPTARG"
+                ;;
+            *) 
+                echo-yellow "Usage: nxc-test-hashes <HOST> -u <LOGIN> -H <HASH>"
+                return 1
+                ;;
+        esac
+    done
+
+    shift $((OPTIND-1)) 2>/dev/null
+
+    if [[ -z "$user" || -z "$hash" ]]; then
+        echo-yellow "Usage: nxc-test-hashes <HOST> -u <LOGIN> -H <HASH>"
+        return 1
+    fi
+
+    for proto in smb ldap wmi winrm rdp mssql nfs ssh ftp vnc; do
+        nxc "$proto" "$host" -u "$user" -H "$hash" 2>/dev/null
+    done
+}
+
+rustscan-tcp-ports() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo-yellow "Usage: sha1 <TEXT>"
+        echo-yellow "Usage: rustscan-tcp-ports <ADDRESS>"
     else
-        echo -n $1 | sha1sum | cut -d ' ' -f 1
+        command rustscan --no-banner --scan-order random --ulimit 5000 -a "$1" -- -sC -sV -n -Pn -oN rustscan.tcp.ports
     fi
 }
 
-sha256 () {
+rustscan-tcp-all-ports() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo-yellow "Usage: sha256 <TEXT>"
+        echo-yellow "Usage: rustscan-tcp-all-ports <ADDRESS>"
     else
-        echo -n $1 | sha256sum | cut -d ' ' -f 1
+        command rustscan --no-banner --scan-order random --ulimit 5000 -r 1-65535 -a "$1" -- -sC -sV -n -Pn -oN rustscan.tcp.allports
     fi
 }
 
-sha512 () {
-    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo-yellow "Usage: sha512 <TEXT>"
+htb-set-box-address() {
+    if [[ $# != 0 && $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo-yellow "Usage: htb-set-box-address [ADDRESS]"
     else
-        echo -n $1 | sha512sum | cut -d ' ' -f 1
+        if ! grep -q "^export BOX_ADDRESS=" "$HOME/.zshenv"; then
+            echo 'export BOX_ADDRESS=""' >> "$HOME/.zshenv"
+        fi
+        case "$#" in
+            0)
+                sed -i "s|^export BOX_ADDRESS=.*|export BOX_ADDRESS=\"\"|" $HOME/.zshenv
+                source $HOME/.zshenv
+                tmux set-environment -g BOX_ADDRESS "$BOX_ADDRESS"
+                ;;
+            1)
+                sed -i "s|^export BOX_ADDRESS=.*|export BOX_ADDRESS=\"$1\"|" $HOME/.zshenv
+                source $HOME/.zshenv
+                tmux set-environment -g BOX_ADDRESS "$BOX_ADDRESS"
+                ;;
+        esac
     fi
+}
+
+ssh-stealth() {
+    if [[ $# != 3 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo-yellow "Usage: ssh-stealth <USER> <ADDRESS> <COMMAND>"
+    else
+        ssh $1@$2 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "$3"
+    fi
+}
+
+hoaxshell() {
+    uv run --directory /opt/python-software/hoaxshell hoaxshell.py -q "$@"
+}
+
+villain() {
+    uv run --directory /opt/python-software/villain Villain.py -q "$@"
+}
+
+searchnmapscript() {
+    uv run --directory /opt/scripts searchnmapscript.py "$@"
+}
+
+phpsploit() {
+    uv run --directory /opt/python-software/phpsploit ./phpsploit "$@"
 }
