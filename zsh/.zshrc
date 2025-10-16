@@ -98,6 +98,7 @@ plugins=(
     dirhistory
     fzf
     docker
+    docker-compose
     rsync
     aliases
     emoji
@@ -152,17 +153,17 @@ export RESET_PROMPT="%{$reset_color%}"
 export ROOT_WARNING="%B$FG[001][!!! ROOT !!!]${RESET_PROMPT}─"
 
 if [[ $EUID != 0 ]]; then
-    export PROMPT='┌──$(BOX_PROMPT)$(VIRTUAL_ENV_PROMPT)(%B$FG[001]%n$FG[060]㉿$FG[216]%M$RESET_PROMPT)─[$FG[109]%~%f%b]$(git_prompt_info)
+    export PROMPT='┌──$(BOX_PROMPT)$(VIRTUAL_ENV_PROMPT)(%B$FG[001]%n$FG[060]㉿$FG[216]%M$RESET_PROMPT)─[$FG[109]%~%f%b] $(git_prompt_info)
 └─%# '
 else
-    export PROMPT='┌──$(BOX_PROMPT)$(VIRTUAL_ENV_PROMPT)${ROOT_WARNING}(%B$FG[001]%n$FG[060]㉿$FG[216]%M$RESET_PROMPT)─[$FG[109]%~%f%b]$(git_prompt_info)
+    export PROMPT='┌──$(BOX_PROMPT)$(VIRTUAL_ENV_PROMPT)${ROOT_WARNING}(%B$FG[001]%n$FG[060]㉿$FG[216]%M$RESET_PROMPT)─[$FG[109]%~%f%b] $(git_prompt_info)
 └─%# '
 fi
 
-export ZSH_THEME_GIT_PROMPT_PREFIX="─%B$FG[145][git $FG[011]"
-export ZSH_THEME_GIT_PROMPT_DIRTY="$FG[145]]:[$FG[011] X $FG[145]] "
-export ZSH_THEME_GIT_PROMPT_CLEAN="$FG[145]] "
-export ZSH_THEME_GIT_PROMPT_SUFFIX=$RESET_PROMPT
+export ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}git:(%{$fg[red]%}"
+export ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} "
+export ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%}) %{$fg[yellow]%}%1{✗%}"
+export ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[blue]%})"
 
 # Настройка плагина colored-man-pages
 typeset -AHg less_termcap
