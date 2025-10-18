@@ -168,3 +168,23 @@ if [[ -z "$TMUX" ]] && [[ $- == *i* ]]; then
         tmux attach-session || tmux
     fi
 fi
+
+# Если приглашение к вводу пустое - вставить "sudo !!" для повтора предыдущей команды от root
+# Если приглашение к вводу не начинается с "sudo", то добавить его в начало
+# Если приглашение к вводу начинается с "sudo", то убрать его из начала
+_prepend_sudo() {
+    if [[ -z "$READLINE_LINE" ]]; then
+        READLINE_LINE="sudo !!";
+        READLINE_POINT=${#READLINE_LINE}
+    else
+        if [[ "$READLINE_LINE" == sudo\ * ]]; then
+            READLINE_LINE="${READLINE_LINE#sudo }"
+            READLINE_POINT=$(( READLINE_POINT > 5 ? READLINE_POINT - 5 : 0 ))
+        else
+            READLINE_LINE="sudo $READLINE_LINE"
+            READLINE_POINT=$(( READLINE_POINT + 5 ))
+        fi
+    fi
+}
+
+bind -x '"\e\e": _prepend_sudo'

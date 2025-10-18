@@ -4,4 +4,3 @@ set echo-control-characters off
 "\e[Z": menu-complete
 "\e[A": history-search-backward
 "\e[B": history-search-forward
-"\es": "\C-asudo \C-e"
