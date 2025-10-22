@@ -619,16 +619,15 @@ burp-proxy() {
         return 1
     fi
 
-    if [ ! -f "$HOME/.proxychains_burp" ]; then
-        cat > $HOME/.proxychains_burp <<EOF
-strict_chain
-proxy_dns
-[ProxyList]
-http 127.0.0.1 8080
-EOF
+    BURP_PROXY_CONF="$HOME/.burp-proxy.conf"
+
+    if [[ ! -f "$BURP_PROXY_CONF" ]] || [[ $(sha256sum "$BURP_PROXY_CONF" | cut -d ' ' -f 1) != "03c78a869451e1cef49b2681b9b813539cb386f0eca8d13935c1c193e10da569" ]]; then
+        echo "strict_chain" > "$BURP_PROXY_CONF"
+        echo "[ProxyList]" >> "$BURP_PROXY_CONF"
+        echo "http 127.0.0.1 8080" >> "$BURP_PROXY_CONF"
     fi
 
-    proxychains4 -q -f "$HOME/.proxychains_burp" "$@"
+    proxychains -q -f "$BURP_PROXY_CONF" "$@"
 }
 
 http-simple-test() {
