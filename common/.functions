@@ -630,6 +630,28 @@ burp-proxy() {
     proxychains -q -f "$BURP_PROXY_CONF" "$@"
 }
 
+socks-proxy() {
+    if ! command -v proxychains &> /dev/null; then
+        echo-red "Для работы функции необходим proxychains, но он не был найден!"
+        return 1
+    fi
+
+    if [ $# -eq 0 ]; then
+        echo-yellow "Usage: socks-proxy <COMMAND> [ARGUMENTS...]"
+        return 1
+    fi
+
+    SOCKS_PROXY_CONF="$HOME/.socks-proxy.conf"
+
+    if [[ ! -f "$SOCKS_PROXY_CONF" ]] || [[ $(sha256sum "$SOCKS_PROXY_CONF" | cut -d ' ' -f 1) != "d166a9e16eabe6829b53776864de95e39b4717deea36db3dd442812902e611a9" ]]; then
+        echo "strict_chain" > "$SOCKS_PROXY_CONF"
+        echo "[ProxyList]" >> "$SOCKS_PROXY_CONF"
+        echo "socks5 127.0.0.1 1080" >> "$SOCKS_PROXY_CONF"
+    fi
+
+    proxychains -q -f "$SOCKS_PROXY_CONF" "$@"
+}
+
 http-simple-test() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo-yellow "Usage: http-simple-test <SITE-URL>"
