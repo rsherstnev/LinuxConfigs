@@ -147,6 +147,14 @@ VIRTUAL_ENV_PROMPT() {
     fi
 }
 
+# WHERE_I_AM() {
+#     if [ -n "$SSH_CONNECTION" ]; then
+#         echo "[🔗 REMOTE]-"
+#     else
+#         echo "[💻 LOCAL]-"
+#     fi
+# }
+
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 export RESET_PROMPT="%{$reset_color%}"
 
