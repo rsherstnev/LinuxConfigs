@@ -39,6 +39,14 @@ _COLOR5="\e[01;38;5;175m"
 _COLOR6="\e[01;38;5;001m"
 _COLOR_RESET="\e[0m"
 
+# WHERE_I_AM() {
+#     if [ -n "$SSH_CONNECTION" ]; then
+#         echo "[🔗 REMOTE]-"
+#     else
+#         echo "[💻 LOCAL]-"
+#     fi
+# }
+
 if [ "$color_prompt" = yes ]; then
     VENV_PROMPT() {
         if [[ -n "$VIRTUAL_ENV" ]]; then
