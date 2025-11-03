@@ -1,3 +1,5 @@
+[[ $- != *i* ]] && return
+
 stty -ixon
 
 HISTCONTROL=ignoreboth
