@@ -559,6 +559,30 @@ sha512() {
     fi
 }
 
+docker-compose-rm-cn() {
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo-yellow "Usage: docker-compose-rm-cn <COMPOSE_FILE>"
+    else
+        docker compose -f $1 down
+    fi
+}
+
+docker-compose-rm-icn() {
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo-yellow "Usage: docker-compose-rm-icn <COMPOSE_FILE>"
+    else
+        docker compose -f $1 down --rmi all
+    fi
+}
+
+docker-compose-rm-icnv() {
+    if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
+        echo-yellow "Usage: docker-compose-rm-icnv <COMPOSE_FILE>"
+    else
+        docker compose -f $1 down --rmi all --volumes
+    fi
+}
+
 # Kali Linux
 bloodhound() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
