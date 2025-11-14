@@ -35,7 +35,7 @@ set clipboard=unnamedplus
 set t_Co=256
 set background=dark
 colorscheme sorbet "habamax или unokai или внешняя iceberg
-set statusline=%F\ %y\ %m\ %r\ %=Line:%l/%L\ Col:%c
+set statusline=%{expand('%:p')}\ %y\ %m\ %r\ %=Line:%l/%L\ Col:%c
 
 autocmd FileType yaml setlocal tabstop=2 shiftwidth=2 expandtab
 
