@@ -17,6 +17,6 @@
     keepBackup = false
     cmd = meld "$LOCAL" "$MERGED" "$REMOTE" --output="$MERGED"
 [alias]
-    lore = log --all --pretty=format:'%C(174)%h%C(auto)%d %C(114)[%s]'
+    lore = log --all --pretty=format:'%C(green)%h %C(blue)%ad%C(auto)%d %C(white)[%s]' --date=format:'%d.%m.%Y %H:%M:%S'
     df = difftool -t meld
     mt = mergetool -t meld
