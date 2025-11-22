@@ -1,9 +1,9 @@
-call plug#begin('~/.vim/plugins')
-Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim', { 'on': 'Files' }
-Plug 'psliwka/vim-smoothie'
-call plug#end()
+"call plug#begin('~/.vim/plugins')
+"Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+"Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+"Plug 'junegunn/fzf.vim', { 'on': 'Files' }
+"Plug 'psliwka/vim-smoothie'
+"call plug#end()
 
 syntax on
 set nocompatible
@@ -34,7 +34,7 @@ set clipboard=unnamedplus
 
 set t_Co=256
 set background=dark
-colorscheme sorbet "habamax или unokai или внешняя iceberg
+colorscheme sorbet "habamax, unokai или iceberg (внешняя)
 set statusline=%{expand('%:p')}\ %y\ %m\ %r\ %=Line:%l/%L\ Col:%c
 
 autocmd FileType yaml setlocal tabstop=2 shiftwidth=2 expandtab
