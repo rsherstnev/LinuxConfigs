@@ -173,9 +173,13 @@ unset rc
 tabs -4
 
 # TMUX Autostart
-if [[ -z "$TMUX" ]] && [[ $- == *i* ]]; then
-    if command -v tmux &> /dev/null; then
-        tmux attach-session || tmux
+if [ -n "$VSCODE_INJECTION" ] || [ "$TERM_PROGRAM" = "vscode" ]; then
+    export ZSH_TMUX_AUTOSTART=false
+else
+    if [[ -z "$TMUX" ]] && [[ $- == *i* ]]; then
+        if command -v tmux &> /dev/null; then
+            tmux attach-session || tmux
+        fi
     fi
 fi
 
