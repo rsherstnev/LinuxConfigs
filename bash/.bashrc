@@ -41,31 +41,43 @@ _COLOR_RESET="\e[0m"
 
 # WHERE_I_AM() {
 #     if [ -n "$SSH_CONNECTION" ]; then
-#         echo "[🔗 REMOTE]-"
+#         printf "%b" "[🔗 REMOTE]─"
 #     else
-#         echo "[💻 LOCAL]-"
+#         printf "%b" "[💻 LOCAL]─"
 #     fi
 # }
 
 if [ "$color_prompt" = yes ]; then
     VENV_PROMPT() {
         if [[ -n "$VIRTUAL_ENV" ]]; then
-            printf "%b" "(${_COLOR5}$(basename $VIRTUAL_ENV)${_COLOR_RESET})─";
+            printf "%b" "(${_COLOR5}$(basename "$VIRTUAL_ENV")${_COLOR_RESET})─"
         fi
     }
+
+    DIR_PROMPT() {
+        if [[ "$PWD" =~ "$HOME" ]]; then
+            printf "%b" "─[🏠]─[${_COLOR4}${PWD}${_COLOR_RESET}]"
+        else
+            printf "%b" "─[${_COLOR4}${PWD}${_COLOR_RESET}]"
+        fi
+    }
+
     ROOT_WARNING="${_COLOR6}[!!! ROOT !!!]${_COLOR_RESET}─"
+
     if [[ $EUID != 0 ]]; then
-        PS1="┌──\$(VENV_PROMPT)(${_COLOR1}\u${_COLOR2}@${_COLOR3}\H${_COLOR_RESET})─[${_COLOR4}\w${_COLOR_RESET}]\n└─\\$ "
+        PS1="┌──\$(VENV_PROMPT)(${_COLOR1}\u${_COLOR2}@${_COLOR3}\H${_COLOR_RESET})\$(DIR_PROMPT)\n└─\\$ "
     else
-        PS1="┌──${ROOT_WARNING}\$(VENV_PROMPT)(${_COLOR1}\u${_COLOR2}@${_COLOR3}\H${_COLOR_RESET})─[${_COLOR4}\w${_COLOR_RESET}]\n└─\\$ "
-    fi 
+        PS1="┌──${ROOT_WARNING}\$(VENV_PROMPT)(${_COLOR1}\u${_COLOR2}@${_COLOR3}\H${_COLOR_RESET})\$(DIR_PROMPT)\n└─\\$ "
+    fi
 else
     VENV_PROMPT() {
         if [[ -n "$VIRTUAL_ENV" ]]; then
-            printf "%b" "($(basename $VIRTUAL_ENV))─";
+            printf "%b" "($(basename "$VIRTUAL_ENV"))─"
         fi
     }
+
     ROOT_WARNING="[!!! ROOT !!!]─"
+
     if [[ $EUID != 0 ]]; then
         PS1="┌──\$(VENV_PROMPT)(\u@\H)─[\w]\n└─\\$ "
     else
