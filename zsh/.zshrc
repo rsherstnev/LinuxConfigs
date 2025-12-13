@@ -10,16 +10,19 @@ export HISTSIZE=5000
 export VISUAL=/usr/bin/nvim
 export EDITOR=/usr/bin/nvim
 export MANPAGER='less -Mr +Gg'
+
 if [ -n "$VSCODE_INJECTION" ] || [ "$TERM_PROGRAM" = "vscode" ]; then
     export ZSH_TMUX_AUTOSTART=false
 else
     export ZSH_TMUX_AUTOSTART=true
 fi
+
 # Настройки fzf
 export FZF_ALT_C_COMMAND="fd --hidden --type d"
 export FZF_DEFAULT_OPTS='--bind alt-q:abort --color=pointer:227,hl:131,hl+:131 --no-info'
 export FZF_CTRL_R_OPTS='-e --cycle --prompt "Command: " --no-info --layout reverse --height 100% --color=fg:15,hl:9,hl+:9'
 export FZF_CTRL_T_OPTS='--preview "bat -n --color=always {}" --bind "ctrl-/:change-preview-window(down|hidden|)"'
+
 # Настройки плагина zsh-syntax-highlighting
 export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
 export ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=160'
@@ -37,8 +40,10 @@ export ZSH_HIGHLIGHT_STYLES[single-quoted-argument]='fg=227'
 export ZSH_HIGHLIGHT_STYLES[double-quoted-argument]='fg=227'
 export ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter]='fg=125'
 export ZSH_HIGHLIGHT_STYLES[path]='fg=248,underline'
+
 # Настройки grep
 export GREP_COLORS='ms=01;33'
+
 # Настройки exa
 export EXA_COLORS=""
 EXA_PREFIX="1;38;5" # Жирный кастомный цвет
@@ -117,8 +122,8 @@ source $ZSH/oh-my-zsh.sh
 
 for config_file in $HOME/.{aliases,functions}; do
     if [[ -r "$config_file" ]] && [[ -f "$config_file" ]]; then
-		source "$config_file"
-	fi
+        source "$config_file"
+    fi
 done
 unset config_file
 
@@ -126,52 +131,152 @@ tabs -4
 
 # Настройки автодополнения zsh
 zstyle ':completion:*' special-dirs false
+
 # Настройки плагина fzf-tab
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
 
 bindkey '^[[A' up-line-or-search
 bindkey '^[[B' down-line-or-search
+
 # Настройки плагина zsh-autosuggestions
 bindkey '^ ' autosuggest-accept
 
-# Настройки Shell Prompt
-BOX_PROMPT() {
-    if [[ -n "$BOX_ADDRESS" ]]; then
-        echo "[%B$FG[144]$BOX_ADDRESS$RESET_PROMPT]─"
-    fi
-}
+color_prompt=yes
 
-VIRTUAL_ENV_PROMPT() {
-    if [[ -n "$VIRTUAL_ENV" ]]; then
-        echo "(%B$FG[175]$(basename "$VIRTUAL_ENV")$RESET_PROMPT)─"
-    fi
-}
+local _COLOR1="%%F{001}"     # USERNAME
+local _COLOR2="%%F{144}"     # DELIMITER
+local _COLOR3="%%F{216}"     # HOSTNAME
+local _COLOR4="%%F{109}"     # CURRENT DIR
+local _COLOR5="%%F{175}"     # VIRTUAL ENV
+local _COLOR6="%%F{001}"     # ROOT WARNING
+local _COLOR7="%%F{246}"     # GIT
+local _COLOR8="%%F{095}"     # GIT BRANCH
+local _COLOR9="%%F{011}"     # GIT DIRTY
+local _COLOR10="%%F{144}"    # BOX PROMPT
+local _COLOR_RESET="%%f"     # RESET COLOR
 
-# WHERE_I_AM() {
-#     if [ -n "$SSH_CONNECTION" ]; then
-#         echo "[🔗 REMOTE]-"
-#     else
-#         echo "[💻 LOCAL]-"
-#     fi
-# }
+# Остаток из плагина ZSH
+# export ZSH_THEME_GIT_PROMPT_PREFIX="${_COLOR7}git:(${_COLOR8}"
+# export ZSH_THEME_GIT_PROMPT_CLEAN="${_COLOR7})"
+# export ZSH_THEME_GIT_PROMPT_DIRTY="${_COLOR7}) ${_COLOR9}X"
+# export ZSH_THEME_GIT_PROMPT_SUFFIX="${_COLOR_RESET}"
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
-export RESET_PROMPT="%{$reset_color%}"
 
-export ROOT_WARNING="%B$FG[001][!!! ROOT !!!]${RESET_PROMPT}─"
+hackthebox_prompt() {
+    if [ -n "$BOX_ADDRESS" ]; then
+        if [[ "$color_prompt" = yes ]]; then
+            printf "[${_COLOR10}%s${_COLOR_RESET}]─" "$BOX_ADDRESS"
+        else
+            printf "[%s]─" "$BOX_ADDRESS"
+        fi
+    fi
+}
 
-if [[ $EUID != 0 ]]; then
-    export PROMPT='┌──$(BOX_PROMPT)$(VIRTUAL_ENV_PROMPT)(%B$FG[001]%n$FG[060]㉿$FG[216]%M$RESET_PROMPT)─[$FG[109]%~%f%b] $(git_prompt_info)
-└─%# '
-else
-    export PROMPT='┌──$(BOX_PROMPT)$(VIRTUAL_ENV_PROMPT)${ROOT_WARNING}(%B$FG[001]%n$FG[060]㉿$FG[216]%M$RESET_PROMPT)─[$FG[109]%~%f%b] $(git_prompt_info)
-└─%# '
-fi
+machine_prompt() {
+    if [ -n "$SSH_CONNECTION" ]; then
+        printf "[🔗 REMOTE]─"
+    else
+        printf "[💻 LOCAL]─"
+    fi
+}
 
-export ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[blue]%}git:(%{$fg[red]%}"
-export ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%} "
-export ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[blue]%}) %{$fg[yellow]%}%1{✗%}"
-export ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[blue]%})"
+root_prompt() {
+    local _ROOT_WARNING="!!! ROOT !!!"
+
+    if [[ $EUID == 0 ]]; then
+        if [[ "$color_prompt" = yes ]]; then
+            printf "${_COLOR6}[%s]${_COLOR_RESET}─" "${_ROOT_WARNING}"
+        else
+            printf "[%s]─" "${_ROOT_WARNING}"
+        fi
+    fi
+}
+
+venv_prompt() {
+    local _VIRTUAL_ENV_NAME="$(basename "$VIRTUAL_ENV")"
+
+    if [[ "$PWD" = $(dirname "$VIRTUAL_ENV")/* || "$PWD" = "$VIRTUAL_ENV" || "$PWD" = $(dirname "$VIRTUAL_ENV") ]]; then
+        if [[ "$color_prompt" = yes ]]; then
+            printf "(${_COLOR5}%s${_COLOR_RESET})─" "${_VIRTUAL_ENV_NAME}"
+        else
+            printf "(%s)─" "${_VIRTUAL_ENV_NAME}"
+        fi
+    fi
+}
+
+user_prompt(){
+    local _CURRENT_USER="%n"
+    local _DELIMITER="@"
+    local _CURRENT_HOSTNAME="%m"
+
+    if [[ "$color_prompt" = yes ]]; then
+        printf "(${_COLOR1}%s${_COLOR2}%s${_COLOR3}%s${_COLOR_RESET})─" "${_CURRENT_USER}" "${_DELIMITER}" "${_CURRENT_HOSTNAME}"
+    else
+        printf "(%s%s%s)─" "${_CURRENT_USER}" "${_DELIMITER}" "${_CURRENT_HOSTNAME}"
+    fi
+}
+
+home_prompt() {
+    if [[ "$PWD" =~ "$HOME" ]]; then
+        if [[ "$color_prompt" = yes ]]; then
+            printf "[🏡]─"
+        else
+            printf "[~]─"
+        fi
+    fi
+}
+
+dir_prompt() {
+    local _CURRENT_DIR="%~"
+
+    if [[ "$color_prompt" = yes ]]; then
+        printf "[${_COLOR4}%s${_COLOR_RESET}]" "${PWD}"
+    else
+        printf "[%s]" "${PWD}"
+    fi
+}
+
+git_prompt() {
+    local ref
+    ref=$(command git symbolic-ref --short HEAD 2> /dev/null) || ref=$(command git rev-parse --short HEAD 2> /dev/null) || return 0
+    
+    if [[ -n "$ref" ]]; then
+        local git_status
+        git_status="$(command git status --porcelain 2>/dev/null)"
+        
+        if [[ -n "$git_status" ]]; then
+            if [[ "$color_prompt" = yes ]]; then
+                printf " 🌿 ${_COLOR7}(${_COLOR8}%s${_COLOR7}) ${_COLOR9}X${_COLOR_RESET}" "${ref}"
+            else
+                printf " git:(%s) X" "${ref}"
+            fi
+        else
+            if [[ "$color_prompt" = yes ]]; then
+                printf " 🌿 ${_COLOR7}(${_COLOR8}%s${_COLOR7})${_COLOR_RESET}" "${ref}"
+            else
+                printf " git:(%s)" "${ref}"
+            fi
+        fi
+    fi
+}
+
+build_prompt() {
+    local _USER_SYMBOL="%#"
+
+    printf "%s" "┌──"
+    # printf "%s" "$(hackthebox_prompt)"
+    # printf "%s" "$(machine_prompt)"
+    printf "%s" "$(root_prompt)"
+    printf "%s" "$(venv_prompt)"
+    printf "%s" "$(user_prompt)"
+    printf "%s" "$(home_prompt)"
+    printf "%s" "$(dir_prompt)"
+    printf "%s" "$(git_prompt)"
+    printf "\n%s" "└─${_USER_SYMBOL} "
+}
+
+PROMPT='$(build_prompt)'
 
 # Настройка плагина colored-man-pages
 typeset -AHg less_termcap
