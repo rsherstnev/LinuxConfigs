@@ -13,10 +13,10 @@ shopt -s checkwinsize
 shopt -s autocd
 shopt -s cmdhist
 
-PROMPT_COMMAND='history -a'
-
 case "$TERM" in
-    xterm-color|*-256color) color_prompt=yes;;
+    xterm-color|*-256color)
+        color_prompt=yes
+        ;;
 esac
 
 # force_color_prompt=yes
@@ -29,63 +29,124 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
-VIRTUAL_ENV_DISABLE_PROMPT=0
+_COLOR1="\e[01;38;5;001m"     # USERNAME
+_COLOR2="\e[01;38;5;144m"     # DELIMETER
+_COLOR3="\e[01;38;5;216m"     # HOSTNAME
+_COLOR4="\e[01;38;5;109m"     # CURRENT DIR
+_COLOR5="\e[01;38;5;175m"     # VIRTUAL ENV
+_COLOR6="\e[01;38;5;001m"     # ROOT WARNING
+_COLOR7="\e[01;38;5;246m"     # GIT
+_COLOR8="\e[01;38;5;095m"     # GIT BRANCH
+_COLOR9="\e[01;38;5;011m"     # GIT DIRTY
+_COLOR_RESET="\e[0m"          # RESET COLOR
 
-_COLOR1="\e[01;38;5;001m"
-_COLOR2="\e[01;38;5;144m"
-_COLOR3="\e[01;38;5;216m"
-_COLOR4="\e[01;38;5;109m"
-_COLOR5="\e[01;38;5;175m"
-_COLOR6="\e[01;38;5;001m"
-_COLOR_RESET="\e[0m"
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 
-# WHERE_I_AM() {
-#     if [ -n "$SSH_CONNECTION" ]; then
-#         printf "%b" "[🔗 REMOTE]─"
-#     else
-#         printf "%b" "[💻 LOCAL]─"
-#     fi
-# }
+machine_prompt() {
+    if [ -n "$SSH_CONNECTION" ]; then
+        printf "[🔗 REMOTE]─"
+    else
+        printf "[💻 LOCAL]─"
+    fi
+}
 
-if [ "$color_prompt" = yes ]; then
-    VENV_PROMPT() {
-        if [[ -n "$VIRTUAL_ENV" ]]; then
-            printf "%b" "(${_COLOR5}$(basename "$VIRTUAL_ENV")${_COLOR_RESET})─"
-        fi
-    }
+root_prompt() {
+    local _ROOT_WARNING="!!! ROOT !!!"
 
-    DIR_PROMPT() {
-        if [[ "$PWD" =~ "$HOME" ]]; then
-            printf "%b" "─[🏠]─[${_COLOR4}${PWD}${_COLOR_RESET}]"
+    if [[ $EUID == 0 ]]; then
+        if [[ "$color_prompt" = yes ]]; then
+            printf "${_COLOR6}[%s]${_COLOR_RESET}─" "${_ROOT_WARNING}"
         else
-            printf "%b" "─[${_COLOR4}${PWD}${_COLOR_RESET}]"
+            printf "[%s]─" "${_ROOT_WARNING}"
         fi
-    }
-
-    ROOT_WARNING="${_COLOR6}[!!! ROOT !!!]${_COLOR_RESET}─"
-
-    if [[ $EUID != 0 ]]; then
-        PS1="┌──\$(VENV_PROMPT)(${_COLOR1}\u${_COLOR2}@${_COLOR3}\H${_COLOR_RESET})\$(DIR_PROMPT)\n└─\\$ "
-    else
-        PS1="┌──${ROOT_WARNING}\$(VENV_PROMPT)(${_COLOR1}\u${_COLOR2}@${_COLOR3}\H${_COLOR_RESET})\$(DIR_PROMPT)\n└─\\$ "
     fi
-else
-    VENV_PROMPT() {
-        if [[ -n "$VIRTUAL_ENV" ]]; then
-            printf "%b" "($(basename "$VIRTUAL_ENV"))─"
+}
+
+venv_prompt() {
+    local _VIRTUAL_ENV_NAME="$(basename "$VIRTUAL_ENV")"
+
+    if [[ "$PWD" = $(dirname "$VIRTUAL_ENV")/* || "$PWD" = "$VIRTUAL_ENV" || "$PWD" = $(dirname "$VIRTUAL_ENV") ]]; then
+        if [[ "$color_prompt" = yes ]]; then
+            printf "(${_COLOR5}%s${_COLOR_RESET})─" "${_VIRTUAL_ENV_NAME}"
+        else
+            printf "(%s)─" "${_VIRTUAL_ENV_NAME}"
         fi
-    }
-
-    ROOT_WARNING="[!!! ROOT !!!]─"
-
-    if [[ $EUID != 0 ]]; then
-        PS1="┌──\$(VENV_PROMPT)(\u@\H)─[\w]\n└─\\$ "
-    else
-        PS1="┌──${ROOT_WARNING}\$(VENV_PROMPT)(\u@\H)─[\w]\n└─\\$ "
     fi
-fi
+}
 
-unset color_prompt force_color_prompt
+user_prompt(){
+    local _CURRENT_USER="\u"
+    local _DELIMITER="@"
+    local _CURRENT_HOSTNAME="\H"
+
+    if [[ "$color_prompt" = yes ]]; then
+        printf "(${_COLOR1}%s${_COLOR2}%s${_COLOR3}%s${_COLOR_RESET})─" "${_CURRENT_USER}" "${_DELIMITER}" "${_CURRENT_HOSTNAME}"
+    else
+        printf "(%s%s%s)─" "${_CURRENT_USER}" "${_DELIMITER}" "${_CURRENT_HOSTNAME}"
+    fi
+}
+
+home_prompt() {
+    if [[ "$PWD" =~ "$HOME" ]]; then
+        if [[ "$color_prompt" = yes ]]; then
+            printf "[🏡]─"
+        else
+            printf "[~]─"
+        fi
+    fi
+}
+
+dir_prompt() {
+    local _CURRENT_DIR="%~"
+
+    if [[ "$color_prompt" = yes ]]; then
+        printf "[${_COLOR4}%s${_COLOR_RESET}]" "${PWD}"
+    else
+        printf "[%s]" "${PWD}"
+    fi
+}
+
+git_prompt() {
+    local ref
+    ref=$(command git symbolic-ref --short HEAD 2> /dev/null) || ref=$(command git rev-parse --short HEAD 2> /dev/null) || return 0
+    
+    if [[ -n "$ref" ]]; then
+        local git_status
+        git_status="$(command git status --porcelain 2>/dev/null)"
+        
+        if [[ -n "$git_status" ]]; then
+            if [[ "$color_prompt" = yes ]]; then
+                printf " 🌿 ${_COLOR7}(${_COLOR8}%s${_COLOR7}) ${_COLOR9}X${_COLOR_RESET}" "${ref}"
+            else
+                printf " git:(%s) X" "${ref}"
+            fi
+        else
+            if [[ "$color_prompt" = yes ]]; then
+                printf " 🌿 ${_COLOR7}(${_COLOR8}%s${_COLOR7})${_COLOR_RESET}" "${ref}"
+            else
+                printf " git:(%s)" "${ref}"
+            fi
+        fi
+    fi
+}
+
+build_prompt() {
+    local _USER_SYMBOL="\\$"
+
+    printf "%s" "┌──"
+    # printf "%s" "$(machine_prompt)"
+    printf "%s" "$(root_prompt)"
+    printf "%s" "$(venv_prompt)"
+    printf "%s" "$(user_prompt)"
+    printf "%s" "$(home_prompt)"
+    printf "%s" "$(dir_prompt)"
+    printf "%s" "$(git_prompt)"
+    printf "\n%s" "└─${_USER_SYMBOL} "
+}
+
+PROMPT_COMMAND='history -a; history -c; history -r; PS1=$(build_prompt)'
+
+# unset color_prompt force_color_prompt
 
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"

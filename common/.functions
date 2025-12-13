@@ -221,6 +221,8 @@ venv-activate () {
     fi
 }
 
+alias venv-enter='venv-activate'
+
 docker-container-volumes() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo-yellow "Usage: docker-container-volumes <CONTAINER>"
