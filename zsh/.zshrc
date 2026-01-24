@@ -11,6 +11,7 @@ export VISUAL=/usr/bin/nvim
 export EDITOR=/usr/bin/nvim
 export MANPAGER='less -Mr +Gg'
 
+# TMUX autostart
 if [ -n "$VSCODE_INJECTION" ] || [ "$TERM_PROGRAM" = "vscode" ]; then
     export ZSH_TMUX_AUTOSTART=false
 else
@@ -143,17 +144,17 @@ bindkey '^ ' autosuggest-accept
 
 color_prompt=yes
 
-local _COLOR1="%%F{001}"     # USERNAME
-local _COLOR2="%%F{144}"     # DELIMITER
-local _COLOR3="%%F{216}"     # HOSTNAME
-local _COLOR4="%%F{109}"     # CURRENT DIR
-local _COLOR5="%%F{175}"     # VIRTUAL ENV
-local _COLOR6="%%F{001}"     # ROOT WARNING
-local _COLOR7="%%F{246}"     # GIT
-local _COLOR8="%%F{095}"     # GIT BRANCH
-local _COLOR9="%%F{011}"     # GIT DIRTY
-local _COLOR10="%%F{144}"    # BOX PROMPT
-local _COLOR_RESET="%%f"     # RESET COLOR
+local _COLOR1="%%B%%F{001}"     # USERNAME
+local _COLOR2="%%B%%F{144}"     # DELIMITER
+local _COLOR3="%%B%%F{216}"     # HOSTNAME
+local _COLOR4="%%B%%F{109}"     # CURRENT DIR
+local _COLOR5="%%B%%F{175}"     # VIRTUAL ENV
+local _COLOR6="%%B%%F{001}"     # ROOT WARNING
+local _COLOR7="%%B%%F{246}"     # GIT
+local _COLOR8="%%B%%F{095}"     # GIT BRANCH
+local _COLOR9="%%B%%F{011}"     # GIT DIRTY
+local _COLOR10="%%B%%F{144}"    # BOX PROMPT
+local _COLOR_RESET="%%f"        # RESET COLOR
 
 # Остаток из плагина ZSH
 # export ZSH_THEME_GIT_PROMPT_PREFIX="${_COLOR7}git:(${_COLOR8}"
@@ -280,7 +281,7 @@ PROMPT='$(build_prompt)'
 
 # Настройка плагина colored-man-pages
 typeset -AHg less_termcap
-less_termcap[mb]="${fg_bold[red]}" # 
+less_termcap[mb]="${fg_bold[red]}"
 less_termcap[md]="${fg_bold[green]}" # параметры
 less_termcap[me]="${reset_color}"
 less_termcap[se]="${reset_color}"
@@ -309,5 +310,10 @@ zstyle ':completion:*:ssh:*' hosts
 zstyle ':completion:*:ssh:*' config ~/.ssh/config
 zstyle ':completion:*:ssh:*' known-hosts ~/.ssh/known_hosts
 
-# Uncomment for ASDF using
+# ASDF
 # export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+
+# ZELLIJ autostart
+# if ! ([ -n "$VSCODE_INJECTION" ] || [ "$TERM_PROGRAM" = "vscode" ]); then
+#     eval "$(zellij setup --generate-auto-start zsh)"
+# fi
