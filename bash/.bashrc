@@ -97,7 +97,7 @@ home_prompt() {
 }
 
 dir_prompt() {
-    local _CURRENT_DIR="%~"
+    local _CURRENT_DIR="\w"
 
     if [[ "$color_prompt" = yes ]]; then
         printf "[${_COLOR4}%s${_COLOR_RESET}]" "${PWD}"
@@ -138,7 +138,7 @@ build_prompt() {
     printf "%s" "$(root_prompt)"
     printf "%s" "$(venv_prompt)"
     printf "%s" "$(user_prompt)"
-    printf "%s" "$(home_prompt)"
+    # printf "%s" "$(home_prompt)"
     printf "%s" "$(dir_prompt)"
     printf "%s" "$(git_prompt)"
     printf "\n%s" "└─${_USER_SYMBOL} "
