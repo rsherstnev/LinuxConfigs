@@ -1,0 +1,40 @@
+{
+    "window.zoomLevel": -1,
+    "workbench.startupEditor": "none",
+    "workbench.activityBar.orientation": "vertical",
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.colorTheme": "One Dark Pro Darker",
+    "workbench.editor.empty.hint": "hidden",
+    "editor.fontFamily": "Cascadia Code",
+    "editor.fontSize": 15,
+    "editor.fontWeight": "normal",
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4,
+    "editor.detectIndentation": false,
+    "editor.renderWhitespace": "all",
+    "editor.minimap.enabled": true,
+    "editor.stickyScroll.enabled": false,
+    "editor.trimAutoWhitespace": true,
+    "editor.unicodeHighlight.nonBasicASCII": false,
+    "terminal.integrated.fontFamily": "Cascadia Code",
+    "terminal.integrated.fontSize": 16,
+    "terminal.integrated.fontWeight": "normal",
+    "terminal.integrated.initialHint": false,
+    "terminal.integrated.stickyScroll.enabled": false,
+    "security.workspace.trust.enabled": false,
+    "security.workspace.trust.banner": "never",
+    "security.workspace.trust.startupPrompt": "never",
+    "security.workspace.trust.untrustedFiles": "open",
+    "powershell.promptToUpdatePowerShell": false,
+    "explorer.confirmDragAndDrop": false,
+    "git.openRepositoryInParentFolders": "never",
+    "[yaml]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+        "editor.detectIndentation": false
+    },
+    "[powershell]": {
+        "files.encoding": "windows1251",
+        "files.autoGuessEncoding": true
+    }
+}
