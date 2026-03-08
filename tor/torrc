@@ -1,0 +1,4 @@
+# C:\Users\norden\Desktop\Tor Browser\Browser\TorBrowser\Data\Tor\torrc
+
+ExcludeExitNodes {cn},{ir},{kp},{sy},{ru},{cu},{af},{sd},{ve},{by},{mm},{cf},{cd},{ly},{so},{ye},{iq},{lb},{ua}
+StrictNodes 1

@@ -33,13 +33,13 @@
     "powershell.promptToUpdatePowerShell": false,
     "explorer.confirmDragAndDrop": false,
     "git.openRepositoryInParentFolders": "never",
+    "scm.defaultViewMode": "tree",
     "[yaml]": {
         "editor.insertSpaces": true,
         "editor.tabSize": 2,
         "editor.detectIndentation": false
     },
     "[powershell]": {
-        "files.encoding": "windows1251",
-        "files.autoGuessEncoding": true
+        "files.encoding": "windows1251"
     }
 }
