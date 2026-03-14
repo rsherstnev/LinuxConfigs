@@ -1,0 +1,11 @@
+[
+    {
+        "key": "ctrl+l",
+        "command": "aichat.newchataction",
+        "when": "!terminalFocus"
+    },
+    {
+        "key": "ctrl+l",
+        "command": "-aichat.newchataction"
+    }
+]

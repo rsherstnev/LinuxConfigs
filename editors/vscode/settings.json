@@ -26,6 +26,7 @@
     "terminal.integrated.fontWeight": "normal",
     "terminal.integrated.initialHint": false,
     "terminal.integrated.stickyScroll.enabled": false,
+    "terminal.integrated.enablePersistentSessions": false,
     "security.workspace.trust.enabled": false,
     "security.workspace.trust.banner": "never",
     "security.workspace.trust.startupPrompt": "never",
@@ -40,6 +41,8 @@
         "editor.detectIndentation": false
     },
     "[powershell]": {
-        "files.encoding": "windows1251"
-    }
+        "files.encoding": "utf8bom",
+        "files.autoGuessEncoding": true
+    },
+    "powershell.integratedConsole.showOnStartup": false
 }
