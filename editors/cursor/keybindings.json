@@ -7,5 +7,10 @@
     {
         "key": "ctrl+l",
         "command": "-aichat.newchataction"
+    },
+    {
+        "key": "shift+alt+\\",
+        "command": "workbench.action.terminal.new",
+        "when": "terminalProcessSupported || terminalWebExtensionContributedProfile"
     }
 ]

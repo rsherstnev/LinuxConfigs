@@ -98,11 +98,12 @@ home_prompt() {
 
 dir_prompt() {
     local _CURRENT_DIR="\w"
+    local _ABSOLUTE_CURRENT_DIR="${PWD}"
 
     if [[ "$color_prompt" = yes ]]; then
-        printf "[${_COLOR4}%s${_COLOR_RESET}]" "${PWD}"
+        printf "[${_COLOR4}%s${_COLOR_RESET}]" "${_CURRENT_DIR}"
     else
-        printf "[%s]" "${PWD}"
+        printf "[%s]" "${_CURRENT_DIR}"
     fi
 }
 
