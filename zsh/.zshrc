@@ -62,7 +62,7 @@ EXA_SETTINGS=(
     "tr=$EXA_PREFIX;$EXA_R" # Полномочие чтения для иных
     "tw=$EXA_PREFIX;$EXA_W" # Полномочие записи для иных
     "tx=$EXA_PREFIX;$EXA_X" # Полномочие исполнения для иных
-    "uu=$EXA_PREFIX;65" # Ваш пользотватель
+    "uu=$EXA_PREFIX;65" # Ваш пользователь
     "uR=$EXA_PREFIX;124" # Пользователь root
     "un=$EXA_PREFIX;142" # Пользователь не ваш и не root
     "gu=$EXA_PREFIX;65" # Ваша группа
@@ -87,7 +87,6 @@ setopt INC_APPEND_HISTORY
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_REDUCE_BLANKS
 setopt HIST_IGNORE_SPACE
-setopt HIST_NO_STORE
 setopt EXTENDED_GLOB
 setopt GLOBDOTS
 setopt NOTIFY
@@ -134,7 +133,7 @@ tabs -4
 zstyle ':completion:*' special-dirs false
 
 # Настройки плагина fzf-tab
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
 
 bindkey '^[[A' up-line-or-search
 bindkey '^[[B' down-line-or-search
@@ -144,17 +143,17 @@ bindkey '^ ' autosuggest-accept
 
 color_prompt=yes
 
-local _COLOR1="%%B%%F{001}"     # USERNAME
-local _COLOR2="%%B%%F{144}"     # DELIMITER
-local _COLOR3="%%B%%F{216}"     # HOSTNAME
-local _COLOR4="%%B%%F{109}"     # CURRENT DIR
-local _COLOR5="%%B%%F{175}"     # VIRTUAL ENV
-local _COLOR6="%%B%%F{001}"     # ROOT WARNING
-local _COLOR7="%%B%%F{246}"     # GIT
-local _COLOR8="%%B%%F{095}"     # GIT BRANCH
-local _COLOR9="%%B%%F{011}"     # GIT DIRTY
-local _COLOR10="%%B%%F{144}"    # BOX PROMPT
-local _COLOR_RESET="%%f"        # RESET COLOR
+_COLOR1="%%B%%F{001}"     # USERNAME
+_COLOR2="%%B%%F{144}"     # DELIMITER
+_COLOR3="%%B%%F{216}"     # HOSTNAME
+_COLOR4="%%B%%F{109}"     # CURRENT DIR
+_COLOR5="%%B%%F{175}"     # VIRTUAL ENV
+_COLOR6="%%B%%F{001}"     # ROOT WARNING
+_COLOR7="%%B%%F{246}"     # GIT
+_COLOR8="%%B%%F{095}"     # GIT BRANCH
+_COLOR9="%%B%%F{011}"     # GIT DIRTY
+_COLOR10="%%B%%F{144}"    # BOX PROMPT
+_COLOR_RESET="%%f"        # RESET COLOR
 
 # Остаток из плагина ZSH
 # export ZSH_THEME_GIT_PROMPT_PREFIX="${_COLOR7}git:(${_COLOR8}"
@@ -264,7 +263,7 @@ git_prompt() {
 }
 
 build_prompt() {
-    local _USER_SYMBOL="%#"
+    local _USER_SYMBOL="%(!.#.$)"
 
     printf "%s" "┌──"
     # printf "%s" "$(hackthebox_prompt)"
@@ -272,7 +271,7 @@ build_prompt() {
     printf "%s" "$(root_prompt)"
     printf "%s" "$(venv_prompt)"
     printf "%s" "$(user_prompt)"
-    printf "%s" "$(home_prompt)"
+    # printf "%s" "$(home_prompt)"
     printf "%s" "$(dir_prompt)"
     printf "%s" "$(git_prompt)"
     printf "\n%s" "└─${_USER_SYMBOL} "
@@ -308,7 +307,6 @@ fi
 unset completion_file
 
 zstyle ':completion:*:ssh:*' hosts
-zstyle ':completion:*:ssh:*' config ~/.ssh/config
 zstyle ':completion:*:ssh:*' known-hosts ~/.ssh/known_hosts
 
 # ASDF
