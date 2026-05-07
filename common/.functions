@@ -121,10 +121,10 @@ docker-shell() {
     else
         case "$#" in
             1)
-                docker exec -it $1 /bin/bash
+                sudo docker exec -it $1 /bin/bash
                 ;;
             2)
-                docker exec -it $1 $2
+                sudo docker exec -it $1 $2
                 ;;
         esac
     fi
@@ -227,7 +227,7 @@ docker-container-volumes() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo-yellow "Usage: docker-container-volumes <CONTAINER>"
     else
-        docker container inspect $1 | jq -r '.[].Mounts.[].Source'
+        sudo docker container inspect $1 | jq -r '.[].Mounts.[].Source'
     fi
 }
 
@@ -565,7 +565,7 @@ docker-compose-rm-cn() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo-yellow "Usage: docker-compose-rm-cn <COMPOSE_FILE>"
     else
-        docker compose -f $1 down
+        sudo docker compose -f $1 down
     fi
 }
 
@@ -573,7 +573,7 @@ docker-compose-rm-icn() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo-yellow "Usage: docker-compose-rm-icn <COMPOSE_FILE>"
     else
-        docker compose -f $1 down --rmi all
+        sudo docker compose -f $1 down --rmi all
     fi
 }
 
@@ -581,7 +581,7 @@ docker-compose-rm-icnv() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
         echo-yellow "Usage: docker-compose-rm-icnv <COMPOSE_FILE>"
     else
-        docker compose -f $1 down --rmi all --volumes
+        sudo docker compose -f $1 down --rmi all --volumes
     fi
 }
 
@@ -616,16 +616,16 @@ bloodhound() {
                 fi
                 ;;
             create)
-                docker compose -f $BLOODHOUND_COMPOSE_FILE -p $BLOODHOUND_COMPOSE_NAME up --no-start
+                sudo docker compose -f $BLOODHOUND_COMPOSE_FILE -p $BLOODHOUND_COMPOSE_NAME up --no-start
                 ;;
             start)
-                docker compose -f $BLOODHOUND_COMPOSE_FILE -p $BLOODHOUND_COMPOSE_NAME start
+                sudo docker compose -f $BLOODHOUND_COMPOSE_FILE -p $BLOODHOUND_COMPOSE_NAME start
                 ;;
             stop)
-                docker compose -f $BLOODHOUND_COMPOSE_FILE -p $BLOODHOUND_COMPOSE_NAME stop
+                sudo docker compose -f $BLOODHOUND_COMPOSE_FILE -p $BLOODHOUND_COMPOSE_NAME stop
                 ;;
             remove)
-                docker compose -f $BLOODHOUND_COMPOSE_FILE -p $BLOODHOUND_COMPOSE_NAME down --rmi all --volumes
+                sudo docker compose -f $BLOODHOUND_COMPOSE_FILE -p $BLOODHOUND_COMPOSE_NAME down --rmi all --volumes
                 ;;
             *)
                 echo-yellow "Usage: bloodhound <download | update | create | start | stop | remove>"
@@ -856,18 +856,6 @@ ssh-stealth() {
     fi
 }
 
-hoaxshell() {
-    uv run --directory /opt/python-software/hoaxshell hoaxshell.py -q "$@"
-}
-
-villain() {
-    uv run --directory /opt/python-software/villain Villain.py -q "$@"
-}
-
 searchnmapscript() {
-    uv run --directory /opt/scripts searchnmapscript.py "$@"
-}
-
-phpsploit() {
-    uv run --directory /opt/python-software/phpsploit ./phpsploit "$@"
+    uv run --directory $HOME/opt/scripts searchnmapscript.py "$@"
 }
