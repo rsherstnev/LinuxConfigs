@@ -231,9 +231,9 @@ docker-container-volumes() {
     fi
 }
 
-ipa() {
+ip-info() {
     if [[ $# != 1 || "$1" == "-h" || "$1" == "--help" ]]; then
-        echo-yellow "Usage: ipa <IP_ADDRESS>"
+        echo-yellow "Usage: ip-info <IP_ADDRESS>"
     else
         if command -v jq &> /dev/null; then
             curl -s "https://ifconfig.co/json?ip=$1" | jq 'del(.user_agent)'
@@ -360,10 +360,10 @@ http-server() {
         
         case "$#" in
             0)
-                python3 -m http.server
+                sudo python3 -m http.server
                 ;;
             1)
-                python3 -m http.server $1
+                sudo python3 -m http.server $1
                 ;;
         esac
     fi
@@ -397,10 +397,10 @@ smb-server() {
         
         case "$#" in
             0)
-                impacket-smbserver -smb2support share .
+                sudo impacket-smbserver -smb2support share .
                 ;;
             1)
-                impacket-smbserver -smb2support "$1" .
+                sudo impacket-smbserver -smb2support "$1" .
                 ;;
         esac
     fi
@@ -420,10 +420,10 @@ ftp-server() {
 
         case "$#" in
             0)
-                python3 -m pyftpdlib -p 21
+                sudo python3 -m pyftpdlib -p 21
                 ;;
             1)
-                python3 -m pyftpdlib -p "$1"
+                sudo python3 -m pyftpdlib -p "$1"
                 ;;
         esac 
     fi
@@ -441,7 +441,7 @@ tftp-server() {
         ls -a
         echo
 
-        ptftpd -p 69 "$1" .
+        sudo ptftpd -p 69 "$1" .
     fi
 }
 
