@@ -145,7 +145,12 @@ build_prompt() {
     printf "\n%s" "└─${_USER_SYMBOL} "
 }
 
-PROMPT_COMMAND='history -a; history -c; history -r; PS1=$(build_prompt)'
+if [[ -n "$CURSOR_AGENT" ]]; then
+    PS1='\u@\h:\w\$ '
+    PROMPT_COMMAND='history -a; history -c; history -r'
+else
+    PROMPT_COMMAND='history -a; history -c; history -r; PS1=$(build_prompt)'
+fi
 
 # unset color_prompt force_color_prompt
 
@@ -246,14 +251,17 @@ unset rc
 
 tabs -4
 
-# TMUX Autostart
-if [ -n "$VSCODE_INJECTION" ] || [ "$TERM_PROGRAM" = "vscode" ]; then
+# TMUX Autostart: отдельные сессии для SSH и локального входа (консоль / эмулятор терминала)
+if [ -n "$CURSOR_AGENT" ] || [ -n "$VSCODE_INJECTION" ] || [ "$TERM_PROGRAM" = "vscode" ]; then
     export ZSH_TMUX_AUTOSTART=false
-else
-    if [[ -z "$TMUX" ]] && [[ $- == *i* ]]; then
-        if command -v tmux &> /dev/null; then
-            tmux attach-session || tmux
+elif [[ -z "$TMUX" ]]; then
+    if command -v tmux &> /dev/null; then
+        if [ -n "$SSH_CONNECTION" ]; then
+            TMUX_SESSION=remote
+        else
+            TMUX_SESSION=local
         fi
+        tmux attach-session -t "$TMUX_SESSION" 2>/dev/null || tmux new-session -s "$TMUX_SESSION"
     fi
 fi
 

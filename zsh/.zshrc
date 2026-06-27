@@ -12,7 +12,7 @@ export EDITOR=/usr/bin/nvim
 export MANPAGER='less -Mr +Gg'
 
 # TMUX autostart
-if [ -n "$VSCODE_INJECTION" ] || [ "$TERM_PROGRAM" = "vscode" ]; then
+if [ -n "$CURSOR_AGENT" ] || [ -n "$VSCODE_INJECTION" ] || [ "$TERM_PROGRAM" = "vscode" ]; then
     export ZSH_TMUX_AUTOSTART=false
 else
     export ZSH_TMUX_AUTOSTART=true
@@ -277,7 +277,11 @@ build_prompt() {
     printf "\n%s" "└─${_USER_SYMBOL} "
 }
 
-PROMPT='$(build_prompt)'
+if [[ -n "$CURSOR_AGENT" ]]; then
+    PROMPT='%n@%m:%~$ '
+else
+    PROMPT='$(build_prompt)'
+fi
 
 # Настройка плагина colored-man-pages
 typeset -AHg less_termcap
