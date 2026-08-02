@@ -1,6 +1,6 @@
 [[ $- != *i* ]] && return
 
-stty -ixon
+[[ -t 0 ]] && stty -ixon
 
 HISTCONTROL=ignoreboth
 HISTSIZE=10000
@@ -29,24 +29,25 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
-_COLOR1="\e[01;38;5;001m"     # USERNAME
-_COLOR2="\e[01;38;5;144m"     # DELIMETER
-_COLOR3="\e[01;38;5;216m"     # HOSTNAME
-_COLOR4="\e[01;38;5;109m"     # CURRENT DIR
-_COLOR5="\e[01;38;5;175m"     # VIRTUAL ENV
-_COLOR6="\e[01;38;5;001m"     # ROOT WARNING
-_COLOR7="\e[01;38;5;246m"     # GIT
-_COLOR8="\e[01;38;5;095m"     # GIT BRANCH
-_COLOR9="\e[01;38;5;011m"     # GIT DIRTY
-_COLOR_RESET="\e[0m"          # RESET COLOR
+# \001/\002 = \[ \] для readline (безопасны при сборке PS1 через printf)
+_COLOR1=$'\001\e[01;38;5;001m\002'     # USERNAME
+_COLOR2=$'\001\e[01;38;5;144m\002'     # DELIMETER
+_COLOR3=$'\001\e[01;38;5;216m\002'     # HOSTNAME
+_COLOR4=$'\001\e[01;38;5;109m\002'     # CURRENT DIR
+_COLOR5=$'\001\e[01;38;5;175m\002'     # VIRTUAL ENV
+_COLOR6=$'\001\e[01;38;5;001m\002'     # ROOT WARNING
+_COLOR7=$'\001\e[01;38;5;246m\002'     # GIT
+_COLOR8=$'\001\e[01;38;5;095m\002'     # GIT BRANCH
+_COLOR9=$'\001\e[01;38;5;011m\002'     # GIT DIRTY
+_COLOR_RESET=$'\001\e[0m\002'          # RESET COLOR
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 machine_prompt() {
     if [ -n "$SSH_CONNECTION" ]; then
-        printf "[🔗 REMOTE]─"
+        printf '[REMOTE]─'
     else
-        printf "[💻 LOCAL]─"
+        printf '[LOCAL]─'
     fi
 }
 
@@ -55,22 +56,23 @@ root_prompt() {
 
     if [[ $EUID == 0 ]]; then
         if [[ "$color_prompt" = yes ]]; then
-            printf "${_COLOR6}[%s]${_COLOR_RESET}─" "${_ROOT_WARNING}"
+            printf '%s[%s]%s─' "${_COLOR6}" "${_ROOT_WARNING}" "${_COLOR_RESET}"
         else
-            printf "[%s]─" "${_ROOT_WARNING}"
+            printf '[%s]─' "${_ROOT_WARNING}"
         fi
     fi
 }
 
 venv_prompt() {
-    local _VIRTUAL_ENV_NAME="$(basename "$VIRTUAL_ENV")"
+    [[ -n "$VIRTUAL_ENV" ]] || return 0
 
-    if [[ "$PWD" = $(dirname "$VIRTUAL_ENV")/* || "$PWD" = "$VIRTUAL_ENV" || "$PWD" = $(dirname "$VIRTUAL_ENV") ]]; then
-        if [[ "$color_prompt" = yes ]]; then
-            printf "(${_COLOR5}%s${_COLOR_RESET})─" "${_VIRTUAL_ENV_NAME}"
-        else
-            printf "(%s)─" "${_VIRTUAL_ENV_NAME}"
-        fi
+    local _VIRTUAL_ENV_NAME
+    _VIRTUAL_ENV_NAME="$(basename "$VIRTUAL_ENV")"
+
+    if [[ "$color_prompt" = yes ]]; then
+        printf '(%s%s%s)─' "${_COLOR5}" "${_VIRTUAL_ENV_NAME}" "${_COLOR_RESET}"
+    else
+        printf '(%s)─' "${_VIRTUAL_ENV_NAME}"
     fi
 }
 
@@ -80,19 +82,19 @@ user_prompt(){
     local _CURRENT_HOSTNAME="\H"
 
     if [[ "$color_prompt" = yes ]]; then
-        printf "(${_COLOR1}%s${_COLOR2}%s${_COLOR3}%s${_COLOR_RESET})─" "${_CURRENT_USER}" "${_DELIMITER}" "${_CURRENT_HOSTNAME}"
+        printf '(%s%s%s%s%s%s%s)─' \
+            "${_COLOR1}" "${_CURRENT_USER}" \
+            "${_COLOR2}" "${_DELIMITER}" \
+            "${_COLOR3}" "${_CURRENT_HOSTNAME}" \
+            "${_COLOR_RESET}"
     else
-        printf "(%s%s%s)─" "${_CURRENT_USER}" "${_DELIMITER}" "${_CURRENT_HOSTNAME}"
+        printf '(%s%s%s)─' "${_CURRENT_USER}" "${_DELIMITER}" "${_CURRENT_HOSTNAME}"
     fi
 }
 
 home_prompt() {
-    if [[ "$PWD" =~ "$HOME" ]]; then
-        if [[ "$color_prompt" = yes ]]; then
-            printf "[🏡]─"
-        else
-            printf "[~]─"
-        fi
+    if [[ "$PWD" == "$HOME" || "$PWD" == "$HOME"/* ]]; then
+        printf '[~]─'
     fi
 }
 
@@ -101,31 +103,34 @@ dir_prompt() {
     local _ABSOLUTE_CURRENT_DIR="${PWD}"
 
     if [[ "$color_prompt" = yes ]]; then
-        printf "[${_COLOR4}%s${_COLOR_RESET}]" "${_CURRENT_DIR}"
+        printf '[%s%s%s]' "${_COLOR4}" "${_CURRENT_DIR}" "${_COLOR_RESET}"
     else
-        printf "[%s]" "${_CURRENT_DIR}"
+        printf '[%s]' "${_CURRENT_DIR}"
     fi
 }
 
 git_prompt() {
     local ref
     ref=$(command git symbolic-ref --short HEAD 2> /dev/null) || ref=$(command git rev-parse --short HEAD 2> /dev/null) || return 0
-    
+
     if [[ -n "$ref" ]]; then
         local git_status
         git_status="$(command git status --porcelain 2>/dev/null)"
-        
+
         if [[ -n "$git_status" ]]; then
             if [[ "$color_prompt" = yes ]]; then
-                printf " 🌿 ${_COLOR7}(${_COLOR8}%s${_COLOR7}) ${_COLOR9}X${_COLOR_RESET}" "${ref}"
+                printf ' %s(%s%s%s) %sX%s' \
+                    "${_COLOR7}" "${_COLOR8}" "${ref}" "${_COLOR7}" \
+                    "${_COLOR9}" "${_COLOR_RESET}"
             else
-                printf " git:(%s) X" "${ref}"
+                printf ' git:(%s) X' "${ref}"
             fi
         else
             if [[ "$color_prompt" = yes ]]; then
-                printf " 🌿 ${_COLOR7}(${_COLOR8}%s${_COLOR7})${_COLOR_RESET}" "${ref}"
+                printf ' %s(%s%s%s)%s' \
+                    "${_COLOR7}" "${_COLOR8}" "${ref}" "${_COLOR7}" "${_COLOR_RESET}"
             else
-                printf " git:(%s)" "${ref}"
+                printf ' git:(%s)' "${ref}"
             fi
         fi
     fi
@@ -179,12 +184,6 @@ if ! shopt -oq posix; then
     fi
 fi
 
-if [[ -d /etc/bash_completion.d/ ]]; then
-    for file in /etc/bash_completion.d/* ; do
-        source "$file"
-    done
-fi
-
 export VISUAL=vim
 export EDITOR=vim
 
@@ -193,7 +192,6 @@ export EDITOR=vim
 
 export GREP_COLORS='ms=01;33'
 
-export EXA_COLORS=""
 EXA_PREFIX="1;38;5" # Жирный кастомный цвет
 EXA_R="107" # Цвет: полномочие чтения
 EXA_W="131" # Цвет: полномочие записи
@@ -225,10 +223,8 @@ EXA_SETTINGS=(
     "xa=$EXA_PREFIX;96" # Индикатор расширенных аттрибутов
 )
 
-for EXA_SETTING in ${EXA_SETTINGS[*]}
-do
-    export EXA_COLORS=$EXA_COLORS:$EXA_SETTING
-done
+printf -v EXA_COLORS '%s:' "${EXA_SETTINGS[@]}"
+export EXA_COLORS="${EXA_COLORS%:}"
 
 export LESS_TERMCAP_mb=$'\e[1;36m'
 export LESS_TERMCAP_md=$'\e[1;32m'
@@ -249,7 +245,7 @@ fi
 
 unset rc
 
-tabs -4
+[[ -t 1 ]] && command -v tabs >/dev/null && tabs -4
 
 # TMUX Autostart: отдельные сессии для SSH и локального входа (консоль / эмулятор терминала)
 if [ -n "$CURSOR_AGENT" ] || [ -n "$VSCODE_INJECTION" ] || [ "$TERM_PROGRAM" = "vscode" ]; then
@@ -261,7 +257,8 @@ elif [[ -z "$TMUX" ]]; then
         else
             TMUX_SESSION=local
         fi
-        tmux attach-session -t "$TMUX_SESSION" 2>/dev/null || tmux new-session -s "$TMUX_SESSION"
+        # -A: attach к существующей сессии или создать новую; exec заменяет оболочку
+        exec tmux new-session -A -s "$TMUX_SESSION"
     fi
 fi
 
