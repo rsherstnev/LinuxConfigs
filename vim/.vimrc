@@ -6,10 +6,13 @@
 "call plug#end()
 
 syntax on
+filetype plugin indent on
 set nocompatible
+set encoding=utf-8
 set number
 set cursorline
 set tabstop=4
+set softtabstop=4
 set shiftwidth=4
 set smarttab
 set expandtab
@@ -23,7 +26,8 @@ set showmatch
 set noerrorbells
 set nobackup
 set noswapfile
-set noundofile
+set undofile
+set undodir=~/.vim/undo
 set listchars=tab:→\ ,trail:␣,extends:…,space:·,eol:$
 set iminsert=0
 set mouse=a
@@ -31,18 +35,41 @@ set wrap
 set linebreak
 set laststatus=2
 set clipboard=unnamedplus
+set backspace=indent,eol,start
+set wildmenu
+set wildmode=longest:full,full
+set scrolloff=5
+set sidescrolloff=5
+set splitbelow
+set splitright
+set hidden
+set updatetime=300
 
-set t_Co=256
+set termguicolors
 set background=dark
 colorscheme sorbet "habamax, unokai или iceberg (внешняя)
-set statusline=%{expand('%:p')}\ %y\ %m\ %r\ %=Line:%l/%L\ Col:%c
+set statusline=%f\ %y\ %m\ %r\ %=L:%l/%L\ C:%c\ %p%%
 
-autocmd FileType yaml setlocal tabstop=2 shiftwidth=2 expandtab
+augroup filetype_indent
+  autocmd!
+  autocmd FileType yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+  autocmd FileType json,html,css,javascript,typescript setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+  autocmd FileType python setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+  autocmd FileType go setlocal tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+augroup END
+
+let mapleader = " "
 
 nnoremap k gk
 nnoremap gk k
 nnoremap j gj
 nnoremap gj j
+
+nnoremap <leader><space> :nohlsearch<CR>
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
 function! TogglePaste()
     if &paste
@@ -58,3 +85,4 @@ nnoremap <F1> :call TogglePaste()<CR>
 inoremap <F1> <C-O>:call TogglePaste()<CR>
 nnoremap <F2> :set list!<CR>
 nnoremap <F3> :set number!<CR>
+nnoremap <F4> :set relativenumber!<CR>
