@@ -5,9 +5,11 @@
 "Plug 'psliwka/vim-smoothie'
 "call plug#end()
 
+set nocompatible
+let mapleader = " "
+
 syntax on
 filetype plugin indent on
-set nocompatible
 set encoding=utf-8
 set number
 set cursorline
@@ -17,7 +19,6 @@ set shiftwidth=4
 set smarttab
 set expandtab
 set autoindent
-set smartindent
 set hlsearch
 set incsearch
 set ignorecase
@@ -26,15 +27,11 @@ set showmatch
 set noerrorbells
 set nobackup
 set noswapfile
-set undofile
-set undodir=~/.vim/undo
 set listchars=tab:→\ ,trail:␣,extends:…,space:·,eol:$
-set iminsert=0
 set mouse=a
 set wrap
 set linebreak
 set laststatus=2
-set clipboard=unnamedplus
 set backspace=indent,eol,start
 set wildmenu
 set wildmode=longest:full,full
@@ -43,8 +40,8 @@ set sidescrolloff=5
 set splitbelow
 set splitright
 set hidden
-set updatetime=300
 
+set t_ut=
 set termguicolors
 set background=dark
 colorscheme sorbet "habamax, unokai или iceberg (внешняя)
@@ -54,11 +51,9 @@ augroup filetype_indent
   autocmd!
   autocmd FileType yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
   autocmd FileType json,html,css,javascript,typescript setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
-  autocmd FileType python setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
   autocmd FileType go setlocal tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab
+  autocmd FileType make setlocal noexpandtab tabstop=4
 augroup END
-
-let mapleader = " "
 
 nnoremap k gk
 nnoremap gk k
