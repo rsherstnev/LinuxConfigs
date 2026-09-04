@@ -150,11 +150,11 @@ build_prompt() {
     printf "\n%s" "└─${_USER_SYMBOL} "
 }
 
+PROMPT_COMMAND='history -a'
 if [[ -n "$CURSOR_AGENT" ]]; then
     PS1='\u@\h:\w\$ '
-    PROMPT_COMMAND='history -a; history -c; history -r'
 else
-    PROMPT_COMMAND='history -a; history -c; history -r; PS1=$(build_prompt)'
+    PROMPT_COMMAND+='; PS1=$(build_prompt)'
 fi
 
 # unset color_prompt force_color_prompt
