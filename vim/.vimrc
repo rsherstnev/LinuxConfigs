@@ -45,7 +45,7 @@ set t_ut=
 set termguicolors
 set background=dark
 colorscheme sorbet "habamax, unokai или iceberg (внешняя)
-set statusline=%f\ %y\ %m\ %r\ %=L:%l/%L\ C:%c\ %p%%
+set statusline=%f\ %y\ %m\ %{&readonly?'%#Error#🔴 READ ONLY%*':''}\ %=L:%l/%L\ C:%c\ %p%%
 
 augroup filetype_indent
   autocmd!
