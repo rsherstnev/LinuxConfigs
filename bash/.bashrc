@@ -257,8 +257,7 @@ elif [[ -z "$TMUX" ]]; then
         else
             TMUX_SESSION=local
         fi
-        # -A: attach к существующей сессии или создать новую; exec заменяет оболочку
-        exec tmux new-session -A -s "$TMUX_SESSION"
+        tmux new-session -A -s "$TMUX_SESSION"
     fi
 fi
 

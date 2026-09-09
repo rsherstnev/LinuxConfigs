@@ -32,6 +32,9 @@ set mouse=a
 set wrap
 set linebreak
 set laststatus=2
+set noruler
+set noshowmode
+set shortmess=filnxtToOSF
 set backspace=indent,eol,start
 set wildmenu
 set wildmode=longest:full,full
@@ -45,7 +48,7 @@ set t_ut=
 set termguicolors
 set background=dark
 colorscheme sorbet "habamax, unokai или iceberg (внешняя)
-set statusline=%f\ %y\ %m\ %{&readonly?'%#Error#🔴 READ ONLY%*':''}\ %=L:%l/%L\ C:%c\ %p%%
+set statusline=\ %F\ %y\ %m\ %{&readonly?'[!!!\ READ\ ONLY\ !!!]':''}\ %=[Line:%l/%L]\ [Column:%c]\ [File:%p%%]
 
 augroup filetype_indent
   autocmd!
